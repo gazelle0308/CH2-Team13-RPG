@@ -13,10 +13,108 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="소스 파일\player">
+      <UniqueIdentifier>{409a1c86-0a0a-4bcb-a80c-61690fe652c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\battle">
+      <UniqueIdentifier>{5a2ae34b-4d84-4025-b005-a7b0c3743462}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\monster">
+      <UniqueIdentifier>{81ab59e8-5f51-4448-8cff-b4bcadcafb13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\shopSystem">
+      <UniqueIdentifier>{b86e6818-e3ba-4fe6-aaed-19251d20f81d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\gameLog">
+      <UniqueIdentifier>{f3eae9b3-45bf-42ad-ba55-add8806c3945}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\item">
+      <UniqueIdentifier>{1574c833-7d92-46d9-94f7-574532644429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\boss">
+      <UniqueIdentifier>{05cb8a4e-f3f9-476e-bf46-fb59d4eda001}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\levelUp">
+      <UniqueIdentifier>{3700ab0d-6a65-43f5-8363-0d0ff9e07cba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\battle">
+      <UniqueIdentifier>{ddd4d4ff-1f3d-41a9-94b5-07bf0a3f0b11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\boss">
+      <UniqueIdentifier>{dfcd1232-8a21-4f80-afc0-3ea18c7c540a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\monster">
+      <UniqueIdentifier>{7e699a10-4ac9-45af-9709-0a00b22aecd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\gameLog">
+      <UniqueIdentifier>{3b8b569a-e90e-4423-9e27-f2b44c2a8ffa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\item">
+      <UniqueIdentifier>{4b58c556-5655-485a-9c0e-d348534b740b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\levelUp">
+      <UniqueIdentifier>{6c14efb6-64a8-4797-9cd2-8ee805fcf426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\shopSystem">
+      <UniqueIdentifier>{1912cc5c-a058-48f7-aa33-ff5dd164de39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\player">
+      <UniqueIdentifier>{73be393c-9798-4fc8-b8f7-337401d51b2e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleRPG.cpp">
+    <ClCompile Include="src\battle\battle.cpp">
+      <Filter>소스 파일\battle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConsoleRPG.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="src\monster\monster.cpp">
+      <Filter>소스 파일\monster</Filter>
+    </ClCompile>
+    <ClCompile Include="src\player\player.cpp">
+      <Filter>소스 파일\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shopSystem\shopSystem.cpp">
+      <Filter>소스 파일\shopSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameLog\gameLog.cpp">
+      <Filter>소스 파일\gameLog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\item\item.cpp">
+      <Filter>소스 파일\item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boss\boss.cpp">
+      <Filter>소스 파일\boss</Filter>
+    </ClCompile>
+    <ClCompile Include="src\levelUp\levelUp.cpp">
+      <Filter>소스 파일\levelUp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\player\player.h">
+      <Filter>헤더 파일\player</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shopSystem\shopSystem.h">
+      <Filter>헤더 파일\shopSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="include\levelUp\levelUp.h">
+      <Filter>헤더 파일\levelUp</Filter>
+    </ClInclude>
+    <ClInclude Include="include\item\item.h">
+      <Filter>헤더 파일\item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\gameLog\gameLog.h">
+      <Filter>헤더 파일\gameLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monster\monster.h">
+      <Filter>헤더 파일\monster</Filter>
+    </ClInclude>
+    <ClInclude Include="include\boss\boss.h">
+      <Filter>헤더 파일\boss</Filter>
+    </ClInclude>
+    <ClInclude Include="include\battle\battle.h">
+      <Filter>헤더 파일\battle</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

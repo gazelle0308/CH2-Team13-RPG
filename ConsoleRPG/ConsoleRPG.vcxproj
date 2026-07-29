@@ -107,6 +107,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>call "$(ProjectDir)scripts\lint.bat"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -123,7 +126,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ConsoleRPG.cpp" />
+    <ClCompile Include="src\battle\battle.cpp" />
+    <ClCompile Include="src\boss\boss.cpp" />
+    <ClCompile Include="src\ConsoleRPG.cpp" />
+    <ClCompile Include="src\gameLog\gameLog.cpp" />
+    <ClCompile Include="src\item\item.cpp" />
+    <ClCompile Include="src\levelUp\levelUp.cpp" />
+    <ClCompile Include="src\monster\monster.cpp" />
+    <ClCompile Include="src\player\player.cpp" />
+    <ClCompile Include="src\shopSystem\shopSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\battle\battle.h" />
+    <ClInclude Include="include\boss\boss.h" />
+    <ClInclude Include="include\gameLog\gameLog.h" />
+    <ClInclude Include="include\item\item.h" />
+    <ClInclude Include="include\levelUp\levelUp.h" />
+    <ClInclude Include="include\monster\monster.h" />
+    <ClInclude Include="include\player\player.h" />
+    <ClInclude Include="include\shopSystem\shopSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
