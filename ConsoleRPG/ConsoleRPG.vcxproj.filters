@@ -22,14 +22,8 @@
     <Filter Include="소스 파일\monster">
       <UniqueIdentifier>{81ab59e8-5f51-4448-8cff-b4bcadcafb13}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\shopSystem">
-      <UniqueIdentifier>{b86e6818-e3ba-4fe6-aaed-19251d20f81d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\gameLog">
       <UniqueIdentifier>{f3eae9b3-45bf-42ad-ba55-add8806c3945}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\item">
-      <UniqueIdentifier>{1574c833-7d92-46d9-94f7-574532644429}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\boss">
       <UniqueIdentifier>{05cb8a4e-f3f9-476e-bf46-fb59d4eda001}</UniqueIdentifier>
@@ -49,14 +43,8 @@
     <Filter Include="헤더 파일\gameLog">
       <UniqueIdentifier>{3b8b569a-e90e-4423-9e27-f2b44c2a8ffa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\item">
-      <UniqueIdentifier>{4b58c556-5655-485a-9c0e-d348534b740b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="헤더 파일\levelUp">
       <UniqueIdentifier>{6c14efb6-64a8-4797-9cd2-8ee805fcf426}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\shopSystem">
-      <UniqueIdentifier>{1912cc5c-a058-48f7-aa33-ff5dd164de39}</UniqueIdentifier>
     </Filter>
     <Filter Include="헤더 파일\player">
       <UniqueIdentifier>{73be393c-9798-4fc8-b8f7-337401d51b2e}</UniqueIdentifier>
@@ -66,6 +54,44 @@
     </Filter>
     <Filter Include="헤더 파일\Utility">
       <UniqueIdentifier>{c35708ed-30eb-43df-8ac0-8d0851b3ded9}</UniqueIdentifier>
+    <Filter Include="소스 파일\InventorySystem">
+      <UniqueIdentifier>{998c7bd1-1137-4447-99bc-bedbffe63dfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\ShopSystem">
+      <UniqueIdentifier>{b86e6818-e3ba-4fe6-aaed-19251d20f81d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Item">
+      <UniqueIdentifier>{1574c833-7d92-46d9-94f7-574532644429}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Factory">
+      <UniqueIdentifier>{4b8f1cd6-98b9-4f2b-84a1-2b034afea4e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\DataBase">
+      <UniqueIdentifier>{bc62b8ca-1cd0-48ed-9ec7-e69e45e3a8f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\InventorySystem">
+      <UniqueIdentifier>{b17a470a-5940-48cb-9e98-dc5086e31847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\DataBase">
+      <UniqueIdentifier>{fd08d559-b306-4550-a438-aefb003b4d4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Factory">
+      <UniqueIdentifier>{76f9d1d0-791a-48cf-9bac-4090ec7ceeab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Types">
+      <UniqueIdentifier>{4ab30198-2cd2-4ce7-a71f-24bdfce033bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Item">
+      <UniqueIdentifier>{4b58c556-5655-485a-9c0e-d348534b740b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\ShopSystem">
+      <UniqueIdentifier>{1912cc5c-a058-48f7-aa33-ff5dd164de39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\nlohmann">
+      <UniqueIdentifier>{d82cd6ba-d2c6-4b06-a895-beca3571378f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{8735a837-814a-4d9f-9368-5e76f52a919b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,13 +108,13 @@
       <Filter>소스 파일\player</Filter>
     </ClCompile>
     <ClCompile Include="src\shopSystem\shopSystem.cpp">
-      <Filter>소스 파일\shopSystem</Filter>
+      <Filter>소스 파일\ShopSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\gameLog\gameLog.cpp">
       <Filter>소스 파일\gameLog</Filter>
     </ClCompile>
     <ClCompile Include="src\item\item.cpp">
-      <Filter>소스 파일\item</Filter>
+      <Filter>소스 파일\Item</Filter>
     </ClCompile>
     <ClCompile Include="src\boss\boss.cpp">
       <Filter>소스 파일\boss</Filter>
@@ -98,6 +124,26 @@
     </ClCompile>
     <ClCompile Include="src\Utility\Utility.cpp">
       <Filter>소스 파일\Utility</Filter>
+    <ClCompile Include="src\InventorySystem\InventorySystem.cpp">
+      <Filter>소스 파일\InventorySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Factory\ItemFactory.cpp">
+      <Filter>소스 파일\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataBase\ItemDataBase.cpp">
+      <Filter>소스 파일\DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Item\UpgradeItem.cpp">
+      <Filter>소스 파일\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataBase\ShopDataBase.cpp">
+      <Filter>소스 파일\DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Item\ConsumableItem.cpp">
+      <Filter>소스 파일\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Item\MaterialItem.cpp">
+      <Filter>소스 파일\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -105,13 +151,13 @@
       <Filter>헤더 파일\player</Filter>
     </ClInclude>
     <ClInclude Include="include\shopSystem\shopSystem.h">
-      <Filter>헤더 파일\shopSystem</Filter>
+      <Filter>헤더 파일\ShopSystem</Filter>
     </ClInclude>
     <ClInclude Include="include\levelUp\levelUp.h">
       <Filter>헤더 파일\levelUp</Filter>
     </ClInclude>
     <ClInclude Include="include\item\item.h">
-      <Filter>헤더 파일\item</Filter>
+      <Filter>헤더 파일\Item</Filter>
     </ClInclude>
     <ClInclude Include="include\gameLog\gameLog.h">
       <Filter>헤더 파일\gameLog</Filter>
@@ -128,5 +174,49 @@
     <ClInclude Include="include\Utility\Utility.h">
       <Filter>헤더 파일\Utility</Filter>
     </ClInclude>
+    <ClInclude Include="include\Item\ConsumableItem.h">
+      <Filter>헤더 파일\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InventorySystem\InventorySystem.h">
+      <Filter>헤더 파일\InventorySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Types\InventoryTypes.h">
+      <Filter>헤더 파일\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Factory\ItemFactory.h">
+      <Filter>헤더 파일\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Types\ItemTypes.h">
+      <Filter>헤더 파일\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Item\MaterialItem.h">
+      <Filter>헤더 파일\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataBase\ShopDataBase.h">
+      <Filter>헤더 파일\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Item\UpgradeItem.h">
+      <Filter>헤더 파일\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataBase\ItemDataBase.h">
+      <Filter>헤더 파일\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\json.hpp">
+      <Filter>헤더 파일\nlohmann</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\items.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\consumables.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\upgrades.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\materials.json">
+      <Filter>data</Filter>
+    </None>
   </ItemGroup>
 </Project>

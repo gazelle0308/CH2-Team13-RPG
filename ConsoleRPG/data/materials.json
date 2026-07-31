@@ -1,0 +1,18 @@
+[
+    {
+        "id": "ITEM_MATERIAL_SLIME_GEL",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_GOBLIN_EAR",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_ORC_SKIN",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_SUCCUBUS_HORN",
+        "materialType": "Secondary"
+    }
+]

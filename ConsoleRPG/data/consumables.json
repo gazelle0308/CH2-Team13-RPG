@@ -1,0 +1,62 @@
+[
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_SMALL",
+        "consumableType": "Hp",
+        "value": 50
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_MEDIUM",
+        "consumableType": "Hp",
+        "value": 100
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_LARGE",
+        "consumableType": "Hp",
+        "value": 200
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_SMALL",
+        "consumableType": "Mp",
+        "value": 50
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_MEDIUM",
+        "consumableType": "Mp",
+        "value": 100
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_LARGE",
+        "consumableType": "Mp",
+        "value": 200
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_SMALL",
+        "consumableType": "Power",
+        "value": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_MEDIUM",
+        "consumableType": "Power",
+        "value": 20
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_LARGE",
+        "consumableType": "Power",
+        "value": 30
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_SMALL",
+        "consumableType": "Defence",
+        "value": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_MEDIUM",
+        "consumableType": "Defence",
+        "value": 20
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_LARGE",
+        "consumableType": "Defence",
+        "value": 30
+    }
+]

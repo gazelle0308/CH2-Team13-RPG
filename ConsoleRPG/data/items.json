@@ -1,0 +1,154 @@
+[
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_SMALL",
+        "category": "Consumable",
+        "name": "HP 포션(소형)",
+        "description": "50 HP를 회복합니다.",
+        "price": 20,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_MEDIUM",
+        "category": "Consumable",
+        "name": "HP 포션(중형)",
+        "description": "100 HP를 회복합니다.",
+        "price": 50,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_LARGE",
+        "category": "Consumable",
+        "name": "HP 포션(대형)",
+        "description": "200 HP를 회복합니다.",
+        "price": 100,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_SMALL",
+        "category": "Consumable",
+        "name": "MP 포션(소형)",
+        "description": "50 MP를 회복합니다.",
+        "price": 20,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_MEDIUM",
+        "category": "Consumable",
+        "name": "MP 포션(중형)",
+        "description": "100 MP를 회복합니다.",
+        "price": 50,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_LARGE",
+        "category": "Consumable",
+        "name": "MP 포션(대형)",
+        "description": "200 MP를 회복합니다.",
+        "price": 100,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_SMALL",
+        "category": "Consumable",
+        "name": "공격력 포션(소형)",
+        "description": "공격력을 10 증가시킵니다.",
+        "price": 50,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_MEDIUM",
+        "category": "Consumable",
+        "name": "공격력 포션(중형)",
+        "description": "공격력을 20 증가시킵니다.",
+        "price": 100,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_LARGE",
+        "category": "Consumable",
+        "name": "공격력 포션(대형)",
+        "description": "공격력을 30 증가시킵니다.",
+        "price": 200,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_SMALL",
+        "category": "Consumable",
+        "name": "방어력 포션(소형)",
+        "description": "방어력을 10 증가시킵니다.",
+        "price": 30,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_MEDIUM",
+        "category": "Consumable",
+        "name": "방어력 포션(중형)",
+        "description": "방어력을 20 증가시킵니다.",
+        "price": 50,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_LARGE",
+        "category": "Consumable",
+        "name": "방어력 포션(대형)",
+        "description": "방어력을 30 증가시킵니다.",
+        "price": 100,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_SMALL",
+        "category": "Upgrade",
+        "name": "가방(소형)",
+        "description": "인벤토리 공간을 10 증가시킵니다.",
+        "price": 100,
+        "maxStackCount": 1
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_MEDIUM",
+        "category": "Upgrade",
+        "name": "가방(중형)",
+        "description": "인벤토리 공간을 20 증가시킵니다.",
+        "price": 300,
+        "maxStackCount": 1
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_LARGE",
+        "category": "Upgrade",
+        "name": "가방(대형)",
+        "description": "인벤토리 공간을 30 증가시킵니다.",
+        "price": 500,
+        "maxStackCount": 1
+    },
+    {
+        "id": "ITEM_MATERIAL_SLIME_GEL",
+        "category": "Material",
+        "name": "물컹한 액체",
+        "description": "슬라임에게서 얻은 물컹한 액체입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 10,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_GOBLIN_EAR",
+        "category": "Material",
+        "name": "고블린 귀",
+        "description": "자른 고블린 귀입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 10,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_ORC_SKIN",
+        "category": "Material",
+        "name": "오크 가죽",
+        "description": "오크에게서 얻은 가죽입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 5,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_SUCCUBUS_HORN",
+        "category": "Material",
+        "name": "서큐버스 뿔",
+        "description": "서큐버스의 뿔입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 5,
+        "maxStackCount": 99
+    }
+]
