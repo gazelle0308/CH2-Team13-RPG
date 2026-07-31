@@ -1,0 +1,17 @@
+[
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_SMALL",
+        "upgradeType": "Inventory",
+        "value": 10
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_MEDIUM",
+        "upgradeType": "Inventory",
+        "value": 20
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_LARGE",
+        "upgradeType": "Inventory",
+        "value": 30
+    }
+]
