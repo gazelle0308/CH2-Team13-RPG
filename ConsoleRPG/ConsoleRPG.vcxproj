@@ -143,6 +143,8 @@
     <ClCompile Include="src\levelUp\levelUp.cpp" />
     <ClCompile Include="src\monster\monster.cpp" />
     <ClCompile Include="src\player\player.cpp" />
+    <ClCompile Include="src\shopSystem\shopSystem.cpp" />
+    <ClCompile Include="src\Utility\Utility.cpp" />
     <ClCompile Include="src\shopSystem\ShopSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +163,8 @@
     <ClInclude Include="include\monster\monster.h" />
     <ClInclude Include="include\nlohmann\json.hpp" />
     <ClInclude Include="include\player\player.h" />
+    <ClInclude Include="include\shopSystem\shopSystem.h" />
+    <ClInclude Include="include\Utility\Utility.h" />
     <ClInclude Include="include\shopSystem\ShopSystem.h" />
     <ClInclude Include="include\Types\InventoryTypes.h" />
     <ClInclude Include="include\Types\ItemTypes.h" />
