@@ -1,4 +1,4 @@
-#include "battle/battle.h"
+ï»¿#include "battle/battle.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -7,170 +7,170 @@
 #include "monster/monster.h"
 #include "player/player.h"
 #include "boss/boss.h"
-// °¢ »ó¼Ó ¹ŞÀº ¸ó½ºÅÍÀÇ Çì´õ ÆÄÀÏ ÀÓÀÇ monster·Î include.
-#include "monster/a.h"
-#include "monster/b.h"
-#include "monster/c.h"
-#include "monster/d.h"
-#include "monster/e.h"
-#include "monster/f.h"
-#include "monster/g.h"
-#include "monster/h.h"
-#include "monster/i.h"
-#include "monster/j.h"
-#include "monster/k.h"
-#include "monster/l.h"
-#include "monster/n.h"
-#include "monster/m.h"
-#include "monster/o.h"
-
-
-void selectedregion(int region) {
-    std::cout << "===============================\n";
-    std::cout << "  ¾î´À Áö¿ªÀ» Å½»öÇÏ½Ã°Ú½À´Ï±î?\n";
-    std::cout << "-------------------------------\n";
-    std::cout << "1. ¶óº¥´õ µéÆÇ  2. °ËÀº ½£  3. ½º»êÇÑ Çù°î\n";
-    std::cout << "4. ·Î¾ß ºù¿ø  5. ¶óÇÃ¶ó È­»ê Áö´ë 0. ´Ù½Ã ¸¶À»·Î \n";
-    std::cout << "===============================\n";
-    std::cout << "¼±ÅÃÇÑ Áö¿ª:";
-    std::cin >> region;
-    switch (region) {
-    case 1:
-    {
-        std::string choice = "¶óº¥´õ µéÆÇ";
-        break;
-    }
-    case 2:
-    {
-        std::string choice = "°ËÀº ½£";
-        break;
-    }
-    case 3:
-    {
-        std::string choice = "½º»êÇÑ Çù°î";
-        break;
-    }
-    case 4:
-    {
-        std::string choice = "·Î¾ß ºù¿ø";
-        break;
-    }
-    case 5:
-    {
-        std::string choice = "¶óÇÃ¶ó È­»ê Áö´ë";
-        break;
-    }
-    case 0:
-    {
-        std::cout << "¿À´ÃÀº ¿©±â±îÁö..¸¶À»·Î µ¹¾Æ°¡ÀÚ.\n";
-        VillageMenu();
-        break;
-    }
-    }
-}
-
-
-monster* CreateMonster(std::string choice) {
-    std::map<std::string, std::vector <monster*>> regionmonsters; 
-    regionmonsters["¶óº¥´õ µéÆÇ"] = { new a(), new b(), new c() };
-    regionmonsters["°ËÀº ½£"] = { new d(), new e(), new f() };
-    regionmonsters["½º»êÇÑ Çù°î"] = { new g(), new h(), new i() };
-    regionmonsters["·Î¾ß ºù¿ø"] = { new j(), new k(), new l() };
-    regionmonsters["¶óÇÃ¶ó È­»ê Áö´ë"] = { new n(), new m(), new o() };
-}
-
-void Encounter(monster*monster, regionmonsters[choice]) {
-    rand() % 3;
-    vector<monster*>& monsters = regionmonsters[choice];
-    std::cout << "\n´ç½ÅÀº ¾ß»ıÀÇ " << monster->getname() << "¿Í(°ú) ¸¶ÁÖÃÆ´Ù!\n";
-}
-
-bool PlayerHealthCheck(Player*player) {
-    if (player["hp"] > 0) {
-        playerlive = 1;
-    } else if (player["hp"] <= 0) {
-        playerlive = 0;
-    }
-}
-bool MonsterHealthCheck(Monster*monster) {
-    if (Monster->GetHp() > 0) {
-        monsterlive = 1;
-    } else if (player->GetHp() <= 0) {
-        monsterlive = 0;
-    }
-}
-
-void dealDamage(player*player, monster*monster) {
-    if (player["power"] - monster->getdefense() <= 0) {
-        damage = 1;
-    } else {
-        damage = player["power"] - monster->getdefense();
-    }
-}
-
-void monsterdealDamage(player*player, monster*monster) {
-    if (monster->getpower() - player["defence"] <= 0) {
-        damage = 1;
-    } else {
-        damage = monster->getpower() - player["defence"];
-    }
-}
-
-void Attack(player*player, monster*monster) {
-}
-
-void BattleMenu(actionmenu) {
-    std::cout << "===============================\n";
-    std::cout << "      Çàµ¿À» ¼±ÅÃÇØÁÖ¼¼¿ä.\n";
-    std::cout << "===============================\n";
-    std::cout << "1. °ø°İ  2. Á¤¼ö °¡¹æ  3. ¾ÆÀÌÅÛ\n";
-    std::cout << "===============================\n";
-    std::cout << "¹øÈ£¸¦ ¼±ÅÃÇØÁÖ¿ä. : ";
-    std::cin >> actionmenu;
-    switch (actionmenu) {
-    case 1:
-    {
-        cout << "°ø°İ\n";
-    }
-    case 2:
-    {
-        cout << "Á¤¼ö »ç¿ë\n";
-    }
-    case 3;
-    {
-        cout << "Item »ç¿ë\n";
-    }
-    }
-}
-void AfterMenu(aftermenu) {
-    std::cout << "===============================\n";
-    std::cout << "      Çàµ¿À» ¼±ÅÃÇØÁÖ¼¼¿ä.\n";
-    std::cout << "===============================\n";
-    std::cout << "1. Áö¿ª ÀçÅ½»ö  2. ¸¶À»·Î ÀÌµ¿  3. Á¤¼ö °¡¹æ È®ÀÎ\n";
-    std::cout << "4. ¾ÆÀÌÅÛ »ç¿ë  0. °ÔÀÓ Á¾·á?\n";
-    std::cout << "===============================\n";
-    std::cout << "¹øÈ£¸¦ ¼±ÅÃÇØÁÖ¿ä. : ";
-    std::cin >> aftermenu;
-    switch (aftermenu) {
-    case 1:
-    {
-        cout << "Áö¿ªÀ» ÀçÅ½»öÇÕ´Ï´Ù.\n";
-    }
-    case 2:
-    {
-        cout << "¸¶À»·Î ÀÌµ¿ÇÕ´Ï´Ù.\n";
-    }
-    case 3:
-    {
-        cout << "Á¤¼ö °¡¹æÀ» È®ÀÎÇÕ´Ï´Ù.\n";
-    }
-    case 4:
-    {
-        cout << "¾ÆÀÌÅÛÀ» »ç¿ëÇÕ´Ï´Ù.\n";
-    }
-    case 0:
-    {
-        IsGameEnd = 1;
-    }
-    }
-}
+// ê° ìƒì† ë°›ì€ ëª¬ìŠ¤í„°ì˜ í—¤ë” íŒŒì¼ ì„ì˜ monsterë¡œ include.
+//#include "monster/a.h"
+//#include "monster/b.h"
+//#include "monster/c.h"
+//#include "monster/d.h"
+//#include "monster/e.h"
+//#include "monster/f.h"
+//#include "monster/g.h"
+//#include "monster/h.h"
+//#include "monster/i.h"
+//#include "monster/j.h"
+//#include "monster/k.h"
+//#include "monster/l.h"
+//#include "monster/n.h"
+//#include "monster/m.h"
+//#include "monster/o.h"
+//
+//
+//void selectedregion(int region) {
+//    std::cout << "===============================\n";
+//    std::cout << "  ì–´ëŠ ì§€ì—­ì„ íƒìƒ‰í•˜ì‹œê² ìŠµë‹ˆê¹Œ?\n";
+//    std::cout << "-------------------------------\n";
+//    std::cout << "1. ë¼ë²¤ë” ë“¤íŒ  2. ê²€ì€ ìˆ²  3. ìŠ¤ì‚°í•œ í˜‘ê³¡\n";
+//    std::cout << "4. ë¡œì•¼ ë¹™ì›  5. ë¼í”Œë¼ í™”ì‚° ì§€ëŒ€ 0. ë‹¤ì‹œ ë§ˆì„ë¡œ \n";
+//    std::cout << "===============================\n";
+//    std::cout << "ì„ íƒí•œ ì§€ì—­:";
+//    std::cin >> region;
+//    switch (region) {
+//    case 1:
+//    {
+//        std::string choice = "ë¼ë²¤ë” ë“¤íŒ";
+//        break;
+//    }
+//    case 2:
+//    {
+//        std::string choice = "ê²€ì€ ìˆ²";
+//        break;
+//    }
+//    case 3:
+//    {
+//        std::string choice = "ìŠ¤ì‚°í•œ í˜‘ê³¡";
+//        break;
+//    }
+//    case 4:
+//    {
+//        std::string choice = "ë¡œì•¼ ë¹™ì›";
+//        break;
+//    }
+//    case 5:
+//    {
+//        std::string choice = "ë¼í”Œë¼ í™”ì‚° ì§€ëŒ€";
+//        break;
+//    }
+//    case 0:
+//    {
+//        std::cout << "ì˜¤ëŠ˜ì€ ì—¬ê¸°ê¹Œì§€..ë§ˆì„ë¡œ ëŒì•„ê°€ì.\n";
+//        VillageMenu();
+//        break;
+//    }
+//    }
+//}
+//
+//
+//monster* CreateMonster(std::string choice) {
+//    std::map<std::string, std::vector <monster*>> regionmonsters; 
+//    regionmonsters["ë¼ë²¤ë” ë“¤íŒ"] = { new a(), new b(), new c() };
+//    regionmonsters["ê²€ì€ ìˆ²"] = { new d(), new e(), new f() };
+//    regionmonsters["ìŠ¤ì‚°í•œ í˜‘ê³¡"] = { new g(), new h(), new i() };
+//    regionmonsters["ë¡œì•¼ ë¹™ì›"] = { new j(), new k(), new l() };
+//    regionmonsters["ë¼í”Œë¼ í™”ì‚° ì§€ëŒ€"] = { new n(), new m(), new o() };
+//}
+//
+//void Encounter(monster*monster, regionmonsters[choice]) {
+//    rand() % 3;
+//    vector<monster*>& monsters = regionmonsters[choice];
+//    std::cout << "\në‹¹ì‹ ì€ ì•¼ìƒì˜ " << monster->getname() << "ì™€(ê³¼) ë§ˆì£¼ì³¤ë‹¤!\n";
+//}
+//
+//bool PlayerHealthCheck(Player*player) {
+//    if (player["hp"] > 0) {
+//        playerlive = 1;
+//    } else if (player["hp"] <= 0) {
+//        playerlive = 0;
+//    }
+//}
+//bool MonsterHealthCheck(Monster*monster) {
+//    if (Monster->GetHp() > 0) {
+//        monsterlive = 1;
+//    } else if (player->GetHp() <= 0) {
+//        monsterlive = 0;
+//    }
+//}
+//
+//void dealDamage(player*player, monster*monster) {
+//    if (player["power"] - monster->getdefense() <= 0) {
+//        damage = 1;
+//    } else {
+//        damage = player["power"] - monster->getdefense();
+//    }
+//}
+//
+//void monsterdealDamage(player*player, monster*monster) {
+//    if (monster->getpower() - player["defence"] <= 0) {
+//        damage = 1;
+//    } else {
+//        damage = monster->getpower() - player["defence"];
+//    }
+//}
+//
+//void Attack(player*player, monster*monster) {
+//}
+//
+//void BattleMenu(actionmenu) {
+//    std::cout << "===============================\n";
+//    std::cout << "      í–‰ë™ì„ ì„ íƒí•´ì£¼ì„¸ìš”.\n";
+//    std::cout << "===============================\n";
+//    std::cout << "1. ê³µê²©  2. ì •ìˆ˜ ê°€ë°©  3. ì•„ì´í…œ\n";
+//    std::cout << "===============================\n";
+//    std::cout << "ë²ˆí˜¸ë¥¼ ì„ íƒí•´ì£¼ìš”. : ";
+//    std::cin >> actionmenu;
+//    switch (actionmenu) {
+//    case 1:
+//    {
+//        cout << "ê³µê²©\n";
+//    }
+//    case 2:
+//    {
+//        cout << "ì •ìˆ˜ ì‚¬ìš©\n";
+//    }
+//    case 3;
+//    {
+//        cout << "Item ì‚¬ìš©\n";
+//    }
+//    }
+//}
+//void AfterMenu(aftermenu) {
+//    std::cout << "===============================\n";
+//    std::cout << "      í–‰ë™ì„ ì„ íƒí•´ì£¼ì„¸ìš”.\n";
+//    std::cout << "===============================\n";
+//    std::cout << "1. ì§€ì—­ ì¬íƒìƒ‰  2. ë§ˆì„ë¡œ ì´ë™  3. ì •ìˆ˜ ê°€ë°© í™•ì¸\n";
+//    std::cout << "4. ì•„ì´í…œ ì‚¬ìš©  0. ê²Œì„ ì¢…ë£Œ?\n";
+//    std::cout << "===============================\n";
+//    std::cout << "ë²ˆí˜¸ë¥¼ ì„ íƒí•´ì£¼ìš”. : ";
+//    std::cin >> aftermenu;
+//    switch (aftermenu) {
+//    case 1:
+//    {
+//        cout << "ì§€ì—­ì„ ì¬íƒìƒ‰í•©ë‹ˆë‹¤.\n";
+//    }
+//    case 2:
+//    {
+//        cout << "ë§ˆì„ë¡œ ì´ë™í•©ë‹ˆë‹¤.\n";
+//    }
+//    case 3:
+//    {
+//        cout << "ì •ìˆ˜ ê°€ë°©ì„ í™•ì¸í•©ë‹ˆë‹¤.\n";
+//    }
+//    case 4:
+//    {
+//        cout << "ì•„ì´í…œì„ ì‚¬ìš©í•©ë‹ˆë‹¤.\n";
+//    }
+//    case 0:
+//    {
+//        IsGameEnd = 1;
+//    }
+//    }
+//}

@@ -1,16 +1,15 @@
-#include "Item/Item.h"
+ï»¿#include "Item/Item.h"
 
 void Item::PrintUseMessage() const
 {
-	std::string message = std::format("{}À»(¸¦) »ç¿ëÇß½À´Ï´Ù.", itemData.name);
-
+	std::string message = std::format("{}ì„(ë¥¼) ì‚¬ìš©í–ˆìŠµë‹ˆë‹¤.", itemData.name);
+	std::cout << message << std::endl;
 	// AddLog(message);
 }
 
 void Item::SetItemData(std::string id)
 {
-	ItemDataBase itemDataBase;
-	itemData = itemDataBase.GetItemData(id);
+	itemData = ItemDataBase::GetInstance().GetItemData(id);
 }
 
 const FItemData& Item::GetItemData() const

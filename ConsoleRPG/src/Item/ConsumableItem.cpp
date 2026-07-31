@@ -1,4 +1,4 @@
-#include "Item/ConsumableItem.h"
+ï»¿#include "Item/ConsumableItem.h"
 
 void ConsumableItem::Use()
 {
@@ -28,15 +28,14 @@ void ConsumableItem::PrintUseMessage() const
 
 	FEnumDisplay enumDisplay;
 	std::string displayName = enumDisplay.GetConsumableTypeDisplayName(consumableItemData.consumableType);
-	std::string message = std::format("{}ÀÌ(°¡) {} Áõ°¡Çß½À´Ï´Ù.", displayName, consumableItemData.value);
-
+	std::string message = std::format("{}ì´(ê°€) {} ì¦ê°€í–ˆìŠµë‹ˆë‹¤.", displayName, consumableItemData.value);
+	std::cout << message << std::endl;
 	// AddLog(message);
 }
 
 void ConsumableItem::SetConsumableData(std::string id)
 {
-	ItemDataBase itemDataBase;
-	consumableItemData = itemDataBase.GetConsumableData(id);
+	consumableItemData = ItemDataBase::GetInstance().GetConsumableData(id);
 }
 
 const FConsumableItemData& ConsumableItem::GetConsumableData() const

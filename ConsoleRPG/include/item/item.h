@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <iostream>
 #include <format>
@@ -17,7 +17,7 @@ public:
 		SetItemData(id);
 	}
 
-	virtual void Use() = 0; // Player ÀÎÀÚ ³Ö±â
+	virtual void Use() = 0; // Player ì¸ì ë„£ê¸°
 	virtual void PrintUseMessage() const;
 
 	void SetItemData(std::string id);

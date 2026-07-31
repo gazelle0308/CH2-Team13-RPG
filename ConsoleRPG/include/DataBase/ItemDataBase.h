@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -14,16 +14,40 @@ private:
 	std::unordered_map<std::string, FUpgradeItemData> upgradeDataMap;
 	std::unordered_map<std::string, FMaterialItemData> materialDataMap;
 
-public:
+private:
+	ItemDataBase() {
+		LoadItemData();
+		LoadConsumableData();
+		LoadUpgradeData();
+		LoadMaterialData();
+	}
+
+	// 복사 방지
+	ItemDataBase(const ItemDataBase&) = delete;
+	ItemDataBase& operator=(const ItemDataBase&) = delete;
+
+	// 이동 방지
+	ItemDataBase(ItemDataBase&&) = delete;
+	ItemDataBase& operator=(ItemDataBase&&) = delete;
+
 	void LoadItemData();
 	void LoadConsumableData();
 	void LoadUpgradeData();
 	void LoadMaterialData();
 
+public:
+	// 싱글톤
+	static ItemDataBase& GetInstance() {
+		static ItemDataBase instance;
+		return instance;
+	}
+
 	void PrintAllItemData();
 	void PrintAllConsumableData();
 	void PrintAllUpgradeData();
 	void PrintAllMaterialData();
+
+	const std::vector<std::string> GetAllItemIds() const;
 
 	const FItemData& GetItemData(std::string id) const;
 	const EItemCategory GetCategory(std::string id) const;

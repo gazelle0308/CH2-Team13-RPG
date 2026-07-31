@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <string>
 #include <format>
 
@@ -21,7 +21,7 @@ void GameLog::attackLog(
     const std::string& attacker,
     const std::string& target) {
     addLog(std::format(
-        "[°ø°İ] {}ÀÌ(°¡) {}À»(¸¦) °ø°İÇÕ´Ï´Ù.",
+        "[ê³µê²©] {}ì´(ê°€) {}ì„(ë¥¼) ê³µê²©í•©ë‹ˆë‹¤.",
         attacker,
         target));
 }
@@ -30,7 +30,7 @@ void GameLog::damageLog(
     const std::string& target,
     int damage) {
     addLog(std::format(
-        "[ÇÇÇØ] {}ÀÌ(°¡) {} µ¥¹ÌÁö¸¦ ÀÔ¾ú½À´Ï´Ù.",
+        "[í”¼í•´] {}ì´(ê°€) {} ë°ë¯¸ì§€ë¥¼ ì…ì—ˆìŠµë‹ˆë‹¤.",
         target,
         damage));
 }
@@ -39,7 +39,7 @@ void GameLog::itemLog(
     const std::string& itemName,
     const std::string& effect) {
     addLog(std::format(
-        "[¾ÆÀÌÅÛ] {} »ç¿ë! È¿°ú: {}",
+        "[ì•„ì´í…œ] {} ì‚¬ìš©! íš¨ê³¼: {}",
         itemName,
         effect));
 }
@@ -47,7 +47,7 @@ void GameLog::itemLog(
 void GameLog::goldLog(
     int gold, int currentGold) {
     addLog(std::format(
-        "[°ñµå] +{} °ñµå È¹µæ (º¸À¯ °ñµå: {})",
+        "[ê³¨ë“œ] +{} ê³¨ë“œ íšë“ (ë³´ìœ  ê³¨ë“œ: {})",
         gold, 
         currentGold));
 }
@@ -56,27 +56,27 @@ void GameLog::addKillMonster(
     const std::string & monsterName) {
     killList[monsterName]++;
     addLog(std::format(
-        "[Ã³Ä¡] {}À»(¸¦) Ã³Ä¡Çß½À´Ï´Ù!",
+        "[ì²˜ì¹˜] {}ì„(ë¥¼) ì²˜ì¹˜í–ˆìŠµë‹ˆë‹¤!",
         monsterName));
 }
 
 void GameLog::showKillList() {
-    print("=== ¸ó½ºÅÍ Ã³Ä¡ ¸ñ·Ï ===");
+    print("=== ëª¬ìŠ¤í„° ì²˜ì¹˜ ëª©ë¡ ===");
     if (killList.empty()) {
-        print("¾ÆÁ÷ Ã³Ä¡ÇÑ ¸ó½ºÅÍ°¡ ¾ø½À´Ï´Ù.");
+        print("ì•„ì§ ì²˜ì¹˜í•œ ëª¬ìŠ¤í„°ê°€ ì—†ìŠµë‹ˆë‹¤.");
         return;
     }
     for (const auto& [name, count] : killList) {
-        print(std::format("{} : {}¸¶¸®", name, count));
+        print(std::format("{} : {}ë§ˆë¦¬", name, count));
     }
 }
 
 void GameLog::showLogs() {
     if(logs.empty()) {
-        print("ÀúÀåµÈ ·Î±×°¡ ¾ø½À´Ï´Ù.");
+        print("ì €ì¥ëœ ë¡œê·¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
         return;
 	}
-    print("===ÃÖ±Ù ·Î±×(ÃÖ´ë 30°³)===");
+    print("===ìµœê·¼ ë¡œê·¸(ìµœëŒ€ 30ê°œ)===");
     for (const auto& log : logs) {
         print(log);
     }
