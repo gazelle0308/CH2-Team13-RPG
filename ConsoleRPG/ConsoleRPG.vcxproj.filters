@@ -61,6 +61,12 @@
     <Filter Include="헤더 파일\player">
       <UniqueIdentifier>{73be393c-9798-4fc8-b8f7-337401d51b2e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Utility">
+      <UniqueIdentifier>{3af59620-5855-4ad0-ab5f-a14174036e0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Utility">
+      <UniqueIdentifier>{c35708ed-30eb-43df-8ac0-8d0851b3ded9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\battle\battle.cpp">
@@ -90,6 +96,9 @@
     <ClCompile Include="src\levelUp\levelUp.cpp">
       <Filter>소스 파일\levelUp</Filter>
     </ClCompile>
+    <ClCompile Include="src\Utility\Utility.cpp">
+      <Filter>소스 파일\Utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\player\player.h">
@@ -115,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="include\battle\battle.h">
       <Filter>헤더 파일\battle</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utility\Utility.h">
+      <Filter>헤더 파일\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

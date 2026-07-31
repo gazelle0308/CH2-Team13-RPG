@@ -103,6 +103,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,6 +137,7 @@
     <ClCompile Include="src\monster\monster.cpp" />
     <ClCompile Include="src\player\player.cpp" />
     <ClCompile Include="src\shopSystem\shopSystem.cpp" />
+    <ClCompile Include="src\Utility\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\battle\battle.h" />
@@ -146,6 +148,7 @@
     <ClInclude Include="include\monster\monster.h" />
     <ClInclude Include="include\player\player.h" />
     <ClInclude Include="include\shopSystem\shopSystem.h" />
+    <ClInclude Include="include\Utility\Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
