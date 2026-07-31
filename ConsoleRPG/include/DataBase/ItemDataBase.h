@@ -42,10 +42,10 @@ public:
 		return instance;
 	}
 
-	void PrintAllItemData();
-	void PrintAllConsumableData();
-	void PrintAllUpgradeData();
-	void PrintAllMaterialData();
+	void PrintAllItemData() const;
+	void PrintAllConsumableData() const;
+	void PrintAllUpgradeData() const;
+	void PrintAllMaterialData() const;
 
 	const std::vector<std::string> GetAllItemIds() const;
 

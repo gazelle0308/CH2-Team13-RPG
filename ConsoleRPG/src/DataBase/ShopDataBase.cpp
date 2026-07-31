@@ -1,1 +1,44 @@
 ﻿#include "DataBase/ShopDataBase.h"
+
+void ShopDataBase::LoadShopData()
+{
+	std::ifstream file("data/shopItems.json");
+
+	if (!file.is_open())
+	{
+		std::cout << "파일 열기 실패\n";
+		return;
+	}
+
+	nlohmann::json data;
+	file >> data;
+
+	for (const auto& item : data)
+	{
+		FShopItemData shopItemData;
+
+		shopItemData.id = item["id"];
+		shopItemData.count = item["count"];
+
+		shopItemDatas.push_back(shopItemData);
+	}
+}
+
+void ShopDataBase::PrintAllShopDatas() const
+{
+	for (const FShopItemData& item : shopItemDatas)
+	{
+		std::cout << std::format("id: {}", item.id) << std::endl;
+		std::cout << std::format("count: {}", item.count) << std::endl;
+	}
+}
+
+const std::vector<FShopItemData>& ShopDataBase::GetShopItemDatas() const
+{
+	return shopItemDatas;
+}
+
+const FItemData& ShopDataBase::GetShopItemData(std::string id) const
+{
+	return ItemDataBase::GetInstance().GetItemData(id);
+}

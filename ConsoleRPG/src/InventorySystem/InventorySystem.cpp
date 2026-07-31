@@ -49,7 +49,6 @@ void InventorySystem::PrintInventoryItems(EInventoryViewMode mode, float buyback
 	{
 		std::string info{};
 		std::string itemInfo{};
-		//std::string itemName = items[index].item->GetName();
 		std::string itemName = items[index].itemData.name;
 		int itemCount = items[index].count;
 
@@ -59,7 +58,6 @@ void InventorySystem::PrintInventoryItems(EInventoryViewMode mode, float buyback
 		}
 		else if (mode == EInventoryViewMode::Shop)
 		{
-			//int itemPrice = items[index].item->GetPrice() * buybackRate; // 낮춘 가격으로 판매 가능
 			int itemPrice = int(items[index].itemData.price * buybackRate); // 낮춘 가격으로 판매 가능
 			itemInfo = std::format("{} ({}G) x{}", itemName, itemPrice, itemCount);
 		}
@@ -167,6 +165,7 @@ void InventorySystem::HandleNormalItemSelection()
 
 		if (number == 0)
 		{
+			std::cout << "인벤토리 목록으로 돌아갑니다." << std::endl;
 			ClearScreen();
 		}
 		else if (1 <= number && number <= inventoryCount)
@@ -184,9 +183,6 @@ void InventorySystem::HandleNormalItemSelection()
 
 void InventorySystem::PrintItemInfo(int index) const
 {
-	//std::string name = std::format("이름: {}", items[index].item->GetName());
-	//std::string description = std::format("설명: {}", items[index].item->GetDescription());
-	//std::string price = std::format("가격: {}G", items[index].item->GetPrice());
 	std::string name = std::format("이름: {}", items[index].itemData.name);
 	std::string description = std::format("설명: {}", items[index].itemData.description);
 	std::string price = std::format("가격: {}G", items[index].itemData.price);
@@ -308,12 +304,12 @@ void InventorySystem::HandleShopItemOptions(int index, float buybackRate, int& t
 		}
 		else if (1 <= number && number <= items[index].count)
 		{
-			//std::string messages = std::format("{}을(를) {}개 판매했습니다.", items[index].item->GetName(), number);
 			std::string messages = std::format("{}을(를) {}개 판매했습니다.", items[index].itemData.name, number);
 			std::cout << messages << std::endl;
-			//totalBuyPrice += items[index].item->GetPrice() * buybackRate * number;
 			totalBuyPrice += int(items[index].itemData.price * buybackRate) * number;
+			
 			RemoveItem(index, number);
+			ClearScreen();
 		}
 		else
 		{
@@ -325,7 +321,6 @@ void InventorySystem::HandleShopItemOptions(int index, float buybackRate, int& t
 
 void InventorySystem::HandleDiscardItem(int index)
 {
-	//int itemCount = items[index].count;
 	int itemCount = GetTotalItemCount(index);
 	int number{};
 	bool isOk{};
@@ -345,7 +340,6 @@ void InventorySystem::HandleDiscardItem(int index)
 		}
 		else if (1 <= number && number <= itemCount)
 		{
-			//std::string message = std::format("{}을(를) {}개 버렸습니다.", items[index].item->GetName(), number);
 			std::string message = std::format("{}을(를) {}개 버렸습니다.", items[index].itemData.name, number);
 			std::cout << message << std::endl;
 			RemoveItem(index, number);
@@ -361,8 +355,6 @@ void InventorySystem::HandleDiscardItem(int index)
 
 bool InventorySystem::AddItem(std::string id, int itemCount)
 {
-	//ItemFactory itemFactory;
-
 	int result = FindItem(id);
 	int itemMaxStackCount = ItemDataBase::GetInstance().GetMaxStackCount(id);
 	int fullSlotCount{};
@@ -376,10 +368,8 @@ bool InventorySystem::AddItem(std::string id, int itemCount)
 		if (inventoryCount + fullSlotCount + partiallyFullSlotCount <= inventorySize)
 		{
 			FInventorySlot inventorySlot;
-			//inventorySlot.item = std::move(itemFactory.CreateItem(id));
 			inventorySlot.itemData = ItemDataBase::GetInstance().GetItemData(id);
 			inventorySlot.count = itemMaxStackCount;
-			//inventorySlot.maxCount = itemMaxStackCount;
 
 			for (int i = 0; i < fullSlotCount; i++)
 			{
@@ -404,7 +394,6 @@ bool InventorySystem::AddItem(std::string id, int itemCount)
 	else
 	{
 		int count = items[result].count;
-		//int maxCount = items[result].maxCount;
 		int maxCount = items[result].itemData.maxStackCount;
 
 		if (count + itemCount <= maxCount)
@@ -423,10 +412,8 @@ bool InventorySystem::AddItem(std::string id, int itemCount)
 				items[result].count = maxCount;
 
 				FInventorySlot inventorySlot;
-				//inventorySlot.item = itemFactory.CreateItem(id);
 				inventorySlot.itemData = ItemDataBase::GetInstance().GetItemData(id);
 				inventorySlot.count = itemMaxStackCount;
-				//inventorySlot.maxCount = itemMaxStackCount;
 
 				for (int i = 0; i < fullSlotCount; i++)
 				{
@@ -464,7 +451,6 @@ bool InventorySystem::RemoveItem(int index, int count)
 	
 	if (count <= result)
 	{
-		//std::string itemId = items[index].item->GetId();
 		std::string itemId = items[index].itemData.id;
 		int left = count;
 		int slotIndex = index;
@@ -498,7 +484,6 @@ int InventorySystem::FindItem(std::string id) const
 
 	for (int i = 0; i < inventoryCount; i++)
 	{
-		//if (items[i].item->GetId() == id)
 		if (items[i].itemData.id == id)
 		{
 			if (items[i].count < minNum)
@@ -514,13 +499,11 @@ int InventorySystem::FindItem(std::string id) const
 
 int InventorySystem::GetTotalItemCount(int index) const
 {
-	//std::string itemId = items[index].item->GetId();
 	std::string itemId = items[index].itemData.id;
 	int total{};
 
 	for (int i = 0; i < inventoryCount; i++)
 	{
-		//if (items[i].item->GetId() == itemId)
 		if (items[i].itemData.id == itemId)
 		{
 			total += items[i].count;
@@ -538,8 +521,6 @@ bool InventorySystem::UseItem(int index)
 	}
 
 	ItemFactory itemFactory;
-	//std::string itemId = items[index].item->GetId();
-	//EItemCategory itemCategory = items[index].item->GetCategory();
 	std::string itemId = items[index].itemData.id;
 	EItemCategory itemCategory = items[index].itemData.category;
 
@@ -551,9 +532,6 @@ bool InventorySystem::UseItem(int index)
 	case EItemCategory::Upgrade:
 		itemFactory.CreateUpgradeItem(itemId)->Use();
 		break;
-	//case EItemCategory::Material:
-		//itemFactory.CreateMaterialItem(itemId)->Use();
-		//break;
 	}
 	
 	RemoveItem(index);

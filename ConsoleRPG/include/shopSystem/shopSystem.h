@@ -1,1 +1,58 @@
-﻿
+﻿#pragma once
+
+#include <iostream>
+#include <conio.h>
+#include <vector>
+#include <string>
+#include "Types/ShopTypes.h"
+#include "DataBase/ShopDataBase.h"
+
+class Player;
+class InventorySystem;
+
+class ShopSystem
+{
+private:
+	std::vector<FShopItemData> shopItems;
+	float buybackRate;
+	Player* player;
+
+private:
+	ShopSystem() : buybackRate(0.6) {
+		SetShopData();
+	}
+
+	// 복사 방지
+	ShopSystem(const ShopSystem&) = delete;
+	ShopSystem& operator=(const ShopSystem&) = delete;
+
+	// 이동 방지
+	ShopSystem(ShopSystem&&) = delete;
+	ShopSystem& operator=(ShopSystem&&) = delete;
+
+public:
+	// 싱글톤
+	static ShopSystem& GetInstance() {
+		static ShopSystem instance;
+		return instance;
+	}
+
+	void ShowShop(Player* InPlayer);
+
+private:
+	const void SetShopData();
+
+	void ClearScreen() const;
+	void HandleShopOptions(bool& isEnd);
+	void PrintShopItems() const;
+	void HandleSellOptions();
+	void HandleBuyOption();
+	void HandleItemSelection();
+	void PrintItemInfo(int index) const;
+	void HandleItemOptions(int index);
+	void HandleSellItem(int index);
+
+	void SellToPlayer(int index, int count, int price); // Player 인자 넣기
+	void BuyFromPlayer(int totalBuyPrice); // Player 인자 넣기
+};
+

@@ -110,11 +110,11 @@ void ItemDataBase::LoadMaterialData()
 	}
 }
 
-void ItemDataBase::PrintAllItemData()
+void ItemDataBase::PrintAllItemData() const
 {
 	FEnumDisplay enumDisplay;
 
-	for (std::unordered_map<std::string, FItemData>::iterator iter = itemDataMap.begin(); iter != itemDataMap.end(); iter++)
+	for (std::unordered_map<std::string, FItemData>::const_iterator iter = itemDataMap.begin(); iter != itemDataMap.end(); iter++)
 	{
 		std::cout << std::format("ID: {}", iter->first) << std::endl;
 		std::cout << std::format("id: {}", iter->second.id) << std::endl;
@@ -126,11 +126,11 @@ void ItemDataBase::PrintAllItemData()
 	}
 }
 
-void ItemDataBase::PrintAllConsumableData()
+void ItemDataBase::PrintAllConsumableData() const
 {
 	FEnumDisplay enumDisplay;
 
-	for (std::unordered_map<std::string, FConsumableItemData>::iterator iter = consumableDataMap.begin(); iter != consumableDataMap.end(); iter++)
+	for (std::unordered_map<std::string, FConsumableItemData>::const_iterator iter = consumableDataMap.begin(); iter != consumableDataMap.end(); iter++)
 	{
 		std::cout << std::format("ID: {}", iter->first) << std::endl;
 		std::cout << std::format("id: {}", iter->second.id) << std::endl;
@@ -139,11 +139,11 @@ void ItemDataBase::PrintAllConsumableData()
 	}
 }
 
-void ItemDataBase::PrintAllUpgradeData()
+void ItemDataBase::PrintAllUpgradeData() const
 {
 	FEnumDisplay enumDisplay;
 
-	for (std::unordered_map<std::string, FUpgradeItemData>::iterator iter = upgradeDataMap.begin(); iter != upgradeDataMap.end(); iter++)
+	for (std::unordered_map<std::string, FUpgradeItemData>::const_iterator iter = upgradeDataMap.begin(); iter != upgradeDataMap.end(); iter++)
 	{
 		std::cout << std::format("ID: {}", iter->first) << std::endl;
 		std::cout << std::format("id: {}", iter->second.id) << std::endl;
@@ -152,11 +152,11 @@ void ItemDataBase::PrintAllUpgradeData()
 	}
 }
 
-void ItemDataBase::PrintAllMaterialData()
+void ItemDataBase::PrintAllMaterialData() const
 {
 	FEnumDisplay enumDisplay;
 
-	for (std::unordered_map<std::string, FMaterialItemData>::iterator iter = materialDataMap.begin(); iter != materialDataMap.end(); iter++)
+	for (std::unordered_map<std::string, FMaterialItemData>::const_iterator iter = materialDataMap.begin(); iter != materialDataMap.end(); iter++)
 	{
 		std::cout << std::format("ID: {}", iter->first) << std::endl;
 		std::cout << std::format("id: {}", iter->second.id) << std::endl;
