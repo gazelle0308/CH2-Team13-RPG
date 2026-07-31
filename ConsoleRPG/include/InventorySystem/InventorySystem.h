@@ -69,7 +69,7 @@ public:
 	}
 
 	void ShowInventoryInNormal(); // Player 인자 넣기
-	void ShowInventoryInShop(float buybackRatem, int& totalBuyPrice);
+	void ShowInventoryInShop(float buybackRate, int& totalBuyPrice);
 	void ExpandInventory(int size);
 
 public:

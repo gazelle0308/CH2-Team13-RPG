@@ -7,13 +7,15 @@
 #include <unordered_map>
 #include "DataBase/ItemDataBase.h"
 #include "InventorySystem/InventorySystem.h"
+#include "ShopSystem/ShopSystem.h"
+#include "Player/Player.h"
 
 int main()
 {
 	// 한글 출력
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
-	
+
 	const std::vector<std::string> itemIds = ItemDataBase::GetInstance().GetAllItemIds();
 
 	InventorySystem::GetInstance().ExpandInventory(1000);
@@ -22,6 +24,4 @@ int main()
 	{
 		InventorySystem::GetInstance().AddItem(id, 11);
 	}
-	
-	InventorySystem::GetInstance().ShowInventoryInNormal();
 }

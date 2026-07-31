@@ -129,40 +129,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\battle\Battle.cpp" />
-    <ClCompile Include="src\boss\Boss.cpp" />
+    <ClCompile Include="src\Battle\Battle.cpp" />
+    <ClCompile Include="src\Boss\Boss.cpp" />
     <ClCompile Include="src\ConsoleRPG.cpp" />
     <ClCompile Include="src\DataBase\ItemDataBase.cpp" />
     <ClCompile Include="src\DataBase\ShopDataBase.cpp" />
     <ClCompile Include="src\Factory\ItemFactory.cpp" />
-    <ClCompile Include="src\gameLog\GameLog.cpp" />
+    <ClCompile Include="src\GameLog\GameLog.cpp" />
     <ClCompile Include="src\InventorySystem\InventorySystem.cpp" />
     <ClCompile Include="src\Item\ConsumableItem.cpp" />
     <ClCompile Include="src\item\Item.cpp" />
     <ClCompile Include="src\Item\MaterialItem.cpp" />
     <ClCompile Include="src\Item\UpgradeItem.cpp" />
-    <ClCompile Include="src\levelUp\LevelUp.cpp" />
-    <ClCompile Include="src\monster\Monster.cpp" />
-    <ClCompile Include="src\player\Player.cpp" />
+    <ClCompile Include="src\LevelUp\LevelUp.cpp" />
+    <ClCompile Include="src\Monster\Monster.cpp" />
+    <ClCompile Include="src\Player\Player.cpp" />
     <ClCompile Include="src\Utility\Utility.cpp" />
     <ClCompile Include="src\shopSystem\ShopSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\battle\battle.h" />
-    <ClInclude Include="include\boss\boss.h" />
+    <ClInclude Include="include\Battle\Battle.h" />
+    <ClInclude Include="include\Boss\Boss.h" />
     <ClInclude Include="include\DataBase\ItemDataBase.h" />
     <ClInclude Include="include\DataBase\ShopDataBase.h" />
     <ClInclude Include="include\Factory\ItemFactory.h" />
-    <ClInclude Include="include\gameLog\GameLog.h" />
+    <ClInclude Include="include\GameLog\GameLog.h" />
     <ClInclude Include="include\InventorySystem\InventorySystem.h" />
     <ClInclude Include="include\Item\ConsumableItem.h" />
     <ClInclude Include="include\item\Item.h" />
     <ClInclude Include="include\Item\MaterialItem.h" />
     <ClInclude Include="include\Item\UpgradeItem.h" />
-    <ClInclude Include="include\levelUp\LevelUp.h" />
-    <ClInclude Include="include\monster\Monster.h" />
+    <ClInclude Include="include\LevelUp\LevelUp.h" />
+    <ClInclude Include="include\Monster\Monster.h" />
     <ClInclude Include="include\nlohmann\json.hpp" />
-    <ClInclude Include="include\player\Player.h" />
+    <ClInclude Include="include\Player\Player.h" />
+    <ClInclude Include="include\Types\ShopTypes.h" />
     <ClInclude Include="include\Utility\Utility.h" />
     <ClInclude Include="include\shopSystem\ShopSystem.h" />
     <ClInclude Include="include\Types\InventoryTypes.h" />
@@ -172,6 +173,7 @@
     <None Include="data\consumables.json" />
     <None Include="data\items.json" />
     <None Include="data\materials.json" />
+    <None Include="data\shopItems.json" />
     <None Include="data\upgrades.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

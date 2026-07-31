@@ -1,0 +1,62 @@
+[
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_SMALL",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_MEDIUM",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_LARGE",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_SMALL",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_MEDIUM",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_LARGE",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_SMALL",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_MEDIUM",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_LARGE",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_SMALL",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_MEDIUM",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_LARGE",
+        "count" : 99
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_SMALL",
+        "count" : 1
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_MEDIUM",
+        "count" : 1
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_LARGE",
+        "count" : 1
+    }
+]
