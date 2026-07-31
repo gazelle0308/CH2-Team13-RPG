@@ -1,5 +1,7 @@
-#pragma once
+Ôªø#pragma once
 #include "Item/Item.h"
+
+class InventorySystem;
 
 class UpgradeItem :
     public Item
@@ -10,10 +12,10 @@ private:
 public:
     UpgradeItem(std::string id)
         : Item(id) {
-
+        SetUpgradeData(id);
     }
 
-    virtual void Use() override; // Player ¿Œ¿⁄ ≥÷±‚
+    virtual void Use() override; // Player Ïù∏Ïûê ÎÑ£Í∏∞
     virtual void PrintUseMessage() const override;
     
     void SetUpgradeData(std::string id);

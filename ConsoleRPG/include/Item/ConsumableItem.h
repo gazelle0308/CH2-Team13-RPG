@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "Item/Item.h"
 
 class ConsumableItem :
@@ -13,7 +13,7 @@ public:
         SetConsumableData(id);
     }
 
-    virtual void Use() override; // Player ÀÎÀÚ ³Ö±â
+    virtual void Use() override; // Player ì¸ì ë„£ê¸°
     virtual void PrintUseMessage() const override;
         
     void SetConsumableData(std::string id);

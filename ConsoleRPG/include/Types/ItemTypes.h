@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -6,9 +6,9 @@
 enum class EItemCategory
 {
 	None,
-	Consumable, // ¼Òºñ ¾ÆÀÌÅÛ
-	Upgrade, // ÀÎº¥Åä¸® ¾÷±×·¹ÀÌµå
-	Material, // ¸ó½ºÅÍ µå¶ø ¾ÆÀÌÅÛ
+	Consumable, // ì†Œë¹„ ì•„ì´í…œ
+	Upgrade, // ì¸ë²¤í† ë¦¬ ì—…ê·¸ë ˆì´ë“œ
+	Material, // ëª¬ìŠ¤í„° ë“œë ì•„ì´í…œ
 };
 
 enum class EConsumableType
@@ -87,9 +87,9 @@ private:
 	std::unordered_map<EItemCategory, std::string> itemCategoryDisplayNameMap =
 	{
 		{EItemCategory::None, "???"},
-		{EItemCategory::Consumable, "¼Òºñ"},
-		{EItemCategory::Upgrade, "°­È­"},
-		{EItemCategory::Material, "±âÅ¸"},
+		{EItemCategory::Consumable, "ì†Œë¹„"},
+		{EItemCategory::Upgrade, "ê°•í™”"},
+		{EItemCategory::Material, "ê¸°íƒ€"},
 	};
 	std::unordered_map<EConsumableType, std::string> consumableToStringMap =
 	{ 
@@ -110,10 +110,10 @@ private:
 	std::unordered_map<EConsumableType, std::string> consumableDisplayNameMap =
 	{
 		{EConsumableType::None, "???"},
-		{EConsumableType::Hp, "Ã¼·Â"},
-		{EConsumableType::Mp, "¸¶·Â"},
-		{EConsumableType::Power, "°ø°İ·Â"},
-		{EConsumableType::Defence, "¹æ¾î·Â"}
+		{EConsumableType::Hp, "ì²´ë ¥"},
+		{EConsumableType::Mp, "ë§ˆë ¥"},
+		{EConsumableType::Power, "ê³µê²©ë ¥"},
+		{EConsumableType::Defence, "ë°©ì–´ë ¥"}
 	};
 	std::unordered_map<EUpgradeType, std::string> upgradeToStringMap =
 	{
@@ -128,7 +128,7 @@ private:
 	std::unordered_map<EUpgradeType, std::string> upgradeDisplayNameMap =
 	{
 		{EUpgradeType::None, "???"},
-		{EUpgradeType::Inventory, "ÀÎº¥Åä¸®"}
+		{EUpgradeType::Inventory, "ì¸ë²¤í† ë¦¬"}
 	};
 	std::unordered_map<EMaterialType, std::string> materialToStringMap =
 	{
@@ -145,8 +145,8 @@ private:
 	std::unordered_map<EMaterialType, std::string> materialDisplayNameMap =
 	{
 		{EMaterialType::None, "???"},
-		{EMaterialType::Primary, "¿øÀç·á"},
-		{EMaterialType::Secondary, "ºÎÀç·á"}
+		{EMaterialType::Primary, "ì›ì¬ë£Œ"},
+		{EMaterialType::Secondary, "ë¶€ì¬ë£Œ"}
 	};
 
 public:

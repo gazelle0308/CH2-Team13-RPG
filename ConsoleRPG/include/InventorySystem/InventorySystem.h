@@ -1,5 +1,6 @@
-#pragma once
+ï»¿#pragma once
 
+#include <iostream>
 #include <conio.h>
 #include <vector>
 #include <string>
@@ -32,7 +33,7 @@ inline bool comparePrice(const FInventorySlot& a, const FInventorySlot& b)
 
 inline bool compareFunc(const FInventorySlot& a, const FInventorySlot& b)
 {
-	// id¸¦ ITEM_CONSUMABLE_HP_01 °ú °°Àº Çü½ÄÀ¸·Î ¼³Á¤ÇßÀ½À» ÀüÁ¦
+	// idë¥¼ ITEM_CONSUMABLE_HP_01 ê³¼ ê°™ì€ í˜•ì‹ìœ¼ë¡œ ì„¤ì •í–ˆìŒì„ ì „ì œ
 
 	//std::string aId = a.item->GetId();
 	//std::string bId = b.item->GetId();
@@ -49,11 +50,29 @@ private:
 	int inventorySize;
 	int inventoryCount;
 
-public:
-	void ShowInventoryInNormal(); // Player ÀÎÀÚ ³Ö±â
-	void ShowInventoryInShop(float buybackRatem, int& totalBuyPrice);
-
 private:
+	InventorySystem() : inventorySize(20), inventoryCount(0) {}
+
+	// ë³µì‚¬ ë°©ì§€
+	InventorySystem(const InventorySystem&) = delete;
+	InventorySystem& operator=(const InventorySystem&) = delete;
+
+	// ì´ë™ ë°©ì§€
+	InventorySystem(InventorySystem&&) = delete;
+	InventorySystem& operator=(InventorySystem&&) = delete;
+
+public:
+	// ì‹±ê¸€í†¤
+	static InventorySystem& GetInstance() {
+		static InventorySystem instance;
+		return instance;
+	}
+
+	void ShowInventoryInNormal(); // Player ì¸ì ë„£ê¸°
+	void ShowInventoryInShop(float buybackRatem, int& totalBuyPrice);
+	void ExpandInventory(int size);
+
+public:
 	void ClearScreen() const;
 	void PrintInventoryItems(EInventoryViewMode mode, float buybackRate = 1) const;
 	void HandleNormalInventoryOptions(bool& isEnd);
@@ -61,16 +80,19 @@ private:
 	void HandleNormalItemSelection();
 	void PrintItemInfo(int index) const;
 	void HandleNormalItemOptions(int index);
+	void HandleNormalUsableItemOptions(int index);
+	void HandleNormalNonUsableItemOptions(int index);
 	void HandleShopItemOptions(int index, float buybackRate, int& totalBuyPrice);
 	void HandleDiscardItem(int index);
 
 	bool AddItem(std::string id, int itemCount = 1);
 	bool RemoveItem(int index, int itemCount = 1);
-	int FindItem(std::string id) const; // -1: fail, 0~: index(µ¿ÀÏÇÑ ¾ÆÀÌÅÛ Á¸Àç ½Ã ¾ÆÀÌÅÛ °¡Àå Àû°Ô µé¾îÀÖ´Â ½½·Ô)
+	int FindItem(std::string id) const; // -1: fail, 0~: index(ë™ì¼í•œ ì•„ì´í…œ ì¡´ì¬ ì‹œ ì•„ì´í…œ ê°€ì¥ ì ê²Œ ë“¤ì–´ìˆëŠ” ìŠ¬ë¡¯)
 	int GetTotalItemCount(int index) const;
-	bool UseItem(int index); // Player ÀÎÀÚ ³Ö±â
+	bool UseItem(int index); // Player ì¸ì ë„£ê¸°
 
 	void SortByName();
 	void SortByPrice();
 	void SortByFunc();
+	void MergeSameItems();
 };

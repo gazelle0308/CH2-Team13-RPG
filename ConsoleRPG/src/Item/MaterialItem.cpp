@@ -1,4 +1,4 @@
-#include "Item/MaterialItem.h"
+﻿#include "Item/MaterialItem.h"
 
 void MaterialItem::Use()
 {
@@ -12,8 +12,7 @@ void MaterialItem::PrintUseMessage() const
 
 void MaterialItem::SetMaterialData(std::string id)
 {
-	ItemDataBase itemDataBase;
-	materialItemData = itemDataBase.GetMaterialData(id);
+	materialItemData = ItemDataBase::GetInstance().GetMaterialData(id);
 }
 
 const FMaterialItemData& MaterialItem::GetMaterialData() const

@@ -1,4 +1,4 @@
-#include "InventorySystem/InventorySystem.h"
+Ôªø#include "InventorySystem/InventorySystem.h"
 
 void InventorySystem::ShowInventoryInNormal()
 {
@@ -22,10 +22,15 @@ void InventorySystem::ShowInventoryInShop(float buybackRate, int& totalBuyPrice)
 	}
 }
 
+void InventorySystem::ExpandInventory(int size)
+{
+	inventorySize += size;
+}
+
 void InventorySystem::ClearScreen() const
 {
 	std::cout << std::endl;
-	std::cout << "...æ∆π´ ≈∞≥™ ¥©∏£ººø‰..." << std::endl;
+	std::cout << "...ÏïÑÎ¨¥ ÌÇ§ÎÇò ÎàÑÎ•¥ÏÑ∏Ïöî..." << std::endl;
 
 	(void)_getch();
 
@@ -36,7 +41,7 @@ void InventorySystem::PrintInventoryItems(EInventoryViewMode mode, float buyback
 {
 	std::cout << "========================================" << std::endl;
 	std::string str
-		= std::format("            ¿Œ∫•≈‰∏Æ ({}/{})            ", inventoryCount, inventorySize);
+		= std::format("            Ïù∏Î≤§ÌÜ†Î¶¨ ({}/{})            ", inventoryCount, inventorySize);
 	std::cout << str << std::endl;
 	std::cout << "========================================" << std::endl;
 
@@ -54,8 +59,8 @@ void InventorySystem::PrintInventoryItems(EInventoryViewMode mode, float buyback
 		}
 		else if (mode == EInventoryViewMode::Shop)
 		{
-			//int itemPrice = items[index].item->GetPrice() * buybackRate; // ≥∑√· ∞°∞›¿∏∑Œ ∆«∏≈ ∞°¥…
-			int itemPrice = int(items[index].itemData.price * buybackRate); // ≥∑√· ∞°∞›¿∏∑Œ ∆«∏≈ ∞°¥…
+			//int itemPrice = items[index].item->GetPrice() * buybackRate; // ÎÇÆÏ∂ò Í∞ÄÍ≤©ÏúºÎ°ú ÌåêÎß§ Í∞ÄÎä•
+			int itemPrice = int(items[index].itemData.price * buybackRate); // ÎÇÆÏ∂ò Í∞ÄÍ≤©ÏúºÎ°ú ÌåêÎß§ Í∞ÄÎä•
 			itemInfo = std::format("{} ({}G) x{}", itemName, itemPrice, itemCount);
 		}
 
@@ -70,17 +75,18 @@ void InventorySystem::HandleNormalInventoryOptions(bool& isEnd)
 	int number{};
 	bool isOk{};
 
-	std::cout << "======= º±≈√ =======" << std::endl;
-	std::cout << "1. ¡∂»∏" << std::endl;
-	std::cout << "2. ¡§∑ƒ (¿Ã∏ßº¯)" << std::endl;
-	std::cout << "3. ¡§∑ƒ (∞°∞›º¯)" << std::endl;
-	std::cout << "4. ¡§∑ƒ (±‚¥…º¯)" << std::endl;
-	std::cout << "0. µπæ∆∞°±‚" << std::endl;
+	std::cout << std::endl;
+	std::cout << "======= ÏÑ†ÌÉù =======" << std::endl;
+	std::cout << "1. Ï°∞Ìöå" << std::endl;
+	std::cout << "2. Ï†ïÎ†¨ (Ïù¥Î¶ÑÏàú)" << std::endl;
+	std::cout << "3. Ï†ïÎ†¨ (Í∞ÄÍ≤©Ïàú)" << std::endl;
+	std::cout << "4. Ï†ïÎ†¨ (Í∏∞Îä•Ïàú)" << std::endl;
+	std::cout << "0. ÎèåÏïÑÍ∞ÄÍ∏∞" << std::endl;
 
 	while (!isOk)
 	{
 		std::cout << std::endl;
-		std::cout << "π¯»£ ¿‘∑¬: ";
+		std::cout << "Î≤àÌò∏ ÏûÖÎ†•: ";
 		std::cin >> number;
 
 		isOk = true;
@@ -92,21 +98,24 @@ void InventorySystem::HandleNormalInventoryOptions(bool& isEnd)
 			break;
 		case 2:
 			SortByName();
+			ClearScreen();
 			break;
 		case 3:
 			SortByPrice();
+			ClearScreen();
 			break;
 		case 4:
 			SortByFunc();
+			ClearScreen();
 			break;
 		case 0:
 			isEnd = true;
-			std::cout << "∏ﬁ¿Œ ∏ﬁ¥∫∑Œ µπæ∆∞©¥œ¥Ÿ." << std::endl;
+			std::cout << "Î©îÏù∏ Î©îÎâ¥Î°ú ÎèåÏïÑÍ∞ëÎãàÎã§." << std::endl;
 			ClearScreen();
 			break;
 		default:
 			isOk = false;
-			std::cout << "¿ﬂ∏¯µ» π¯»£¿‘¥œ¥Ÿ. ¥ŸΩ√ ¿‘∑¬«ÿ¡÷ººø‰." << std::endl;
+			std::cout << "ÏûòÎ™ªÎêú Î≤àÌò∏ÏûÖÎãàÎã§. Îã§Ïãú ÏûÖÎ†•Ìï¥Ï£ºÏÑ∏Ïöî." << std::endl;
 			break;
 		}
 	}
@@ -120,7 +129,7 @@ void InventorySystem::HandleShopInventoryOptions(float buybackRate, int& totalBu
 	while (!isOk)
 	{
 		std::cout << std::endl;
-		std::cout << "∆«∏≈«“ æ∆¿Ã≈€ π¯»£ ¿‘∑¬(0: µπæ∆∞°±‚): ";
+		std::cout << "ÌåêÎß§Ìï† ÏïÑÏù¥ÌÖú Î≤àÌò∏ ÏûÖÎ†•(0: ÎèåÏïÑÍ∞ÄÍ∏∞): ";
 		std::cin >> number;
 
 		isOk = true;
@@ -128,7 +137,7 @@ void InventorySystem::HandleShopInventoryOptions(float buybackRate, int& totalBu
 		if (number == 0)
 		{
 			isEnd = true;
-			std::cout << "ªÛ¡° ∏ﬁ¥∫∑Œ µπæ∆∞©¥œ¥Ÿ." << std::endl;
+			std::cout << "ÏÉÅÏ†ê Î©îÎâ¥Î°ú ÎèåÏïÑÍ∞ëÎãàÎã§." << std::endl;
 			ClearScreen();
 		}
 		else if (1 <= number && number <= inventoryCount)
@@ -138,7 +147,7 @@ void InventorySystem::HandleShopInventoryOptions(float buybackRate, int& totalBu
 		else
 		{
 			isOk = false;
-			std::cout << "¿ﬂ∏¯µ» π¯»£¿‘¥œ¥Ÿ. ¥ŸΩ√ ¿‘∑¬«ÿ¡÷ººø‰." << std::endl;
+			std::cout << "ÏûòÎ™ªÎêú Î≤àÌò∏ÏûÖÎãàÎã§. Îã§Ïãú ÏûÖÎ†•Ìï¥Ï£ºÏÑ∏Ïöî." << std::endl;
 		}
 	}
 }
@@ -151,7 +160,7 @@ void InventorySystem::HandleNormalItemSelection()
 	while (!isOk)
 	{
 		std::cout << std::endl;
-		std::cout << "æ∆¿Ã≈€ π¯»£ ¿‘∑¬(0: µπæ∆∞°±‚): ";
+		std::cout << "ÏïÑÏù¥ÌÖú Î≤àÌò∏ ÏûÖÎ†•(0: ÎèåÏïÑÍ∞ÄÍ∏∞): ";
 		std::cin >> number;
 
 		isOk = true;
@@ -168,41 +177,57 @@ void InventorySystem::HandleNormalItemSelection()
 		else
 		{
 			isOk = false;
-			std::cout << "¿ﬂ∏¯µ» π¯»£¿‘¥œ¥Ÿ. ¥ŸΩ√ ¿‘∑¬«ÿ¡÷ººø‰." << std::endl;
+			std::cout << "ÏûòÎ™ªÎêú Î≤àÌò∏ÏûÖÎãàÎã§. Îã§Ïãú ÏûÖÎ†•Ìï¥Ï£ºÏÑ∏Ïöî." << std::endl;
 		}
 	}
 }
 
 void InventorySystem::PrintItemInfo(int index) const
 {
-	//std::string name = std::format("¿Ã∏ß: {}", items[index].item->GetName());
-	//std::string description = std::format("º≥∏Ì: {}", items[index].item->GetDescription());
-	//std::string price = std::format("∞°∞›: {}G", items[index].item->GetPrice());
-	std::string name = std::format("¿Ã∏ß: {}", items[index].itemData.name);
-	std::string description = std::format("º≥∏Ì: {}", items[index].itemData.description);
-	std::string price = std::format("∞°∞›: {}G", items[index].itemData.price);
+	//std::string name = std::format("Ïù¥Î¶Ñ: {}", items[index].item->GetName());
+	//std::string description = std::format("ÏÑ§Î™Ö: {}", items[index].item->GetDescription());
+	//std::string price = std::format("Í∞ÄÍ≤©: {}G", items[index].item->GetPrice());
+	std::string name = std::format("Ïù¥Î¶Ñ: {}", items[index].itemData.name);
+	std::string description = std::format("ÏÑ§Î™Ö: {}", items[index].itemData.description);
+	std::string price = std::format("Í∞ÄÍ≤©: {}G", items[index].itemData.price);
+	std::string count = std::format("Í∞úÏàò: {}Í∞ú", GetTotalItemCount(index));
 
+	std::cout << std::endl;
 	std::cout << "-------------------------------" << std::endl;
 	std::cout << name << std::endl;
 	std::cout << description << std::endl;
 	std::cout << price << std::endl;
+	std::cout << count << std::endl;
 	std::cout << "-------------------------------" << std::endl;
 }
 
 void InventorySystem::HandleNormalItemOptions(int index)
 {
+	if (items[index].itemData.category == EItemCategory::Material)
+	{
+		HandleNormalNonUsableItemOptions(index);
+	}
+	else
+	{
+		HandleNormalUsableItemOptions(index);
+	}
+}
+
+void InventorySystem::HandleNormalUsableItemOptions(int index)
+{
 	int number{};
 	bool isOk{};
 
-	std::cout << "======= º±≈√ =======" << std::endl;
-	std::cout << "1. ªÁøÎ" << std::endl;
-	std::cout << "2. πˆ∏Æ±‚" << std::endl;
-	std::cout << "0. µπæ∆∞°±‚" << std::endl;
+	std::cout << std::endl;
+	std::cout << "======= ÏÑ†ÌÉù =======" << std::endl;
+	std::cout << "1. ÏÇ¨Ïö©" << std::endl;
+	std::cout << "2. Î≤ÑÎ¶¨Í∏∞" << std::endl;
+	std::cout << "0. ÎèåÏïÑÍ∞ÄÍ∏∞" << std::endl;
 
 	while (!isOk)
 	{
 		std::cout << std::endl;
-		std::cout << "π¯»£ ¿‘∑¬: ";
+		std::cout << "Î≤àÌò∏ ÏûÖÎ†•: ";
 		std::cin >> number;
 
 		isOk = true;
@@ -211,17 +236,53 @@ void InventorySystem::HandleNormalItemOptions(int index)
 		{
 		case 1:
 			UseItem(index);
+			ClearScreen();
 			break;
 		case 2:
 			HandleDiscardItem(index);
 			break;
 		case 0:
-			std::cout << "¿Œ∫•≈‰∏Æ ∏Ò∑œ¿∏∑Œ µπæ∆∞©¥œ¥Ÿ." << std::endl;
+			std::cout << "Ïù∏Î≤§ÌÜ†Î¶¨ Î™©Î°ùÏúºÎ°ú ÎèåÏïÑÍ∞ëÎãàÎã§." << std::endl;
 			ClearScreen();
 			break;
 		default:
 			isOk = false;
-			std::cout << "¿ﬂ∏¯µ» π¯»£¿‘¥œ¥Ÿ. ¥ŸΩ√ ¿‘∑¬«ÿ¡÷ººø‰." << std::endl;
+			std::cout << "ÏûòÎ™ªÎêú Î≤àÌò∏ÏûÖÎãàÎã§. Îã§Ïãú ÏûÖÎ†•Ìï¥Ï£ºÏÑ∏Ïöî." << std::endl;
+			break;
+		}
+	}
+}
+
+void InventorySystem::HandleNormalNonUsableItemOptions(int index)
+{
+	int number{};
+	bool isOk{};
+
+	std::cout << std::endl;
+	std::cout << "======= ÏÑ†ÌÉù =======" << std::endl;
+	std::cout << "1. Î≤ÑÎ¶¨Í∏∞" << std::endl;
+	std::cout << "0. ÎèåÏïÑÍ∞ÄÍ∏∞" << std::endl;
+
+	while (!isOk)
+	{
+		std::cout << std::endl;
+		std::cout << "Î≤àÌò∏ ÏûÖÎ†•: ";
+		std::cin >> number;
+
+		isOk = true;
+
+		switch (number)
+		{
+		case 1:
+			HandleDiscardItem(index);
+			break;
+		case 0:
+			std::cout << "Ïù∏Î≤§ÌÜ†Î¶¨ Î™©Î°ùÏúºÎ°ú ÎèåÏïÑÍ∞ëÎãàÎã§." << std::endl;
+			ClearScreen();
+			break;
+		default:
+			isOk = false;
+			std::cout << "ÏûòÎ™ªÎêú Î≤àÌò∏ÏûÖÎãàÎã§. Îã§Ïãú ÏûÖÎ†•Ìï¥Ï£ºÏÑ∏Ïöî." << std::endl;
 			break;
 		}
 	}
@@ -235,20 +296,20 @@ void InventorySystem::HandleShopItemOptions(int index, float buybackRate, int& t
 	while (!isOk)
 	{
 		std::cout << std::endl;
-		std::cout << "∆«∏≈«“ æ∆¿Ã≈€ ∞≥ºˆ ¿‘∑¬(0: µπæ∆∞°±‚): ";
+		std::cout << "ÌåêÎß§Ìï† ÏïÑÏù¥ÌÖú Í∞úÏàò ÏûÖÎ†•(0: ÎèåÏïÑÍ∞ÄÍ∏∞): ";
 		std::cin >> number;
 
 		isOk = true;
 
 		if (number == 0)
 		{
-			std::cout << "∆«∏≈ ∏Ò∑œ¿ª ¡∂»∏«’¥œ¥Ÿ." << std::endl;
+			std::cout << "ÌåêÎß§ Î™©Î°ùÏùÑ Ï°∞ÌöåÌï©ÎãàÎã§." << std::endl;
 			ClearScreen();
 		}
 		else if (1 <= number && number <= items[index].count)
 		{
-			//std::string messages = std::format("{}¿ª(∏¶) {}∞≥ ∆«∏≈«ﬂΩ¿¥œ¥Ÿ.", items[index].item->GetName(), number);
-			std::string messages = std::format("{}¿ª(∏¶) {}∞≥ ∆«∏≈«ﬂΩ¿¥œ¥Ÿ.", items[index].itemData.name, number);
+			//std::string messages = std::format("{}ÏùÑ(Î•º) {}Í∞ú ÌåêÎß§ÌñàÏäµÎãàÎã§.", items[index].item->GetName(), number);
+			std::string messages = std::format("{}ÏùÑ(Î•º) {}Í∞ú ÌåêÎß§ÌñàÏäµÎãàÎã§.", items[index].itemData.name, number);
 			std::cout << messages << std::endl;
 			//totalBuyPrice += items[index].item->GetPrice() * buybackRate * number;
 			totalBuyPrice += int(items[index].itemData.price * buybackRate) * number;
@@ -257,52 +318,53 @@ void InventorySystem::HandleShopItemOptions(int index, float buybackRate, int& t
 		else
 		{
 			isOk = false;
-			std::cout << "¿ﬂ∏¯µ» π¯»£¿‘¥œ¥Ÿ. ¥ŸΩ√ ¿‘∑¬«ÿ¡÷ººø‰." << std::endl;
+			std::cout << "ÏûòÎ™ªÎêú Î≤àÌò∏ÏûÖÎãàÎã§. Îã§Ïãú ÏûÖÎ†•Ìï¥Ï£ºÏÑ∏Ïöî." << std::endl;
 		}
 	}
 }
 
 void InventorySystem::HandleDiscardItem(int index)
 {
-	int itemCount = items[index].count;
+	//int itemCount = items[index].count;
+	int itemCount = GetTotalItemCount(index);
 	int number{};
 	bool isOk{};
 
 	while (!isOk)
 	{
 		std::cout << std::endl;
-		std::cout << "πˆ∏± æ∆¿Ã≈€ ∞≥ºˆ ¿‘∑¬(0: µπæ∆∞°±‚): ";
+		std::cout << "Î≤ÑÎ¶¥ ÏïÑÏù¥ÌÖú Í∞úÏàò ÏûÖÎ†•(0: ÎèåÏïÑÍ∞ÄÍ∏∞): ";
 		std::cin >> number;
 
 		isOk = true;
 
 		if (number == 0)
 		{
-			std::cout << "¥ŸΩ√ º±≈√«’¥œ¥Ÿ." << std::endl;
+			std::cout << "Îã§Ïãú ÏÑ†ÌÉùÌï©ÎãàÎã§." << std::endl;
 			HandleNormalItemOptions(index);
 		}
 		else if (1 <= number && number <= itemCount)
 		{
-			//std::string message = std::format("{}¿ª(∏¶) {}∞≥ πˆ∑»Ω¿¥œ¥Ÿ.", items[index].item->GetName(), number);
-			std::string message = std::format("{}¿ª(∏¶) {}∞≥ πˆ∑»Ω¿¥œ¥Ÿ.", items[index].itemData.name, number);
+			//std::string message = std::format("{}ÏùÑ(Î•º) {}Í∞ú Î≤ÑÎ†∏ÏäµÎãàÎã§.", items[index].item->GetName(), number);
+			std::string message = std::format("{}ÏùÑ(Î•º) {}Í∞ú Î≤ÑÎ†∏ÏäµÎãàÎã§.", items[index].itemData.name, number);
 			std::cout << message << std::endl;
 			RemoveItem(index, number);
+			ClearScreen();
 		}
 		else
 		{
 			isOk = false;
-			std::cout << "¿ﬂ∏¯µ» º˝¿⁄¿‘¥œ¥Ÿ. ¥ŸΩ√ ¿‘∑¬«ÿ¡÷ººø‰." << std::endl;
+			std::cout << "ÏûòÎ™ªÎêú Ïà´ÏûêÏûÖÎãàÎã§. Îã§Ïãú ÏûÖÎ†•Ìï¥Ï£ºÏÑ∏Ïöî." << std::endl;
 		}
 	}
 }
 
 bool InventorySystem::AddItem(std::string id, int itemCount)
 {
-	ItemDataBase itemDataBase;
 	//ItemFactory itemFactory;
 
 	int result = FindItem(id);
-	int itemMaxStackCount = itemDataBase.GetMaxStackCount(id);
+	int itemMaxStackCount = ItemDataBase::GetInstance().GetMaxStackCount(id);
 	int fullSlotCount{};
 	int partiallyFullSlotCount{};
 
@@ -315,17 +377,19 @@ bool InventorySystem::AddItem(std::string id, int itemCount)
 		{
 			FInventorySlot inventorySlot;
 			//inventorySlot.item = std::move(itemFactory.CreateItem(id));
-			inventorySlot.itemData = itemDataBase.GetItemData(id);
+			inventorySlot.itemData = ItemDataBase::GetInstance().GetItemData(id);
 			inventorySlot.count = itemMaxStackCount;
 			//inventorySlot.maxCount = itemMaxStackCount;
 
 			for (int i = 0; i < fullSlotCount; i++)
 			{
+				inventoryCount += 1;
 				items.push_back(inventorySlot);
 			}
 
 			if (partiallyFullSlotCount == 1)
 			{
+				inventoryCount += 1;
 				inventorySlot.count = itemCount % itemMaxStackCount;
 				items.push_back(inventorySlot);
 			}
@@ -360,17 +424,19 @@ bool InventorySystem::AddItem(std::string id, int itemCount)
 
 				FInventorySlot inventorySlot;
 				//inventorySlot.item = itemFactory.CreateItem(id);
-				inventorySlot.itemData = itemDataBase.GetItemData(id);
+				inventorySlot.itemData = ItemDataBase::GetInstance().GetItemData(id);
 				inventorySlot.count = itemMaxStackCount;
 				//inventorySlot.maxCount = itemMaxStackCount;
 
 				for (int i = 0; i < fullSlotCount; i++)
 				{
+					inventoryCount += 1;
 					items.push_back(inventorySlot);
 				}
 
 				if (partiallyFullSlotCount == 1)
 				{
+					inventoryCount += 1;
 					inventorySlot.count = itemCount % itemMaxStackCount;
 					items.push_back(inventorySlot);
 				}
@@ -412,6 +478,7 @@ bool InventorySystem::RemoveItem(int index, int count)
 
 			if (items[slotIndex].count == 0)
 			{
+				inventoryCount -= 1;
 				items.erase(items.begin() + slotIndex);
 			}
 
@@ -426,10 +493,8 @@ bool InventorySystem::RemoveItem(int index, int count)
 
 int InventorySystem::FindItem(std::string id) const
 {
-	ItemDataBase itemDataBase;
-
 	int index = -1;
-	int minNum = itemDataBase.GetMaxStackCount(id) + 1;
+	int minNum = ItemDataBase::GetInstance().GetMaxStackCount(id) + 1;
 
 	for (int i = 0; i < inventoryCount; i++)
 	{
@@ -486,17 +551,12 @@ bool InventorySystem::UseItem(int index)
 	case EItemCategory::Upgrade:
 		itemFactory.CreateUpgradeItem(itemId)->Use();
 		break;
-	case EItemCategory::Material:
-		itemFactory.CreateMaterialItem(itemId)->Use();
-		break;
+	//case EItemCategory::Material:
+		//itemFactory.CreateMaterialItem(itemId)->Use();
+		//break;
 	}
 	
-	items[index].count -= 1;
-
-	if (items[index].count == 0)
-	{
-		items.erase(items.begin() + index);
-	}
+	RemoveItem(index);
 
 	return true;
 }
@@ -504,14 +564,63 @@ bool InventorySystem::UseItem(int index)
 void InventorySystem::SortByName()
 {
 	std::sort(items.begin(), items.end(), compareName);
+	MergeSameItems();
 }
 
 void InventorySystem::SortByPrice()
 {
 	std::sort(items.begin(), items.end(), comparePrice);
+	MergeSameItems();
 }
 
 void InventorySystem::SortByFunc()
 {
 	std::sort(items.begin(), items.end(), compareFunc);
+	MergeSameItems();
+}
+
+void InventorySystem::MergeSameItems()
+{
+	// Ï†ïÎ†¨ ÌõÑÎ•º Ï†ÑÏ†úÎ°ú Ìï®
+	std::vector<FInventorySlot> newItems{};
+	std::string prevId{};
+	int newInventoryCount{};
+	int totalCount{};
+	int fullSlot{};
+	int remainder{};
+	int itemMaxStackCount{};
+
+	for (int i = 0; i < inventoryCount; i++)
+	{
+		if (items[i].itemData.id != prevId)
+		{
+			prevId = items[i].itemData.id;
+			totalCount = GetTotalItemCount(i);
+			itemMaxStackCount = items[i].itemData.maxStackCount;
+			fullSlot = totalCount / itemMaxStackCount;
+			remainder = totalCount % itemMaxStackCount;
+
+			std::cout << fullSlot << " " << remainder << std::endl;
+			
+			FInventorySlot inventorySlot;
+			inventorySlot.itemData = items[i].itemData;
+			inventorySlot.count = itemMaxStackCount;
+
+			for (int j = 0; j < fullSlot; j++)
+			{
+				newInventoryCount += 1;
+				newItems.push_back(inventorySlot);
+			}
+
+			if (remainder != 0)
+			{
+				newInventoryCount += 1;
+				inventorySlot.count = remainder;
+				newItems.push_back(inventorySlot);
+			}
+		}
+	}
+
+	items = newItems;
+	inventoryCount = newInventoryCount;
 }

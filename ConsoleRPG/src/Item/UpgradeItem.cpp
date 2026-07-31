@@ -1,4 +1,5 @@
-#include "Item/UpgradeItem.h"
+Ôªø#include "Item/UpgradeItem.h"
+#include "InventorySystem/InventorySystem.h"
 
 void UpgradeItem::Use()
 {
@@ -7,7 +8,7 @@ void UpgradeItem::Use()
 	switch (upgradeItemData.upgradeType)
 	{
 	case EUpgradeType::Inventory:
-		// ¿Œ∫•≈‰∏Æ »Æ¿Â
+		InventorySystem::GetInstance().ExpandInventory(upgradeItemData.value);
 		break;
 	}
 }
@@ -18,15 +19,14 @@ void UpgradeItem::PrintUseMessage() const
 
 	FEnumDisplay enumDisplay;
 	std::string displayName = enumDisplay.GetUpgradeTypeDisplayName(upgradeItemData.upgradeType);
-	std::string message = std::format("{}¿Ã(∞°) {} ¡ı∞°«ﬂΩ¿¥œ¥Ÿ.", displayName, upgradeItemData.value);
+	std::string message = std::format("{}Ïù¥(Í∞Ä) {} Ï¶ùÍ∞ÄÌñàÏäµÎãàÎã§.", displayName, upgradeItemData.value);
 
 	// AddLog(message);
 }
 
 void UpgradeItem::SetUpgradeData(std::string id)
 {
-	ItemDataBase itemDataBase;
-	upgradeItemData = itemDataBase.GetUpgradeData(id);
+	upgradeItemData = ItemDataBase::GetInstance().GetUpgradeData(id);
 }
 
 const FUpgradeItemData& UpgradeItem::GetUpgradeData() const
