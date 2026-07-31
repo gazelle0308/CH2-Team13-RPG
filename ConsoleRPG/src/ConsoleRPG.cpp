@@ -2,11 +2,13 @@
 //
 
 #include <iostream>
+#include <unordered_map>
+#include "DataBase/ItemDataBase.h"
+#include "InventorySystem/InventorySystem.h"
 
 int main()
 {
    std::cout << "Hello World!\n";
-}
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
 // 프로그램 디버그: <F5> 키 또는 [디버그] > [디버깅 시작] 메뉴
@@ -18,3 +20,14 @@ int main()
 //   4. [오류 목록] 창을 사용하여 오류를 봅니다.
 //   5. [프로젝트] > [새 항목 추가]로 이동하여 새 코드 파일을 만들거나, [프로젝트] > [기존 항목 추가]로 이동하여 기존 코드 파일을 프로젝트에 추가합니다.
 //   6. 나중에 이 프로젝트를 다시 열려면 [파일] > [열기] > [프로젝트]로 이동하고 .sln 파일을 선택합니다.
+
+	/*ItemDataBase itemDataBase;
+	itemDataBase.LoadItemData();
+	itemDataBase.LoadConsumableData();
+	itemDataBase.LoadUpgradeData();
+	itemDataBase.LoadMaterialData();
+	itemDataBase.PrintAllItemData();
+	itemDataBase.PrintAllConsumableData();
+	itemDataBase.PrintAllUpgradeData();
+	itemDataBase.PrintAllMaterialData();*/
+}

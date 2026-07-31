@@ -131,22 +131,45 @@
     <ClCompile Include="src\battle\battle.cpp" />
     <ClCompile Include="src\boss\boss.cpp" />
     <ClCompile Include="src\ConsoleRPG.cpp" />
+    <ClCompile Include="src\DataBase\ItemDataBase.cpp" />
+    <ClCompile Include="src\DataBase\ShopDataBase.cpp" />
+    <ClCompile Include="src\Factory\ItemFactory.cpp" />
     <ClCompile Include="src\gameLog\gameLog.cpp" />
-    <ClCompile Include="src\item\item.cpp" />
+    <ClCompile Include="src\InventorySystem\InventorySystem.cpp" />
+    <ClCompile Include="src\Item\ConsumableItem.cpp" />
+    <ClCompile Include="src\item\Item.cpp" />
+    <ClCompile Include="src\Item\MaterialItem.cpp" />
+    <ClCompile Include="src\Item\UpgradeItem.cpp" />
     <ClCompile Include="src\levelUp\levelUp.cpp" />
     <ClCompile Include="src\monster\monster.cpp" />
     <ClCompile Include="src\player\player.cpp" />
-    <ClCompile Include="src\shopSystem\shopSystem.cpp" />
+    <ClCompile Include="src\shopSystem\ShopSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\battle\battle.h" />
     <ClInclude Include="include\boss\boss.h" />
+    <ClInclude Include="include\DataBase\ItemDataBase.h" />
+    <ClInclude Include="include\DataBase\ShopDataBase.h" />
+    <ClInclude Include="include\Factory\ItemFactory.h" />
     <ClInclude Include="include\gameLog\gameLog.h" />
-    <ClInclude Include="include\item\item.h" />
+    <ClInclude Include="include\InventorySystem\InventorySystem.h" />
+    <ClInclude Include="include\Item\ConsumableItem.h" />
+    <ClInclude Include="include\item\Item.h" />
+    <ClInclude Include="include\Item\MaterialItem.h" />
+    <ClInclude Include="include\Item\UpgradeItem.h" />
     <ClInclude Include="include\levelUp\levelUp.h" />
     <ClInclude Include="include\monster\monster.h" />
+    <ClInclude Include="include\nlohmann\json.hpp" />
     <ClInclude Include="include\player\player.h" />
-    <ClInclude Include="include\shopSystem\shopSystem.h" />
+    <ClInclude Include="include\shopSystem\ShopSystem.h" />
+    <ClInclude Include="include\Types\InventoryTypes.h" />
+    <ClInclude Include="include\Types\ItemTypes.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\consumables.json" />
+    <None Include="data\items.json" />
+    <None Include="data\materials.json" />
+    <None Include="data\upgrades.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
