@@ -134,6 +134,9 @@
     <ClCompile Include="src\ConsoleRPG.cpp" />
     <ClCompile Include="src\DataBase\ItemDataBase.cpp" />
     <ClCompile Include="src\DataBase\ShopDataBase.cpp" />
+    <ClCompile Include="src\Effect\Effect.cpp" />
+    <ClCompile Include="src\Essence\Essence.cpp" />
+    <ClCompile Include="src\Essence\EssenceOrb.cpp" />
     <ClCompile Include="src\Factory\ItemFactory.cpp" />
     <ClCompile Include="src\GameLog\GameLog.cpp" />
     <ClCompile Include="src\InventorySystem\InventorySystem.cpp" />
@@ -152,6 +155,9 @@
     <ClInclude Include="include\Boss\Boss.h" />
     <ClInclude Include="include\DataBase\ItemDataBase.h" />
     <ClInclude Include="include\DataBase\ShopDataBase.h" />
+    <ClInclude Include="include\Effect\Effect.h" />
+    <ClInclude Include="include\Essence\Essence.h" />
+    <ClInclude Include="include\Essence\EssenceOrb.h" />
     <ClInclude Include="include\Factory\ItemFactory.h" />
     <ClInclude Include="include\GameLog\GameLog.h" />
     <ClInclude Include="include\InventorySystem\InventorySystem.h" />

@@ -1,14 +1,18 @@
 ﻿// Copyright 2026/07/30 JinHo
 
+
 #include "player/player.h"
 
 #include <string>
+#include <iostream>
 #include <algorithm>
 
 #include "Utility/Utility.h"
+#include "Essence/EssenceOrb.h"
 
 
 // operator
+
 int& Player::operator[](const Pstat target) {
     if (target == Pstat::Hp) {
         return this->currentHp;
@@ -61,13 +65,93 @@ const int& Player::operator[](const Pstat target) const {
     } else if (target == Pstat::MaxExp) {
         return this->maxExp;
     } else if (target == Pstat::Attack) {
-        return this->currentPower + this->buffPower;
+        return this->attack;
     } else if (target == Pstat::Guard) {
-        return this->currentDefence + this->buffDefence;
+        return this->guard;
+    }
+}
+
+int& Player::operator[](const std::string& target) {
+    if (ignoreCaseCompare(target, "hp")) {
+        return this->currentHp;
+    } else if (ignoreCaseCompare(target, "mp")) {
+        return this->currentMp;
+    } else if (ignoreCaseCompare(target, "maxHp")) {
+        return this->currentMaxHp;
+    } else if (ignoreCaseCompare(target, "maxMp")) {
+        return this->currentMaxMp;
+    } else if (ignoreCaseCompare(target, "power")) {
+        return this->currentPower;
+    } else if (ignoreCaseCompare(target, "attack")) {
+        return this->currentPower;
+    } else if (ignoreCaseCompare(target, "defence")) {
+        return this->currentDefence;
+    } else if (ignoreCaseCompare(target, "buffpower")) {
+        return this->buffPower;
+    } else if (ignoreCaseCompare(target, "buffdefence")) {
+        return this->buffDefence;
+    } else if (ignoreCaseCompare(target, "gold")) {
+        return this->gold;
+    } else if (ignoreCaseCompare(target, "exp")) {
+        return this->exp;
+    } else if (ignoreCaseCompare(target, "baseHp") ||
+        ignoreCaseCompare(target, "baseMp") ||
+        ignoreCaseCompare(target, "basePower") ||
+        ignoreCaseCompare(target, "baseDefence") ||
+        ignoreCaseCompare(target, "level") ||
+        ignoreCaseCompare(target, "maxExp") ||
+        ignoreCaseCompare(target, "attack") ||
+        ignoreCaseCompare(target, "guard")) {
+        throw std::logic_error(target + " is read-only.");
+    } else {
+        throw std::out_of_range("Unknown status key : " + target);
+    }
+}
+
+const int& Player::operator[](const std::string& target) const {
+    if (ignoreCaseCompare(target, "hp")) {
+        return this->currentHp;
+    } else if (ignoreCaseCompare(target, "mp")) {
+        return this->currentMp;
+    } else if (ignoreCaseCompare(target, "maxHp")) {
+        return this->currentMaxHp;
+    } else if (ignoreCaseCompare(target, "maxMp")) {
+        return this->currentMaxMp;
+    } else if (ignoreCaseCompare(target, "baseHp")) {
+        return this->baseMaxHp;
+    } else if (ignoreCaseCompare(target, "baseMp")) {
+        return this->baseMaxMp;
+    } else if (ignoreCaseCompare(target, "power")) {
+        return this->currentPower;
+    } else if (ignoreCaseCompare(target, "defence")) {
+        return this->currentDefence;
+    } else if (ignoreCaseCompare(target, "basePower")) {
+        return this->basePower;
+    } else if (ignoreCaseCompare(target, "baseDefence")) {
+        return this->baseDefence;
+    } else if (ignoreCaseCompare(target, "gold")) {
+        return this->gold;
+    } else if (ignoreCaseCompare(target, "exp")) {
+        return this->exp;
+    } else if (ignoreCaseCompare(target, "level")) {
+        return this->level;
+    } else if (ignoreCaseCompare(target, "maxExp")) {
+        return this->maxExp;
+    } else if (ignoreCaseCompare(target, "attack")) {
+        return this->attack;
+    } else if (ignoreCaseCompare(target, "guard")) {
+        return this->guard;
+    } else if (ignoreCaseCompare(target, "buffpower")) {
+        return this->buffPower;
+    } else if (ignoreCaseCompare(target, "buffdefence")) {
+        return this->buffDefence;
+    } else {
+        throw std::out_of_range("Unknown status key : " + target);
     }
 }
 
 // Getter
+
 int Player::GetGold() const { return this->gold; }
 
 int Player::GetLevel() const { return this->level; }
@@ -90,12 +174,13 @@ int Player::GetCurrentPower() const { return this->currentPower; }
 int Player::GetCurrentDefence() const { return this->currentDefence; }
 
 std::string Player::GetName() const { return this->name; }
-std::string Player::GetJob() const { return this->job; }
+std::string Player::GetEssence() const { return this->essence; }
 
 std::string Player::GetSkill() const { return this->skill; }
 
 
 // Setter
+
 void Player::SetGold(int gold) { this->gold = gold; }
 
 void Player::SetLevel(int level) { this->level = level; }
@@ -144,7 +229,7 @@ void Player::SetCurrentDefence(int currentDefence) {
 
 
 void Player::SetName(std::string name) { this->name = name; }
-void Player::SetJob(std::string job) { this->job = job; }
+void Player::SetEssence(std::string essence) { this->essence = essence; }
 
 void Player::SetSkill(std::string skill) { this->skill = skill; }
 
@@ -180,31 +265,58 @@ void Player::SyncToMax(Pstat target) {
     }
 }
 
-void Player::GetEffect(Pstat target, int num) {
+void Player::ApplyEffect(Pstat target, int num) {
     if (target == Pstat::Hp) {
         this->currentHp = std::min(this->currentHp + num, this->currentMaxHp);
     } else if (target == Pstat::Mp) {
         this->currentMp = std::min(this->currentMp + num, this->currentMaxMp);
-    } 
+    } else if (target == Pstat::BuffPower) {
+        this->buffPower = num;
+        this->attack = this->currentPower + this->buffPower;
+    } else if (target == Pstat::BuffDefence) {
+        this->buffDefence = num;
+        this->guard = this->currentDefence + this->buffDefence;
+    } else {
+        throw std::out_of_range("Can't another target");
+    }
+}
+
+void Player::SetEssence(const Essence& essence) {
+    if (essence.GetName() == "False") {
+        std::cout << "Fail To Use Essence \n";
+        return;
+    }
+    if (essence.GetEnable()) {
+        this->currentMaxHp = this->baseMaxHp + essence.GetHp();
+        this->currentMaxMp = this->baseMaxMp + essence.GetMp();
+        this->currentPower = this->basePower + essence.GetPower();
+        this->currentDefence = this->baseDefence + essence.GetDefence();
+    } else {
+        this->SyncToBase(Pstat::MaxHp);
+        this->SyncToBase(Pstat::MaxMp);
+        this->SyncToBase(Pstat::Power);
+        this->SyncToBase(Pstat::Defence);
+    }
 }
 
 // Constructor
+
 Player::Player(std::string name,
-               int baseMaxHp,
-               int baseMaxMp,
-               int power,
-               int defence,
-               int level,
-               std::string skill)
-               :name(name),
-                baseMaxHp(baseMaxHp),
-                baseMaxMp(baseMaxMp),
-                basePower(basePower),
-                baseDefence(baseDefence),
-                level(level),
-                skill(skill) {
-    if (this->job.empty()) {
-        this->job = "Adventure";
+    int baseMaxHp,
+    int baseMaxMp,
+    int power,
+    int defence,
+    int level,
+    std::string skill)
+    :name(name),
+    baseMaxHp(baseMaxHp),
+    baseMaxMp(baseMaxMp),
+    basePower(basePower),
+    baseDefence(baseDefence),
+    level(level),
+    skill(skill) {
+    if (this->essence.empty()) {
+        this->essence = "NonEssence";
     }
 
     this->maxExp = 100;
@@ -215,4 +327,22 @@ Player::Player(std::string name,
     SyncToBase(Pstat::Mp);
     SyncToBase(Pstat::MaxHp);
     SyncToBase(Pstat::MaxMp);
+    SyncToBase(Pstat::Power);
+    SyncToBase(Pstat::Defence);
+
+    this->attack = currentPower;
+    this->guard = currentDefence;
+}
+
+Player& MakePlayer() {
+
+    std::string nameBuf;
+
+    std::cout << "닉네임을 입력해 주세요.\n";
+    std::cout << "닉네임: ";
+    std::cin >> nameBuf;
+
+    Player player(nameBuf);
+
+    return player;
 }

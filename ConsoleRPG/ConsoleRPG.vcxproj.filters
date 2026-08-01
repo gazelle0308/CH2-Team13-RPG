@@ -52,6 +52,15 @@
     <ClCompile Include="src\Utility\Utility.cpp">
       <Filter>src\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="src\Essence\Essence.cpp">
+      <Filter>src\Essence</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Effect\Effect.cpp">
+      <Filter>src\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Essence\EssenceOrb.cpp">
+      <Filter>src\Essence</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\boss\boss.h">
@@ -110,6 +119,15 @@
     </ClInclude>
     <ClInclude Include="include\monster\Monster.h">
       <Filter>include\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Essence\Essence.h">
+      <Filter>include\Essence</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Effect\Effect.h">
+      <Filter>include\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Essence\EssenceOrb.h">
+      <Filter>include\Essence</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -216,6 +234,18 @@
     </Filter>
     <Filter Include="src\Utility">
       <UniqueIdentifier>{ab6673a2-9c12-41d5-b805-9ea2e41d0bca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Essence">
+      <UniqueIdentifier>{a14cc5e7-0f03-42ab-a7d3-22158be74c29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Effect">
+      <UniqueIdentifier>{2c522a5e-a4ca-43e6-bfa2-cabcd3b79e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Essence">
+      <UniqueIdentifier>{694f5678-9e6b-4088-8b39-56719c20c76a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Effect">
+      <UniqueIdentifier>{e3c45a99-55bf-47da-9f59-77710b5784ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

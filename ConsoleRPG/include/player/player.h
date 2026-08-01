@@ -1,5 +1,6 @@
 ﻿// Copyright 2026/07/30 JinHo
 
+
 #pragma once
 
 #include <stdlib.h>
@@ -10,8 +11,7 @@
 #include <vector>
 #include <string>
 
-enum class Pstat
-{
+enum class Pstat {
     Hp,
     Mp,
     MaxHp,
@@ -32,18 +32,24 @@ enum class Pstat
     MaxExp
 };
 
-
+class Essence;
 
 class Player {
- public:
-     // operator
-     int& operator[](const Pstat target);
-     const int& operator[](const Pstat target) const;
+public:
+    // operator
+
+    int& operator[](const Pstat target);
+    const int& operator[](const Pstat target) const;
+
+    int& operator[](const std::string& target);
+    const int& operator[](const std::string& target) const;
 
     // virtual
+
     virtual ~Player() = default;
 
     // Getter
+
     int GetGold() const;
 
     int GetLevel() const;
@@ -64,11 +70,12 @@ class Player {
     int GetCurrentDefence() const;
 
     std::string GetName() const;
-    std::string GetJob() const;
+    std::string GetEssence() const;
 
     std::string GetSkill() const;
 
     // Setter
+
     void SetGold(int gold);
 
     void SetLevel(int level);
@@ -90,18 +97,21 @@ class Player {
     void SetCurrentDefence(int currentDefence);
 
     void SetName(std::string name);
-    void SetJob(std::string job);
+    void SetEssence(std::string essence);
 
-    void SetSkill(std::string job);
+    void SetSkill(std::string skill);
 
     // Function
     void SyncToBase(Pstat target);
 
     void SyncToMax(Pstat target);
 
-    void GetEffect(Pstat target, int num);
+    void ApplyEffect(Pstat target, int num);
 
- protected:
+    void SetEssence(const Essence& essence);
+
+    // Constructor
+
     explicit Player(std::string name,
                     int level = 1,
                     int baseMaxHp = 200,
@@ -109,6 +119,9 @@ class Player {
                     int basePower = 30,
                     int baseDefence = 5,
                     std::string skill = "Punch!");
+
+
+protected:
 
     int gold;
 
@@ -132,8 +145,13 @@ class Player {
     int buffPower = 0;
     int buffDefence = 0;
 
+    int attack = 0;
+    int guard = 0;
+
     std::string name;
-    std::string job;
+    std::string essence;
 
     std::string skill;
 };
+
+Player& MakePlayer();
