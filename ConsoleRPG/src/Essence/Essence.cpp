@@ -28,7 +28,6 @@ Essence::Essence(std::string name,
 // Function
 void Essence::Skill(Player& player) {
     if (this->name == "Slime") {
-        return;
     } else if (this->name == "Zombie") {
     } else if (this->name == "Goblin") {
     } else if (this->name == "Wild Wolf") {

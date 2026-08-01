@@ -110,6 +110,25 @@ public:
 
     void SetEssence(const Essence& essence);
 
+    void ViewStatus();
+
+    // singleton
+    static Player& GetInstance() {
+        static Player instance = []() {
+            std::string name;
+
+            std::cout << "닉네임을 입력해 주세요.\n";
+            std::cout << "닉네임: ";
+            std::cin >> name;
+
+            return Player(name);
+            }();
+
+        return instance;
+    }
+
+
+protected:
     // Constructor
 
     explicit Player(std::string name,
@@ -118,10 +137,7 @@ public:
                     int baseMaxMp = 100,
                     int basePower = 30,
                     int baseDefence = 5,
-                    std::string skill = "Punch!");
-
-
-protected:
+                    std::string skill = "주먹질!");
 
     int gold;
 
@@ -153,5 +169,3 @@ protected:
 
     std::string skill;
 };
-
-Player& MakePlayer();

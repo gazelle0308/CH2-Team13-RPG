@@ -5,5 +5,5 @@
 
 #include "player/player.h"
 
-void LevelUpPlayer(Player& player);
-void HuntRewardExp(int exp, Player& player);
+void LevelUpPlayer();
+void HuntRewardExp(int exp);
