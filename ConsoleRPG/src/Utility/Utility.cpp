@@ -27,6 +27,7 @@ bool ignoreCaseCompare(const std::string& oneString,
 
 
 // check to large case
+
 bool IsLargeCase(char data) {
     if (data >= 65 &&
         data <= 90) {
@@ -36,6 +37,7 @@ bool IsLargeCase(char data) {
 }
 
 // check to small case
+
 bool IsSmallCase(char data) {
     if (data >= 97 &&
         data <= 122) {
