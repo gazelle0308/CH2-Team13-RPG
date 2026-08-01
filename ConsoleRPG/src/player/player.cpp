@@ -8,6 +8,7 @@
 #include <algorithm>
 
 #include "Utility/Utility.h"
+
 #include "Essence/EssenceOrb.h"
 
 
@@ -68,6 +69,8 @@ const int& Player::operator[](const Pstat target) const {
         return this->attack;
     } else if (target == Pstat::Guard) {
         return this->guard;
+    } else {
+        throw std::out_of_range("Unknown Pstat");
     }
 }
 
@@ -283,7 +286,7 @@ void Player::ApplyEffect(Pstat target, int num) {
 
 void Player::SetEssence(const Essence& essence) {
     if (essence.GetName() == "False") {
-        std::cout << "Fail To Use Essence \n";
+        std::cout << "정수 사용에 실패 했습니다! \n";
         return;
     }
     if (essence.GetEnable()) {
@@ -291,33 +294,44 @@ void Player::SetEssence(const Essence& essence) {
         this->currentMaxMp = this->baseMaxMp + essence.GetMp();
         this->currentPower = this->basePower + essence.GetPower();
         this->currentDefence = this->baseDefence + essence.GetDefence();
+        this->essence = essence.GetName();
     } else {
         this->SyncToBase(Pstat::MaxHp);
         this->SyncToBase(Pstat::MaxMp);
         this->SyncToBase(Pstat::Power);
         this->SyncToBase(Pstat::Defence);
+        this->essence = "미장착";
     }
 }
+
+void Player::ViewStatus() {
+    std::cout << "<플레이어>\n";
+    std::cout << "이름: " << this->name << " 정수: " << this->essence << "\n";
+    std::cout << "레벨: " << this->level << " 경험치: " << this->exp << "/" << this->maxExp << " 골드: " << this->gold << "\n";
+    std::cout << "HP: " << this->currentHp << "/" << this->currentMaxHp << " MP: " << this->currentMp << "/" << this->currentMaxMp << "\n";
+    std::cout << "공격력: " << this->currentPower << " 방어력: " << this->currentDefence << " 스킬: " << this->skill << "\n";
+}
+
 
 // Constructor
 
 Player::Player(std::string name,
-    int baseMaxHp,
-    int baseMaxMp,
-    int power,
-    int defence,
-    int level,
-    std::string skill)
-    :name(name),
-    baseMaxHp(baseMaxHp),
-    baseMaxMp(baseMaxMp),
-    basePower(basePower),
-    baseDefence(baseDefence),
-    level(level),
-    skill(skill) {
-    if (this->essence.empty()) {
-        this->essence = "NonEssence";
-    }
+               int level,
+               int baseMaxHp,
+               int baseMaxMp,
+               int basePower,
+               int baseDefence,
+               std::string skill)
+               :name(name),
+               level(level),
+               baseMaxHp(baseMaxHp),
+               baseMaxMp(baseMaxMp),
+               basePower(basePower),
+               baseDefence(baseDefence),
+               skill(skill) {
+               if (this->essence.empty()) {
+                   this->essence = "미장착";
+               }
 
     this->maxExp = 100;
     this->exp = 0;
@@ -332,17 +346,4 @@ Player::Player(std::string name,
 
     this->attack = currentPower;
     this->guard = currentDefence;
-}
-
-Player& MakePlayer() {
-
-    std::string nameBuf;
-
-    std::cout << "닉네임을 입력해 주세요.\n";
-    std::cout << "닉네임: ";
-    std::cin >> nameBuf;
-
-    Player player(nameBuf);
-
-    return player;
 }

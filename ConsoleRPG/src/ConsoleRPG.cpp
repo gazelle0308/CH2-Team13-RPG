@@ -9,6 +9,8 @@
 #include "InventorySystem/InventorySystem.h"
 #include "ShopSystem/ShopSystem.h"
 #include "Player/Player.h"
+#include "Essence/EssenceOrb.h"
+#include "LevelUp/levelUp.h"
 
 int main()
 {
@@ -19,9 +21,9 @@ int main()
 	const std::vector<std::string> itemIds = ItemDataBase::GetInstance().GetAllItemIds();
 
 	InventorySystem::GetInstance().ExpandInventory(1000);
-
 	for (const std::string id : itemIds)
 	{
 		InventorySystem::GetInstance().AddItem(id, 11);
 	}
+
 }

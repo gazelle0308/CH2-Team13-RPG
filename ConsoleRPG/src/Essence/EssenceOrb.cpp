@@ -51,25 +51,26 @@ Essence& EssenceOrb::operator[](int index) {
 
 // Function
 
-Essence& EssenceOrb::UseEssence(int index) {
-    if (index > 24 || index <= 0) {
+Essence& EssenceOrb::UseEssence(std::string name) {
+    int essence = this->NameToIndex(name);
+    if (essence == -1) {
         return this->orb[25];
     }
-    if (this->orb[index - 1].GetLock()) {
+    if (this->orb[essence].GetLock()) {
         return this->orb[25];
     }
-    if (this->orb[index - 1].GetEnable()) {
-        this->orb[index - 1].DisableEssence();
-        return this->orb[index - 1];
+    if (this->orb[essence].GetEnable()) {
+        this->orb[essence].DisableEssence();
+        return this->orb[essence];
     } else {
-        this->orb[index - 1].EnableEssence();
+        this->orb[essence].EnableEssence();
         for (int loop = 0; loop < 25; loop = loop + 1) {
-            if (index - 1 == loop) {
+            if (essence == loop) {
                 continue;
             }
             this->orb[loop].DisableEssence();
         }
-        return this->orb[index - 1];
+        return this->orb[essence];
     }
 }
 
@@ -99,36 +100,35 @@ int EssenceOrb::NameToIndex(std::string name) {
 }
 
 void EssenceOrb::AcquireEssence(std::string name) {
-
     int essence = this->NameToIndex(name);
     int Gain = 1;
     int choice = -1;
 
-    // ¸ó½ºÅÍ name °ª È®ÀÎ
+    // ëª¬ìŠ¤í„° name ê°’ í™•ì¸
     if (essence == -1) {
-        throw std::logic_error("¿¡·¯! Àü´Þ ¹ÞÀº ÀÎÀÚ" + name + "ÀÇ Á¤º¸°¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù!");
+        throw std::logic_error("ì—ëŸ¬! ì „ë‹¬ ë°›ì€ ì¸ìž" + name + "ì˜ ì •ë³´ê°€ ì¡´ìž¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤!");
     }
-    // ÀÌ¹Ì ¾òÀº Á¤¼ö ¼±ÅÃÁöX
+    // ì´ë¯¸ ì–»ì€ ì •ìˆ˜ ì„ íƒì§€X
     if (!this->orb[essence].GetLock()) {
         return;
     }
 
-    std::cout << "¹æ±Ý ÀüÅõÇÑ ¸ó½ºÅÍÀÇ Á¤¼ö¸¦ ¹ß°ßÇß½À´Ï´Ù!.\n";
-    std::cout << "È¹µæ ÇÏ½Ã°Ú½À´Ï±î?\n(È¹µæ : 1, Æ÷±â : ¾Æ¹« Å°³ª ÀÔ·Â): ";
+    std::cout << "ë°©ê¸ˆ ì „íˆ¬í•œ ëª¬ìŠ¤í„°ì˜ ì •ìˆ˜ë¥¼ ë°œê²¬í–ˆìŠµë‹ˆë‹¤!.\n";
+    std::cout << "íšë“ í•˜ì‹œê² ìŠµë‹ˆê¹Œ?\n(íšë“ : 1, í¬ê¸° : ì•„ë¬´ í‚¤ë‚˜ ìž…ë ¥): ";
 
     if (!(std::cin >> choice)) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-        std::cout << "Á¤¼ö È¹µæÀ» Æ÷±âÇÏ¼Ì½À´Ï´Ù!\n";
+        std::cout << "ì •ìˆ˜ íšë“ì„ í¬ê¸°í•˜ì…¨ìŠµë‹ˆë‹¤!\n";
         return;
     }
 
     if (choice != Gain) {
-        std::cout << "Á¤¼ö È¹µæÀ» Æ÷±âÇÏ¼Ì½À´Ï´Ù!\n";
+        std::cout << "ì •ìˆ˜ íšë“ì„ í¬ê¸°í•˜ì…¨ìŠµë‹ˆë‹¤!\n";
         return;
     }
 
     this->orb[essence].OpenEssence();
-    std::cout << "Á¤¼ö" << this->orb[essence].GetName() << "À» È¹µæÇÏ¼Ì½À´Ï´Ù! \n";
+    std::cout << "ì •ìˆ˜" << this->orb[essence].GetName() << "ì„ íšë“í•˜ì…¨ìŠµë‹ˆë‹¤! \n";
 }

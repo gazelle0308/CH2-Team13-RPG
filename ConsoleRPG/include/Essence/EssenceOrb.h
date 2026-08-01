@@ -8,10 +8,7 @@
 #include "Essence.h"
 
 class EssenceOrb {
- public:
-    // Constructor
-
-    EssenceOrb();
+public:
 
     // Destructor
 
@@ -23,7 +20,7 @@ class EssenceOrb {
 
     // Function
 
-    Essence& UseEssence(int index);
+    Essence& UseEssence(std::string name);
 
     std::string GetOrbInfo();
 
@@ -31,7 +28,16 @@ class EssenceOrb {
 
     void AcquireEssence(std::string name);
 
- private:
+    // singleton
+    static EssenceOrb& GetInstance() {
+        static EssenceOrb instance;
+        return instance;
+    };
+
+private:
+    // Constructor
+
+    EssenceOrb();
 
     Essence orb[26];
 };

@@ -1,15 +1,22 @@
 ﻿// Copyright 2026/07/30 JinHo
-
+/*
 #pragma once
 
 template<typename Entity>
 class Effect {
  public:
 
-     void EffectAType();
-     void EffectBType();
+     void EffectAType() {
+         // this->entity.Gettter();
+         // this->entity.Setter();
+     }
 
-     void 9::(int effect) {
+     void EffectBType() {
+         // this->entity.Gettter();
+         // this->entity.Setter();
+     }
+
+     void CountDown(int effect) {
          if (LeftTurn[effect] == 0) { return; }
 
          this->LeftTurn[effect] = this->LeftTurn[effect] - 1;
@@ -24,5 +31,5 @@ class Effect {
 
      int LeftTurn[] = {};
 
-     boolonBuff[] = {};
-};
+     bool onBuff[] = {};
+};*/
