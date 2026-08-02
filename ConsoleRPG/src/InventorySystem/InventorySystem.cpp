@@ -1,4 +1,4 @@
-﻿#include "InventorySystem/InventorySystem.h"
+#include "InventorySystem/InventorySystem.h"
 
 void InventorySystem::ShowInventoryInNormal()
 {
@@ -11,7 +11,18 @@ void InventorySystem::ShowInventoryInNormal()
 	}
 }
 
-void InventorySystem::ShowInventoryInShop(float buybackRate, int& totalBuyPrice)
+void InventorySystem::ShowInventoryInBattle()
+{
+	bool isEnd{};
+
+	while (!isEnd)
+	{
+		PrintInventoryItems(EInventoryViewMode::Battle);
+		HandleBattleInventoryOptions(isEnd);
+	}
+}
+
+void InventorySystem::ShowInventoryInShop(double buybackRate, int& totalBuyPrice)
 {
 	bool isEnd{};
 
@@ -22,9 +33,38 @@ void InventorySystem::ShowInventoryInShop(float buybackRate, int& totalBuyPrice)
 	}
 }
 
-void InventorySystem::ExpandInventory(int size)
+void InventorySystem::ShowInventoryInPotionWorkshop()
 {
-	inventorySize += size;
+	PrintInventoryItems(EInventoryViewMode::PotionWorkshop);
+}
+
+bool InventorySystem::CanCraftPotion(const std::vector<std::pair<int, int>> materials, std::string potionId, int potionCount)
+{
+	std::vector<FInventorySlot> tmpItems(items);
+
+	for (const std::pair<int, int> material : materials)
+	{
+		RemoveItem(material.first, material.second);
+	}
+
+	if (AddItem(potionId, potionCount))
+	{
+		return true;
+	}
+
+	items = tmpItems;
+
+	return false;
+}
+
+const FItemData& InventorySystem::GetItemData(int index) const
+{
+	if (index < 0 || inventoryCount <= index)
+	{
+		return FItemData();
+	}
+
+	return items[index].itemData;
 }
 
 void InventorySystem::ClearScreen() const
@@ -37,31 +77,56 @@ void InventorySystem::ClearScreen() const
 	system("cls");
 }
 
-void InventorySystem::PrintInventoryItems(EInventoryViewMode mode, float buybackRate) const
+void InventorySystem::PrintInventoryItems(EInventoryViewMode mode, double buybackRate) const
 {
-	std::cout << "========================================" << std::endl;
+	FEnumDisplay enumDisplay;
+
+	std::cout << "================================================================" << std::endl;
 	std::string str
-		= std::format("            인벤토리 ({}/{})            ", inventoryCount, inventorySize);
+		= std::format("                        인벤토리 ({}/{})                        ", inventoryCount, inventorySize);
 	std::cout << str << std::endl;
-	std::cout << "========================================" << std::endl;
+	std::cout << "================================================================" << std::endl;
 
 	for (int index = 0; index < inventoryCount; index++)
 	{
-		std::string info{};
-		std::string itemInfo{};
 		std::string itemName = items[index].itemData.name;
 		int itemCount = items[index].count;
+		std::string itemInfo = std::format("{} x{}", itemName, itemCount);
+		std::string info{};
 
-		if (mode == EInventoryViewMode::Normal)
+		if (mode == EInventoryViewMode::Battle)
 		{
-			itemInfo = std::format("{} x{}", itemName, itemCount);
+			if (items[index].itemData.category != EItemCategory::Consumable)
+			{
+				continue;
+			}
+
+			const std::vector<FConsumableEffect> effects = ItemDataBase::GetInstance().GetConsumableEffects(items[index].itemData.id);
+			std::string effect{};
+			effect = std::accumulate(effects.begin(), effects.end(), effect, [&enumDisplay](std::string result, const FConsumableEffect& e) {
+				std::string s = std::format("{} +{}", enumDisplay.GetConsumableTypeDisplayName(e.consumableType), e.value);
+				return result + s + ", ";
+				});
+			effect.erase(effect.end() - 2, effect.end());
+			itemInfo = std::format("{} ({}) x{}", itemName, effect, itemCount);
+		}
+		else if (mode == EInventoryViewMode::PotionWorkshop)
+		{
+			if (items[index].itemData.category != EItemCategory::Material)
+			{
+				continue;
+			}
+
+			EMaterialType materialType = ItemDataBase::GetInstance().GetMaterialType(items[index].itemData.id);
+			std::string mT = enumDisplay.GetMaterialTypeDisplayName(materialType);
+			itemInfo = std::format("{} ({}) x{}", itemName, mT, itemCount);
 		}
 		else if (mode == EInventoryViewMode::Shop)
 		{
 			int itemPrice = int(items[index].itemData.price * buybackRate); // 낮춘 가격으로 판매 가능
 			itemInfo = std::format("{} ({}G) x{}", itemName, itemPrice, itemCount);
 		}
-
+		
 		info = std::format("{}. {}", index + 1, itemInfo);
 
 		std::cout << info << std::endl;
@@ -76,9 +141,10 @@ void InventorySystem::HandleNormalInventoryOptions(bool& isEnd)
 	std::cout << std::endl;
 	std::cout << "======= 선택 =======" << std::endl;
 	std::cout << "1. 조회" << std::endl;
-	std::cout << "2. 정렬 (이름순)" << std::endl;
-	std::cout << "3. 정렬 (가격순)" << std::endl;
-	std::cout << "4. 정렬 (기능순)" << std::endl;
+	std::cout << "2. 정렬 (기본)" << std::endl;
+	std::cout << "3. 정렬 (이름순)" << std::endl;
+	std::cout << "4. 정렬 (가격순)" << std::endl;
+	std::cout << "5. 정렬 (기능순)" << std::endl;
 	std::cout << "0. 돌아가기" << std::endl;
 
 	while (!isOk)
@@ -95,14 +161,18 @@ void InventorySystem::HandleNormalInventoryOptions(bool& isEnd)
 			HandleNormalItemSelection();
 			break;
 		case 2:
-			SortByName();
+			SortOriginal();
 			ClearScreen();
 			break;
 		case 3:
-			SortByPrice();
+			SortByName();
 			ClearScreen();
 			break;
 		case 4:
+			SortByPrice();
+			ClearScreen();
+			break;
+		case 5:
 			SortByFunc();
 			ClearScreen();
 			break;
@@ -119,7 +189,47 @@ void InventorySystem::HandleNormalInventoryOptions(bool& isEnd)
 	}
 }
 
-void InventorySystem::HandleShopInventoryOptions(float buybackRate, int& totalBuyPrice, bool& isEnd)
+void InventorySystem::HandleBattleInventoryOptions(bool& isEnd)
+{
+	int number{};
+	bool isOk{};
+
+	while (!isOk)
+	{
+		std::cout << std::endl;
+		std::cout << "사용할 아이템 번호 입력(0: 돌아가기): ";
+		std::cin >> number;
+
+		isOk = true;
+
+		if (number == 0)
+		{
+			isEnd = true;
+			std::cout << "전투 메뉴로 돌아갑니다." << std::endl;
+			ClearScreen();
+		}
+		else if (1 <= number && number <= inventoryCount)
+		{
+			if (items[number - 1].itemData.category == EItemCategory::Consumable)
+			{
+				UseItem(number - 1);
+				ClearScreen();
+			}
+			else
+			{
+				isOk = false;
+				std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+			}
+		}
+		else
+		{
+			isOk = false;
+			std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+		}
+	}
+}
+
+void InventorySystem::HandleShopInventoryOptions(double buybackRate, int& totalBuyPrice, bool& isEnd)
 {
 	int number{};
 	bool isOk{};
@@ -189,12 +299,12 @@ void InventorySystem::PrintItemInfo(int index) const
 	std::string count = std::format("개수: {}개", GetTotalItemCount(index));
 
 	std::cout << std::endl;
-	std::cout << "-------------------------------" << std::endl;
+	std::cout << "------------------------------------------------------------" << std::endl;
 	std::cout << name << std::endl;
 	std::cout << description << std::endl;
 	std::cout << price << std::endl;
 	std::cout << count << std::endl;
-	std::cout << "-------------------------------" << std::endl;
+	std::cout << "------------------------------------------------------------" << std::endl;
 }
 
 void InventorySystem::HandleNormalItemOptions(int index)
@@ -284,7 +394,7 @@ void InventorySystem::HandleNormalNonUsableItemOptions(int index)
 	}
 }
 
-void InventorySystem::HandleShopItemOptions(int index, float buybackRate, int& totalBuyPrice)
+void InventorySystem::HandleShopItemOptions(int index, double buybackRate, int& totalBuyPrice)
 {
 	int number{};
 	bool isOk{};
@@ -539,6 +649,11 @@ bool InventorySystem::UseItem(int index)
 	return true;
 }
 
+void InventorySystem::SortOriginal()
+{
+	MergeSameItems();
+}
+
 void InventorySystem::SortByName()
 {
 	std::sort(items.begin(), items.end(), compareName);
@@ -573,13 +688,12 @@ void InventorySystem::MergeSameItems()
 		if (items[i].itemData.id != prevId)
 		{
 			prevId = items[i].itemData.id;
+
 			totalCount = GetTotalItemCount(i);
 			itemMaxStackCount = items[i].itemData.maxStackCount;
 			fullSlot = totalCount / itemMaxStackCount;
 			remainder = totalCount % itemMaxStackCount;
 
-			std::cout << fullSlot << " " << remainder << std::endl;
-			
 			FInventorySlot inventorySlot;
 			inventorySlot.itemData = items[i].itemData;
 			inventorySlot.count = itemMaxStackCount;
@@ -601,4 +715,9 @@ void InventorySystem::MergeSameItems()
 
 	items = newItems;
 	inventoryCount = newInventoryCount;
+}
+
+void InventorySystem::ExpandInventory(int size)
+{
+	inventorySize += size;
 }

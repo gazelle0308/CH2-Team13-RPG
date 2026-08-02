@@ -96,6 +96,30 @@
         "maxStackCount": 5
     },
     {
+        "id": "ITEM_CONSUMABLE_POTION_HP_MP",
+        "category": "Consumable",
+        "name": "HP/MP 포션",
+        "description": "HP와 MP를 200씩 회복합니다.",
+        "price": 300,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_DEFENCE",
+        "category": "Consumable",
+        "name": "공격력/방어력 포션",
+        "description": "공격력과 방어력을 30씩 증가시킵니다.",
+        "price": 500,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_ELIXIR",
+        "category": "Consumable",
+        "name": "엘릭서",
+        "description": "HP와 MP를 999씩 회복하고, 공격력과 방어력을 50씩 증가시킵니다.",
+        "price": 1000,
+        "maxStackCount": 5
+    },
+    {
         "id": "ITEM_UPGRADE_BACKPACK_SMALL",
         "category": "Upgrade",
         "name": "가방(소형)",
@@ -317,6 +341,14 @@
         "name": "불사조의 깃털",
         "description": "불사조의 깃털입니다. 포션 제작에 원재료로 사용됩니다.",
         "price": 50,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_FAILED_POTION",
+        "category": "Material",
+        "name": "실패한 포션",
+        "description": "실패한 포션입니다. 아무 쓸모도 없습니다.",
+        "price": 5,
         "maxStackCount": 99
     }
 ]

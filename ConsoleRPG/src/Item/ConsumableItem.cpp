@@ -5,20 +5,23 @@ void ConsumableItem::Use()
 	PrintUseMessage();
 	
 	// Player stat change
-	switch (consumableItemData.consumableType)
+	for (const FConsumableEffect& effect : consumableItemData.effects)
 	{
-	case EConsumableType::Hp:
-		// hp
-		break;
-	case EConsumableType::Mp:
-		// mp
-		break;
-	case EConsumableType::Power:
-		// power
-		break;
-	case EConsumableType::Defence:
-		// defence
-		break;
+		switch (effect.consumableType)
+		{
+		case EConsumableType::Hp:
+			// hp
+			break;
+		case EConsumableType::Mp:
+			// mp
+			break;
+		case EConsumableType::Power:
+			// power
+			break;
+		case EConsumableType::Defence:
+			// defence
+			break;
+		}
 	}
 }
 
@@ -27,10 +30,14 @@ void ConsumableItem::PrintUseMessage() const
 	Item::PrintUseMessage();
 
 	FEnumDisplay enumDisplay;
-	std::string displayName = enumDisplay.GetConsumableTypeDisplayName(consumableItemData.consumableType);
-	std::string message = std::format("{}이(가) {} 증가했습니다.", displayName, consumableItemData.value);
-	std::cout << message << std::endl;
-	// AddLog(message);
+
+	for (const FConsumableEffect& effect : consumableItemData.effects)
+	{
+		std::string displayName = enumDisplay.GetConsumableTypeDisplayName(effect.consumableType);
+		std::string message = std::format("{}이(가) {} 증가했습니다.", displayName, effect.value);
+		std::cout << message << std::endl;
+		// AddLog(message);
+	}
 }
 
 void ConsumableItem::SetConsumableData(std::string id)
@@ -43,12 +50,19 @@ const FConsumableItemData& ConsumableItem::GetConsumableData() const
 	return consumableItemData;
 }
 
-const EConsumableType ConsumableItem::GetConsumableType() const
+const std::vector<FConsumableEffect>& ConsumableItem::GetConsumableEffects() const
 {
-	return consumableItemData.consumableType;
+	return consumableItemData.effects;
 }
 
-const int ConsumableItem::GetValue() const
+const std::vector<EConsumableType>& ConsumableItem::GetConsumableTypes() const
 {
-	return consumableItemData.value;
+	std::vector<EConsumableType> consumableTypes{};
+
+	for (const FConsumableEffect& effect : consumableItemData.effects)
+	{
+		consumableTypes.push_back(effect.consumableType);
+	}
+
+	return consumableTypes;
 }

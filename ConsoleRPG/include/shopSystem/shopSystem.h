@@ -5,17 +5,17 @@
 #include <vector>
 #include <string>
 #include "Types/ShopTypes.h"
+#include "DataBase/ItemDataBase.h"
 #include "DataBase/ShopDataBase.h"
+#include "Player/Player.h"
 
-class Player;
 class InventorySystem;
 
 class ShopSystem
 {
 private:
 	std::vector<FShopItemData> shopItems;
-	float buybackRate;
-	Player* player;
+	double buybackRate;
 
 private:
 	ShopSystem() : buybackRate(0.6) {
@@ -37,22 +37,22 @@ public:
 		return instance;
 	}
 
-	void ShowShop(Player* InPlayer);
+	void ShowShop();
 
 private:
-	const void SetShopData();
+	void SetShopData();
 
 	void ClearScreen() const;
 	void HandleShopOptions(bool& isEnd);
 	void PrintShopItems() const;
 	void HandleSellOptions();
-	void HandleBuyOption();
+	void HandleBuyOption() const;
 	void HandleItemSelection();
 	void PrintItemInfo(int index) const;
 	void HandleItemOptions(int index);
 	void HandleSellItem(int index);
 
-	void SellToPlayer(int index, int count, int price); // Player 인자 넣기
-	void BuyFromPlayer(int totalBuyPrice); // Player 인자 넣기
+	void SellToPlayer(int index, int count, int price);
+	void BuyFromPlayer(int totalBuyPrice) const;
 };
 

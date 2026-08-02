@@ -129,6 +129,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DataBase\PotionRecipeDataBase.cpp" />
+    <ClCompile Include="src\PotionWorkshop\PotionWorkshop.cpp" />
     <ClCompile Include="src\Battle\Battle.cpp" />
     <ClCompile Include="src\Boss\Boss.cpp" />
     <ClCompile Include="src\ConsoleRPG.cpp" />
@@ -163,16 +165,20 @@
     <ClInclude Include="include\Monster\Monster.h" />
     <ClInclude Include="include\nlohmann\json.hpp" />
     <ClInclude Include="include\Player\Player.h" />
+    <ClInclude Include="include\Types\PotionWorkshopTypes.h" />
     <ClInclude Include="include\Types\ShopTypes.h" />
     <ClInclude Include="include\Utility\Utility.h" />
     <ClInclude Include="include\shopSystem\ShopSystem.h" />
     <ClInclude Include="include\Types\InventoryTypes.h" />
     <ClInclude Include="include\Types\ItemTypes.h" />
+    <ClInclude Include="include\PotionWorkshop\PotionWorkshop.h" />
+    <ClInclude Include="include\DataBase\PotionRecipeDataBase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\consumables.json" />
     <None Include="data\items.json" />
     <None Include="data\materials.json" />
+    <None Include="data\potionRecipes.json" />
     <None Include="data\shopItems.json" />
     <None Include="data\upgrades.json" />
   </ItemGroup>

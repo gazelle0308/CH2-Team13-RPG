@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <vector>
 #include <string>
 #include <unordered_map>
 
@@ -45,11 +46,16 @@ struct FItemData
 	int maxStackCount = 0;
 };
 
+struct FConsumableEffect
+{
+	EConsumableType consumableType = EConsumableType::None;
+	int value = 0;
+};
+
 struct FConsumableItemData
 {
 	std::string id = "ITEM";
-	EConsumableType consumableType = EConsumableType::None;
-	int value = 0;
+	std::vector<FConsumableEffect> effects;
 };
 
 struct FUpgradeItemData
@@ -86,7 +92,7 @@ private:
 	};
 	std::unordered_map<EItemCategory, std::string> itemCategoryDisplayNameMap =
 	{
-		{EItemCategory::None, "???"},
+		{EItemCategory::None, ""},
 		{EItemCategory::Consumable, "소비"},
 		{EItemCategory::Upgrade, "강화"},
 		{EItemCategory::Material, "기타"},
@@ -109,7 +115,7 @@ private:
 	};
 	std::unordered_map<EConsumableType, std::string> consumableDisplayNameMap =
 	{
-		{EConsumableType::None, "???"},
+		{EConsumableType::None, ""},
 		{EConsumableType::Hp, "체력"},
 		{EConsumableType::Mp, "마력"},
 		{EConsumableType::Power, "공격력"},
@@ -127,7 +133,7 @@ private:
 	};
 	std::unordered_map<EUpgradeType, std::string> upgradeDisplayNameMap =
 	{
-		{EUpgradeType::None, "???"},
+		{EUpgradeType::None, ""},
 		{EUpgradeType::Inventory, "인벤토리"}
 	};
 	std::unordered_map<EMaterialType, std::string> materialToStringMap =
@@ -144,7 +150,7 @@ private:
 	};
 	std::unordered_map<EMaterialType, std::string> materialDisplayNameMap =
 	{
-		{EMaterialType::None, "???"},
+		{EMaterialType::None, ""},
 		{EMaterialType::Primary, "원재료"},
 		{EMaterialType::Secondary, "부재료"}
 	};

@@ -13,11 +13,13 @@ public:
         SetMaterialData(id);
     }
 
-    virtual void Use() override; // Player 인자 넣기
+    virtual void Use() override;
+
+private:
     virtual void PrintUseMessage() const override;
-    
     void SetMaterialData(std::string id);
 
+public:
     const FMaterialItemData& GetMaterialData() const;
     const EMaterialType GetMaterialType() const;
 };

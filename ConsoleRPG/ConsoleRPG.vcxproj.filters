@@ -52,6 +52,12 @@
     <ClCompile Include="src\Utility\Utility.cpp">
       <Filter>src\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="src\PotionWorkshop\PotionWorkshop.cpp">
+      <Filter>src\PotionWorkshop</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataBase\PotionRecipeDataBase.cpp">
+      <Filter>src\DataBase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\boss\boss.h">
@@ -111,6 +117,18 @@
     <ClInclude Include="include\monster\Monster.h">
       <Filter>include\Monster</Filter>
     </ClInclude>
+    <ClInclude Include="include\Types\ShopTypes.h">
+      <Filter>include\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Types\PotionWorkshopTypes.h">
+      <Filter>include\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataBase\PotionRecipeDataBase.h">
+      <Filter>include\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PotionWorkshop\PotionWorkshop.h">
+      <Filter>include\PotionWorkshop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\items.json">
@@ -123,6 +141,12 @@
       <Filter>data</Filter>
     </None>
     <None Include="data\upgrades.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\shopItems.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\potionRecipes.json">
       <Filter>data</Filter>
     </None>
   </ItemGroup>
@@ -216,6 +240,12 @@
     </Filter>
     <Filter Include="src\Utility">
       <UniqueIdentifier>{ab6673a2-9c12-41d5-b805-9ea2e41d0bca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PotionWorkshop">
+      <UniqueIdentifier>{b7c5354c-e384-43df-aa8c-fd38b271be77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PotionWorkshop">
+      <UniqueIdentifier>{ec21804f-86cb-4a22-a421-46f37b176809}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -16,10 +16,12 @@ public:
     }
 
     virtual void Use() override; // Player 인자 넣기
+
+private:
     virtual void PrintUseMessage() const override;
-    
     void SetUpgradeData(std::string id);
 
+public:
     const FUpgradeItemData& GetUpgradeData() const;
     const EUpgradeType GetUpgradeType() const;
     const int GetValue() const;

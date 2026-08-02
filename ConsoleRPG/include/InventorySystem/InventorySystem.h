@@ -13,8 +13,6 @@
 
 inline bool compareName(const FInventorySlot& a, const FInventorySlot& b)
 {
-	//std::string aName = a.item->GetName();
-	//std::string bName = b.item->GetName();
 	std::string aName = a.itemData.name;
 	std::string bName = b.itemData.name;
 
@@ -23,10 +21,13 @@ inline bool compareName(const FInventorySlot& a, const FInventorySlot& b)
 
 inline bool comparePrice(const FInventorySlot& a, const FInventorySlot& b)
 {
-	//int aPrice = a.item->GetPrice();
-	//int bPrice = b.item->GetPrice();
 	int aPrice = a.itemData.price;
 	int bPrice = b.itemData.price;
+
+	if (aPrice == bPrice) // 동일한 경우 넘기면 Merge 함수 동작 제대로 안 됨
+	{
+		return a.itemData.id < b.itemData.id;
+	}
 
 	return aPrice < bPrice;
 }
@@ -35,8 +36,6 @@ inline bool compareFunc(const FInventorySlot& a, const FInventorySlot& b)
 {
 	// id를 ITEM_CONSUMABLE_HP_01 과 같은 형식으로 설정했음을 전제
 
-	//std::string aId = a.item->GetId();
-	//std::string bId = b.item->GetId();
 	std::string aId = a.itemData.id;
 	std::string bId = b.itemData.id;
 
@@ -51,7 +50,9 @@ private:
 	int inventoryCount;
 
 private:
-	InventorySystem() : inventorySize(20), inventoryCount(0) {}
+	InventorySystem() : inventorySize(20), inventoryCount(0) {
+		items.clear();
+	}
 
 	// 복사 방지
 	InventorySystem(const InventorySystem&) = delete;
@@ -68,31 +69,40 @@ public:
 		return instance;
 	}
 
-	void ShowInventoryInNormal(); // Player 인자 넣기
-	void ShowInventoryInShop(float buybackRate, int& totalBuyPrice);
-	void ExpandInventory(int size);
+	void ShowInventoryInNormal();
+	void ShowInventoryInBattle();
+	void ShowInventoryInShop(double buybackRate, int& totalBuyPrice);
+	void ShowInventoryInPotionWorkshop();
 
-public:
+	bool CanCraftPotion(const std::vector<std::pair<int, int>> materials, std::string potionId, int potionCount);
+	const FItemData& GetItemData(int index) const;
+
+//private:
+public: // 테스트 위해 public 설정
 	void ClearScreen() const;
-	void PrintInventoryItems(EInventoryViewMode mode, float buybackRate = 1) const;
+	void PrintInventoryItems(EInventoryViewMode mode, double buybackRate = 1) const;
 	void HandleNormalInventoryOptions(bool& isEnd);
-	void HandleShopInventoryOptions(float buybackRate, int& totalBuyPrice, bool& isEnd);
+	void HandleBattleInventoryOptions(bool& isEnd);
+	void HandleShopInventoryOptions(double buybackRate, int& totalBuyPrice, bool& isEnd);
 	void HandleNormalItemSelection();
 	void PrintItemInfo(int index) const;
 	void HandleNormalItemOptions(int index);
 	void HandleNormalUsableItemOptions(int index);
 	void HandleNormalNonUsableItemOptions(int index);
-	void HandleShopItemOptions(int index, float buybackRate, int& totalBuyPrice);
+	void HandleShopItemOptions(int index, double buybackRate, int& totalBuyPrice);
 	void HandleDiscardItem(int index);
 
 	bool AddItem(std::string id, int itemCount = 1);
 	bool RemoveItem(int index, int itemCount = 1);
 	int FindItem(std::string id) const; // -1: fail, 0~: index(동일한 아이템 존재 시 아이템 가장 적게 들어있는 슬롯)
 	int GetTotalItemCount(int index) const;
-	bool UseItem(int index); // Player 인자 넣기
+	bool UseItem(int index);
 
+	void SortOriginal();
 	void SortByName();
 	void SortByPrice();
 	void SortByFunc();
 	void MergeSameItems();
+
+	void ExpandInventory(int size);
 };

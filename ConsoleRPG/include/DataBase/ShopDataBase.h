@@ -37,9 +37,10 @@ public:
 		return instance;
 	}
 
+	// 테스트용
 	void PrintAllShopDatas() const;
 
+public:
 	const std::vector<FShopItemData>& GetShopItemDatas() const;
-	const FItemData& GetShopItemData(std::string id) const;
 };
 

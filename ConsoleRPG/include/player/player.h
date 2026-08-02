@@ -101,7 +101,8 @@ class Player {
 
     void GetEffect(Pstat target, int num);
 
- protected:
+ //protected:
+public:
     explicit Player(std::string name,
                     int level = 1,
                     int baseMaxHp = 200,

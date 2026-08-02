@@ -6,7 +6,7 @@ void ShopDataBase::LoadShopData()
 
 	if (!file.is_open())
 	{
-		std::cout << "파일 열기 실패\n";
+		std::cout << "파일 열기 실패" << std::endl;
 		return;
 	}
 
@@ -36,9 +36,4 @@ void ShopDataBase::PrintAllShopDatas() const
 const std::vector<FShopItemData>& ShopDataBase::GetShopItemDatas() const
 {
 	return shopItemDatas;
-}
-
-const FItemData& ShopDataBase::GetShopItemData(std::string id) const
-{
-	return ItemDataBase::GetInstance().GetItemData(id);
 }
