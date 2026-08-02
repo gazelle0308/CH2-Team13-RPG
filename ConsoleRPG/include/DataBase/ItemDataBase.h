@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <string>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
@@ -42,11 +43,13 @@ public:
 		return instance;
 	}
 
+	// 테스트용
 	void PrintAllItemData() const;
 	void PrintAllConsumableData() const;
 	void PrintAllUpgradeData() const;
 	void PrintAllMaterialData() const;
 
+public:
 	const std::vector<std::string> GetAllItemIds() const;
 
 	const FItemData& GetItemData(std::string id) const;
@@ -57,8 +60,8 @@ public:
 	const int GetMaxStackCount(std::string id) const;
 
 	const FConsumableItemData& GetConsumableData(std::string id) const;
-	const EConsumableType GetConsumableType(std::string id) const;
-	const int GetConsumableValue(std::string id) const;
+	const std::vector<FConsumableEffect>& GetConsumableEffects(std::string id) const;
+	const std::vector<EConsumableType>& GetConsumableTypes(std::string id) const;
 
 	const FUpgradeItemData& GetUpgradeData(std::string id) const;
 	const EUpgradeType GetUpgradeType(std::string id) const;

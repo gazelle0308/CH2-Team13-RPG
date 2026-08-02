@@ -8,7 +8,7 @@ void ItemDataBase::LoadItemData()
 
 	if (!file.is_open())
 	{
-		std::cout << "파일 열기 실패\n";
+		std::cout << "파일 열기 실패" << std::endl;
 		return;
 	}
 
@@ -38,7 +38,7 @@ void ItemDataBase::LoadConsumableData()
 
 	if (!file.is_open())
 	{
-		std::cout << "파일 열기 실패\n";
+		std::cout << "파일 열기 실패" << std::endl;
 		return;
 	}
 
@@ -50,8 +50,16 @@ void ItemDataBase::LoadConsumableData()
 		FConsumableItemData consumableData;
 
 		consumableData.id = item["id"];
-		consumableData.consumableType = enumDisplay.GetConsumableTypeToEnum(item["consumableType"]);
-		consumableData.value = item["value"];
+
+		for (const auto& effect : item["effects"])
+		{
+			FConsumableEffect consumableEffect;
+
+			consumableEffect.consumableType = enumDisplay.GetConsumableTypeToEnum(effect["consumableType"]);
+			consumableEffect.value = effect["value"];
+
+			consumableData.effects.push_back(consumableEffect);
+		}
 
 		consumableDataMap.emplace(consumableData.id, consumableData);
 	}
@@ -65,7 +73,7 @@ void ItemDataBase::LoadUpgradeData()
 
 	if (!file.is_open())
 	{
-		std::cout << "파일 열기 실패\n";
+		std::cout << "파일 열기 실패" << std::endl;
 		return;
 	}
 
@@ -92,7 +100,7 @@ void ItemDataBase::LoadMaterialData()
 
 	if (!file.is_open())
 	{
-		std::cout << "파일 열기 실패\n";
+		std::cout << "파일 열기 실패" << std::endl;
 		return;
 	}
 
@@ -134,8 +142,11 @@ void ItemDataBase::PrintAllConsumableData() const
 	{
 		std::cout << std::format("ID: {}", iter->first) << std::endl;
 		std::cout << std::format("id: {}", iter->second.id) << std::endl;
-		std::cout << std::format("consumableType: {}", enumDisplay.GetConsumableTypeToString(iter->second.consumableType)) << std::endl;
-		std::cout << std::format("value: {}", iter->second.value) << std::endl;
+
+		for (const FConsumableEffect& effect : iter->second.effects)
+		{
+			std::cout << std::format("consumableType: {}, value: {}", enumDisplay.GetConsumableTypeToString(effect.consumableType), effect.value) << std::endl;
+		}
 	}
 }
 
@@ -178,70 +189,148 @@ const std::vector<std::string> ItemDataBase::GetAllItemIds() const
 
 const FItemData& ItemDataBase::GetItemData(std::string id) const
 {
+	if (!itemDataMap.contains(id))
+	{
+		return FItemData();
+	}
+
 	return itemDataMap.at(id);
 }
 
 const EItemCategory ItemDataBase::GetCategory(std::string id) const
 {
+	if (!itemDataMap.contains(id))
+	{
+		return EItemCategory::None;
+	}
+
 	return itemDataMap.at(id).category;
 }
 
 const std::string ItemDataBase::GetName(std::string id) const
 {
+	if (!itemDataMap.contains(id))
+	{
+		return std::string();
+	}
+
 	return itemDataMap.at(id).name;
 }
 
 const std::string ItemDataBase::GetDescription(std::string id) const
 {
+	if (!itemDataMap.contains(id))
+	{
+		return std::string();
+	}
+
 	return itemDataMap.at(id).description;
 }
 
 const int ItemDataBase::GetPrice(std::string id) const
 {
+	if (!itemDataMap.contains(id))
+	{
+		return int();
+	}
+
 	return itemDataMap.at(id).price;
 }
 
 const int ItemDataBase::GetMaxStackCount(std::string id) const
 {
+	if (!itemDataMap.contains(id))
+	{
+		return int();
+	}
+
 	return itemDataMap.at(id).maxStackCount;
 }
 
 const FConsumableItemData& ItemDataBase::GetConsumableData(std::string id) const
 {
+	if (!consumableDataMap.contains(id))
+	{
+		return FConsumableItemData();
+	}
+
 	return consumableDataMap.at(id);
 }
 
-const EConsumableType ItemDataBase::GetConsumableType(std::string id) const
+const std::vector<FConsumableEffect>& ItemDataBase::GetConsumableEffects(std::string id) const
 {
-	return consumableDataMap.at(id).consumableType;
+	if (!consumableDataMap.contains(id))
+	{
+		return std::vector<FConsumableEffect>();
+	}
+
+	return consumableDataMap.at(id).effects;
 }
 
-const int ItemDataBase::GetConsumableValue(std::string id) const
+const std::vector<EConsumableType>& ItemDataBase::GetConsumableTypes(std::string id) const
 {
-	return consumableDataMap.at(id).value;
+	if (!consumableDataMap.contains(id))
+	{
+		return std::vector<EConsumableType>();
+	}
+
+	std::vector<EConsumableType> consumableTypes{};
+	FConsumableItemData consumableItemData = consumableDataMap.at(id);
+
+	for (const FConsumableEffect& effect : consumableItemData.effects)
+	{
+		consumableTypes.push_back(effect.consumableType);
+	}
+
+	return consumableTypes;
 }
 
 const FUpgradeItemData& ItemDataBase::GetUpgradeData(std::string id) const
 {
+	if (!upgradeDataMap.contains(id))
+	{
+		return FUpgradeItemData();
+	}
+
 	return upgradeDataMap.at(id);
 }
 
 const EUpgradeType ItemDataBase::GetUpgradeType(std::string id) const
 {
+	if (!upgradeDataMap.contains(id))
+	{
+		return EUpgradeType::None;
+	}
+
 	return upgradeDataMap.at(id).upgradeType;
 }
 
 const int ItemDataBase::GetUpgradeValue(std::string id) const
 {
+	if (!upgradeDataMap.contains(id))
+	{
+		return int();
+	}
+
 	return upgradeDataMap.at(id).value;
 }
 
 const FMaterialItemData& ItemDataBase::GetMaterialData(std::string id) const
 {
+	if (!materialDataMap.contains(id))
+	{
+		return FMaterialItemData();
+	}
+
 	return materialDataMap.at(id);
 }
 
 const EMaterialType ItemDataBase::GetMaterialType(std::string id) const
 {
+	if (!materialDataMap.contains(id))
+	{
+		return EMaterialType::None;
+	}
+
 	return materialDataMap.at(id).materialType;
 }

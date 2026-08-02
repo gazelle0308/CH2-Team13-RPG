@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include <vector>
 #include "Item/Item.h"
 
 class ConsumableItem :
@@ -13,13 +14,15 @@ public:
         SetConsumableData(id);
     }
 
-    virtual void Use() override; // Player 인자 넣기
+    virtual void Use() override;
+
+private:
     virtual void PrintUseMessage() const override;
-        
     void SetConsumableData(std::string id);
 
+public:
     const FConsumableItemData& GetConsumableData() const;
-    const EConsumableType GetConsumableType() const;
-    const int GetValue() const;
+    const std::vector<FConsumableEffect>& GetConsumableEffects() const;
+    const std::vector<EConsumableType>& GetConsumableTypes() const;
 };
 

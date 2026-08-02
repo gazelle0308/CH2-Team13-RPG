@@ -98,5 +98,9 @@
     {
         "id": "ITEM_MATERIAL_PHOENIX_FEATHER",
         "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_FAILED_POTION",
+        "materialType": "None"
     }
 ]

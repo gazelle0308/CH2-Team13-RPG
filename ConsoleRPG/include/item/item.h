@@ -17,11 +17,13 @@ public:
 		SetItemData(id);
 	}
 
-	virtual void Use() = 0; // Player 인자 넣기
-	virtual void PrintUseMessage() const;
+	virtual void Use() = 0;
 
+protected:
+	virtual void PrintUseMessage() const;
 	void SetItemData(std::string id);
 
+public:
 	const FItemData& GetItemData() const;
 	const std::string GetId() const;
 	const EItemCategory GetCategory() const;

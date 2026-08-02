@@ -1,4 +1,4 @@
-﻿#include "Item/Item.h"
+#include "Item/Item.h"
 
 void Item::PrintUseMessage() const
 {

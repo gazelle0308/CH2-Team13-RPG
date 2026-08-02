@@ -1,11 +1,9 @@
-﻿#include "ShopSystem/ShopSystem.h"
+#include "ShopSystem/ShopSystem.h"
 #include "InventorySystem/InventorySystem.h"
 #include "Player/Player.h"
 
-void ShopSystem::ShowShop(Player* InPlayer)
+void ShopSystem::ShowShop()
 {
-	player = InPlayer;
-
 	bool isEnd{};
 	
 	while (!isEnd)
@@ -14,7 +12,7 @@ void ShopSystem::ShowShop(Player* InPlayer)
 	}
 }
 
-const void ShopSystem::SetShopData()
+void ShopSystem::SetShopData()
 {
 	shopItems = ShopDataBase::GetInstance().GetShopItemDatas();
 }
@@ -34,9 +32,9 @@ void ShopSystem::HandleShopOptions(bool& isEnd)
 	int number{};
 	bool isOk{};
 
-	std::cout << "========================================" << std::endl;
-	std::cout << "                  상점                  " << std::endl;
-	std::cout << "========================================" << std::endl;
+	std::cout << "================================================================" << std::endl;
+	std::cout << "                              상점                              " << std::endl;
+	std::cout << "================================================================" << std::endl;
 	std::cout << std::endl;
 	std::cout << "======= 선택 =======" << std::endl;
 	std::cout << "1. 구매하기" << std::endl;
@@ -73,27 +71,26 @@ void ShopSystem::HandleShopOptions(bool& isEnd)
 			break;
 		}
 	}
-	
 }
 
 void ShopSystem::PrintShopItems() const
 {
 	int size = (int)shopItems.size();
-	int playerGold = player->GetGold(); // 수정
+	//int playerGold = player->GetGold();
 	std::string itemName{};
 	int itemPrice{};
 	int itemCount{};
 	std::string info{};
 	std::string itemInfo{};
 
-	std::cout << "========================================" << std::endl;
-	std::cout << "                  상점                  " << std::endl;
-	std::cout << "========================================" << std::endl;
+	std::cout << "================================================================" << std::endl;
+	std::cout << "                              상점                              " << std::endl;
+	std::cout << "================================================================" << std::endl;
 
 	for (int index = 0; index < size; index++)
 	{
 		FShopItemData item = shopItems[index];
-		FItemData itemData = ShopDataBase::GetInstance().GetShopItemData(item.id);
+		FItemData itemData = ItemDataBase::GetInstance().GetItemData(item.id);
 
 		itemName = itemData.name;
 		itemPrice = itemData.price;
@@ -106,7 +103,7 @@ void ShopSystem::PrintShopItems() const
 	}
 
 	std::cout << std::endl;
-	std::cout << "소지 골드: " << playerGold << "G" << std::endl;
+	//std::cout << "소지 골드: " << playerGold << "G" << std::endl;
 }
 
 void ShopSystem::HandleSellOptions()
@@ -144,7 +141,7 @@ void ShopSystem::HandleSellOptions()
 	}
 }
 
-void ShopSystem::HandleBuyOption()
+void ShopSystem::HandleBuyOption() const
 {
 	int totalBuyPrice{};
 	InventorySystem::GetInstance().ShowInventoryInShop(buybackRate, totalBuyPrice);
@@ -187,7 +184,7 @@ void ShopSystem::HandleItemSelection()
 void ShopSystem::PrintItemInfo(int index) const
 {
 	std::string id = shopItems[index].id;
-	FItemData itemData = ShopDataBase::GetInstance().GetShopItemData(id);
+	FItemData itemData = ItemDataBase::GetInstance().GetItemData(id);
 
 	std::string name = std::format("이름: {}", itemData.name);
 	std::string description = std::format("설명: {}", itemData.description);
@@ -195,12 +192,12 @@ void ShopSystem::PrintItemInfo(int index) const
 	std::string count = std::format("개수: {}개", shopItems[index].count);
 
 	std::cout << std::endl;
-	std::cout << "-------------------------------" << std::endl;
+	std::cout << "------------------------------------------------------------" << std::endl;
 	std::cout << name << std::endl;
 	std::cout << description << std::endl;
 	std::cout << price << std::endl;
 	std::cout << count << std::endl;
-	std::cout << "-------------------------------" << std::endl;
+	std::cout << "------------------------------------------------------------" << std::endl;
 }
 
 void ShopSystem::HandleItemOptions(int index)
@@ -258,21 +255,21 @@ void ShopSystem::HandleSellItem(int index)
 		}
 		else if (1 <= number && number <= shopItems[index].count)
 		{
-			FItemData itemData = ShopDataBase::GetInstance().GetShopItemData(shopItems[index].id);
+			FItemData itemData = ItemDataBase::GetInstance().GetItemData(shopItems[index].id);
 			int price = itemData.price * number;
 
-			if (price <= player->GetGold()) // Player 재화 확인
-			{
-				std::string message = std::format("{}을(를) {}개 구매했습니다.", itemData.name, number);
-				std::cout << message << std::endl;
-				SellToPlayer(index, number, price);
-				ClearScreen();
-			}
-			else
-			{
-				isOk = false;
-				std::cout << "골드가 부족합니다." << std::endl;
-			}
+			//if (price <= player->GetGold()) // Player 재화 확인
+			//{
+				//std::string message = std::format("{}을(를) {}개 구매했습니다.", itemData.name, number);
+				//std::cout << message << std::endl;
+				//SellToPlayer(index, number, price);
+				//ClearScreen();
+			//}
+			//else
+			//{
+				//isOk = false;
+				//std::cout << "골드가 부족합니다." << std::endl;
+			//}
 		}
 		else
 		{
@@ -284,8 +281,8 @@ void ShopSystem::HandleSellItem(int index)
 
 void ShopSystem::SellToPlayer(int index, int count, int price)
 {
-	int playerGold = player->GetGold();
-	player->SetGold(playerGold - price);
+	//int playerGold = player->GetGold();
+	//player->SetGold(playerGold - price);
 
 	InventorySystem::GetInstance().AddItem(shopItems[index].id, count);
 
@@ -297,9 +294,9 @@ void ShopSystem::SellToPlayer(int index, int count, int price)
 	}
 }
 
-void ShopSystem::BuyFromPlayer(int totalBuyPrice)
+void ShopSystem::BuyFromPlayer(int totalBuyPrice) const
 {
 	// Player 재화 변경
-	int playerGold = player->GetGold();
-	player->SetGold(playerGold + totalBuyPrice);
+	//int playerGold = player->GetGold();
+	//player->SetGold(playerGold + totalBuyPrice);
 }
