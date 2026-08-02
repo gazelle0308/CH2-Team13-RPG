@@ -11,6 +11,9 @@
 #include <vector>
 #include <string>
 
+template<typename Entity>
+class Effect;
+
 enum class Pstat {
     Hp,
     Mp,
@@ -69,6 +72,9 @@ public:
     int GetCurrentPower() const;
     int GetCurrentDefence() const;
 
+    int GetBuffPower() const;
+    int GetBuffDefence() const;
+
     std::string GetName() const;
     std::string GetEssence() const;
 
@@ -96,6 +102,9 @@ public:
     void SetCurrentPower(int currentPower);
     void SetCurrentDefence(int currentDefence);
 
+    void SetBuffPower(int buffPower);
+    void SetBuffDefence(int buffDefence);
+
     void SetName(std::string name);
     void SetEssence(std::string essence);
 
@@ -106,13 +115,14 @@ public:
 
     void SyncToMax(Pstat target);
 
-    void ApplyEffect(Pstat target, int num);
+    void ApplyEffect(Pstat target, int power);
 
     void SetEssence(const Essence& essence);
 
     void ViewStatus();
 
     // singleton
+
     static Player& GetInstance() {
         static Player instance = []() {
             std::string name;
@@ -127,6 +137,19 @@ public:
         return instance;
     }
 
+    static const Player& GetReadInstance() {
+        static Player instance = []() {
+            std::string name;
+
+            std::cout << "닉네임을 입력해 주세요.\n";
+            std::cout << "닉네임: ";
+            std::cin >> name;
+
+            return Player(name);
+            }();
+
+        return instance;
+    }
 
 protected:
     // Constructor

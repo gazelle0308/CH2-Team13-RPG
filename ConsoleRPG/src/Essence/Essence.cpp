@@ -8,6 +8,8 @@
 #include <algorithm>
 
 #include "Player/Player.h"
+#include "Monster/monster.h"
+#include "Effect/Effect.h"
 
 
 // Constructor
@@ -26,32 +28,33 @@ Essence::Essence(std::string name,
 
 
 // Function
-void Essence::Skill(Player& player) {
-    if (this->name == "Slime") {
-    } else if (this->name == "Zombie") {
-    } else if (this->name == "Goblin") {
-    } else if (this->name == "Wild Wolf") {
-    } else if (this->name == "Chimera") {
-    } else if (this->name == "Ghost") {
-    } else if (this->name == "Succubus") {
-    } else if (this->name == "Incubus") {
-    } else if (this->name == "Ghoul") {
-    } else if (this->name == "Werewolf") {
-    } else if (this->name == "Gargoyle") {
-    } else if (this->name == "Margoyle") {
-    } else if (this->name == "Mummy") {
-    } else if (this->name == "Demon") {
-    } else if (this->name == "Golem") {
-    } else if (this->name == "Griffon") {
-    } else if (this->name == "Vampire") {
-    } else if (this->name == "Siren") {
-    } else if (this->name == "Minotaur") {
-    } else if (this->name == "Ice Elemental") {
-    } else if (this->name == "High Demon") {
-    } else if (this->name == "High Minotaur") {
-    } else if (this->name == "High Vampire") {
-    } else if (this->name == "Guardian Chimera") {
-    } else if (this->name == "Phoenix") {
+
+void Essence::Skill(Monster& monster) {
+    if (this->name == "슬라임") {
+    } else if (this->name == "좀비") {
+    } else if (this->name == "고블린") {
+    } else if (this->name == "야생 늑대") {
+    } else if (this->name == "키메라") {
+    } else if (this->name == "고스트") {
+    } else if (this->name == "서큐버스") {
+    } else if (this->name == "인큐버스") {
+    } else if (this->name == "구울") {
+    } else if (this->name == "웨어울프") {
+    } else if (this->name == "가고일") {
+    } else if (this->name == "마고일") {
+    } else if (this->name == "미라") {
+    } else if (this->name == "데몬") {
+    } else if (this->name == "골렘") {
+    } else if (this->name == "그리폰") {
+    } else if (this->name == "뱀파이어") {
+    } else if (this->name == "세이렌") {
+    } else if (this->name == "미노타우르스") {
+    } else if (this->name == "얼음 정령") {
+    } else if (this->name == "상급 데몬") {
+    } else if (this->name == "상급 미노타우르스") {
+    } else if (this->name == "상급 뱀파이어") {
+    } else if (this->name == "상급 키메라") {
+    } else if (this->name == "피닉스") {
     } else {
         throw std::out_of_range("Unknown Essence");
     }
@@ -69,7 +72,7 @@ void Essence::LockEssence() {
 
 void Essence::EnableEssence() {
     if (lock) {
-        std::cout << "Now " << this->name << " Essence is Locked \n";
+        std::cout << "아직 얻지 못한 정수입니다.\n";
     } else {
         this->enable = true;
     }
@@ -77,13 +80,14 @@ void Essence::EnableEssence() {
 
 void Essence::DisableEssence() {
     if(lock) {
-        std::cout << "Now " << this->name << " Essence is Locked \n";
+        std::cout << "아직 얻지 못한 정수입니다.\n";
     } else {
         this->enable = false;
     }
 }
 
 // Setter
+
 void Essence::SetLock(bool lock) { this->lock = lock; }
 void Essence::SetEnable(bool enable) { this->enable = enable; }
 
@@ -95,6 +99,7 @@ void Essence::SetDefence(int defence) { this->defence = defence; }
 void Essence::SetName(std::string name) { this->name = name; }
 
 // Getter
+
 bool Essence::GetLock() const { return this->lock; }
 bool Essence::GetEnable() const { return this->enable; }
 

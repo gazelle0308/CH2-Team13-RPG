@@ -12,32 +12,32 @@
 // Constructor
 
 EssenceOrb::EssenceOrb() {
-    this->orb[0] = Essence("Slime", 0, 0, 0, 0);
-    this->orb[1] = Essence("Zombie", 0, 0, 0, 0);
-    this->orb[2] = Essence("Goblin", 0, 0, 0, 0);
-    this->orb[3] = Essence("Wild Wolf", 0, 0, 0, 0);
-    this->orb[4] = Essence("Chimera", 0, 0, 0, 0);
-    this->orb[5] = Essence("Ghost", 0, 0, 0, 0);
-    this->orb[6] = Essence("Succubus", 0, 0, 0, 0);
-    this->orb[7] = Essence("Incubus", 0, 0, 0, 0);
-    this->orb[8] = Essence("Ghoul", 0, 0, 0, 0);
-    this->orb[9] = Essence("Werewolf", 0, 0, 0, 0);
-    this->orb[10] = Essence("Gargoyle", 0, 0, 0, 0);
-    this->orb[11] = Essence("Margoyle", 0, 0, 0, 0);
-    this->orb[12] = Essence("Mummy", 0, 0, 0, 0);
-    this->orb[13] = Essence("Demon", 0, 0, 0, 0);
-    this->orb[14] = Essence("Golem", 0, 0, 0, 0);
-    this->orb[15] = Essence("Griffon", 0, 0, 0, 0);
-    this->orb[16] = Essence("Vampire", 0, 0, 0, 0);
-    this->orb[17] = Essence("Siren", 0, 0, 0, 0);
-    this->orb[18] = Essence("Minotaur", 0, 0, 0, 0);
-    this->orb[19] = Essence("Ice Elemental", 0, 0, 0, 0);
-    this->orb[20] = Essence("High Demon", 0, 0, 0, 0);
-    this->orb[21] = Essence("High Minotaur", 0, 0, 0, 0);
-    this->orb[22] = Essence("High Vampire", 0, 0, 0, 0);
-    this->orb[23] = Essence("Guardian Chimera", 0, 0, 0, 0);
-    this->orb[24] = Essence("Phoenix", 0, 0, 0, 0);
-    this->orb[25] = Essence("False", 0, 0, 0, 0);
+    this->orb[0] = Essence("슬라임", 0, 0, 0, 0);
+    this->orb[1] = Essence("좀비", 0, 0, 0, 0);
+    this->orb[2] = Essence("고블린", 0, 0, 0, 0);
+    this->orb[3] = Essence("야생 늑대", 0, 0, 0, 0);
+    this->orb[4] = Essence("키메라", 0, 0, 0, 0);
+    this->orb[5] = Essence("고스트", 0, 0, 0, 0);
+    this->orb[6] = Essence("서큐버스", 0, 0, 0, 0);
+    this->orb[7] = Essence("인큐버스", 0, 0, 0, 0);
+    this->orb[8] = Essence("구울", 0, 0, 0, 0);
+    this->orb[9] = Essence("웨어울프", 0, 0, 0, 0);
+    this->orb[10] = Essence("가고일", 0, 0, 0, 0);
+    this->orb[11] = Essence("마고일", 0, 0, 0, 0);
+    this->orb[12] = Essence("미라", 0, 0, 0, 0);
+    this->orb[13] = Essence("데몬", 0, 0, 0, 0);
+    this->orb[14] = Essence("골렘", 0, 0, 0, 0);
+    this->orb[15] = Essence("그리폰", 0, 0, 0, 0);
+    this->orb[16] = Essence("뱀파이어", 0, 0, 0, 0);
+    this->orb[17] = Essence("세이렌", 0, 0, 0, 0);
+    this->orb[18] = Essence("미노타우르스", 0, 0, 0, 0);
+    this->orb[19] = Essence("얼음 정령", 0, 0, 0, 0);
+    this->orb[20] = Essence("상급 데몬", 0, 0, 0, 0);
+    this->orb[21] = Essence("상급 미노타우르스", 0, 0, 0, 0);
+    this->orb[22] = Essence("상급 뱀파이어", 0, 0, 0, 0);
+    this->orb[23] = Essence("상급 키메라", 0, 0, 0, 0);
+    this->orb[24] = Essence("피닉스", 0, 0, 0, 0);
+    this->orb[25] = Essence("잘못된 정보", 0, 0, 0, 0);
 }
 
 // operator
@@ -78,13 +78,13 @@ std::string EssenceOrb::GetOrbInfo() {
     std::ostringstream oss;
     for (int loop = 0; loop < 25; loop = loop + 1) {
         if (this->orb[loop].GetLock()) {
-            oss << loop + 1 << ".Locked(////////)\n";
+            oss << loop + 1 << ".잠겨 있는 정수(////////)\n";
         } else {
             oss << loop + 1 << "." << this->orb[loop].GetName() <<
-            " Essence(Hp: " << this->orb[loop].GetHp() <<
+            "의 정수(Hp: " << this->orb[loop].GetHp() <<
             " Mp: " << this->orb[loop].GetMp() <<
-            " Power: " << this->orb[loop].GetPower() <<
-            " Defence: " << this->orb[loop].GetDefence() << ") \n";
+            " 공격력: " << this->orb[loop].GetPower() <<
+            " 방어력: " << this->orb[loop].GetDefence() << ") \n";
         }
     }
     return oss.str();
@@ -113,7 +113,7 @@ void EssenceOrb::AcquireEssence(std::string name) {
         return;
     }
 
-    std::cout << "방금 전투한 몬스터의 정수를 발견했습니다!.\n";
+    std::cout << "방금 전투한 몬스터의 정수를 발견했습니다!\n";
     std::cout << "획득 하시겠습니까?\n(획득 : 1, 포기 : 아무 키나 입력): ";
 
     if (!(std::cin >> choice)) {
@@ -131,4 +131,13 @@ void EssenceOrb::AcquireEssence(std::string name) {
 
     this->orb[essence].OpenEssence();
     std::cout << "정수" << this->orb[essence].GetName() << "을 획득하셨습니다! \n";
+}
+
+bool EssenceOrb::AllCollection() {
+    for (int loop = 0; loop < 25; loop = loop + 1) {
+        if (!this->orb[loop].GetLock()) {
+            return false;
+        }
+    }
+    return true;
 }

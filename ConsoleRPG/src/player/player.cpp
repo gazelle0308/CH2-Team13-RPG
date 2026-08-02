@@ -1,14 +1,14 @@
 ﻿// Copyright 2026/07/30 JinHo
 
 
-#include "player/player.h"
+#include "Player/Player.h"
 
 #include <string>
 #include <iostream>
 #include <algorithm>
 
+#include "Effect/Effect.h"
 #include "Utility/Utility.h"
-
 #include "Essence/EssenceOrb.h"
 
 
@@ -176,6 +176,9 @@ int Player::GetCurrentMaxMp() const { return this->currentMaxMp; }
 int Player::GetCurrentPower() const { return this->currentPower; }
 int Player::GetCurrentDefence() const { return this->currentDefence; }
 
+int Player::GetBuffPower() const { return this->buffPower; }
+int Player::GetBuffDefence() const { return this->buffDefence; }
+
 std::string Player::GetName() const { return this->name; }
 std::string Player::GetEssence() const { return this->essence; }
 
@@ -230,6 +233,14 @@ void Player::SetCurrentDefence(int currentDefence) {
 }
 
 
+void Player::SetBuffPower(int buffPower) {
+    this->buffPower = buffPower;
+}
+
+void Player::SetBuffDefence(int buffDefence) {
+    this->buffDefence = buffDefence;
+}
+
 
 void Player::SetName(std::string name) { this->name = name; }
 void Player::SetEssence(std::string essence) { this->essence = essence; }
@@ -268,16 +279,16 @@ void Player::SyncToMax(Pstat target) {
     }
 }
 
-void Player::ApplyEffect(Pstat target, int num) {
+void Player::ApplyEffect(Pstat target, int power) {
     if (target == Pstat::Hp) {
-        this->currentHp = std::min(this->currentHp + num, this->currentMaxHp);
+        this->currentHp = std::min(this->currentHp + power, this->currentMaxHp);
     } else if (target == Pstat::Mp) {
-        this->currentMp = std::min(this->currentMp + num, this->currentMaxMp);
+        this->currentMp = std::min(this->currentMp + power, this->currentMaxMp);
     } else if (target == Pstat::BuffPower) {
-        this->buffPower = num;
+        this->buffPower = power;
         this->attack = this->currentPower + this->buffPower;
     } else if (target == Pstat::BuffDefence) {
-        this->buffDefence = num;
+        this->buffDefence = power;
         this->guard = this->currentDefence + this->buffDefence;
     } else {
         throw std::out_of_range("Can't another target");
@@ -285,7 +296,7 @@ void Player::ApplyEffect(Pstat target, int num) {
 }
 
 void Player::SetEssence(const Essence& essence) {
-    if (essence.GetName() == "False") {
+    if (essence.GetName() == "잘못된 정보") {
         std::cout << "정수 사용에 실패 했습니다! \n";
         return;
     }
@@ -311,7 +322,6 @@ void Player::ViewStatus() {
     std::cout << "HP: " << this->currentHp << "/" << this->currentMaxHp << " MP: " << this->currentMp << "/" << this->currentMaxMp << "\n";
     std::cout << "공격력: " << this->currentPower << " 방어력: " << this->currentDefence << " 스킬: " << this->skill << "\n";
 }
-
 
 // Constructor
 
@@ -346,4 +356,5 @@ Player::Player(std::string name,
 
     this->attack = currentPower;
     this->guard = currentDefence;
+
 }

@@ -20,6 +20,9 @@ int main()
 
 	const std::vector<std::string> itemIds = ItemDataBase::GetInstance().GetAllItemIds();
 
+	Player& player = Player::GetInstance();
+
+
 	InventorySystem::GetInstance().ExpandInventory(1000);
 	for (const std::string id : itemIds)
 	{

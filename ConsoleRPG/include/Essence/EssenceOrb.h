@@ -28,7 +28,10 @@ public:
 
     void AcquireEssence(std::string name);
 
+    bool AllCollection();
+
     // singleton
+
     static EssenceOrb& GetInstance() {
         static EssenceOrb instance;
         return instance;

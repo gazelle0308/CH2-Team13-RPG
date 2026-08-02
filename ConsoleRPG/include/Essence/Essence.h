@@ -5,11 +5,12 @@
 
 #include <string>
 
-class Player;
+class Monster;
 
 class Essence {
  public:
     // Constructor
+
     explicit Essence() = default;
     explicit Essence(std::string name,
                       int hp,
@@ -18,10 +19,12 @@ class Essence {
                       int defence);
 
     // Destructor
+
     ~Essence() = default;
 
     // Function
-    void Skill(Player& player);
+
+    void Skill(Monster& monster);
 
     void OpenEssence();
     void LockEssence();
@@ -30,6 +33,7 @@ class Essence {
     void DisableEssence();
 
     // Setter
+
     void SetLock(bool lock);
     void SetEnable(bool enable);
 
@@ -41,6 +45,7 @@ class Essence {
     void SetName(std::string name);
 
     // Getter
+
     bool GetLock() const;
     bool GetEnable() const;
 
