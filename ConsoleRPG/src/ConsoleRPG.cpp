@@ -10,6 +10,8 @@
 #include "ShopSystem/ShopSystem.h"
 #include "PotionWorkshop/PotionWorkshop.h"
 #include "Player/Player.h"
+#include "Essence/EssenceOrb.h"
+#include "LevelUp/levelUp.h"
 
 int main()
 {
@@ -21,6 +23,7 @@ int main()
 
 	InventorySystem::GetInstance().ExpandInventory(80);
 
+	InventorySystem::GetInstance().ExpandInventory(1000);
 	for (const std::string id : itemIds)
 	{
 		InventorySystem::GetInstance().AddItem(id, 11);

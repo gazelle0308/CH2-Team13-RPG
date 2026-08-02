@@ -1,5 +1,6 @@
 ﻿// Copyright 2026/07/30 JinHo
 
+
 #pragma once
 
 #include <stdlib.h>
@@ -10,8 +11,10 @@
 #include <vector>
 #include <string>
 
-enum class Pstat
-{
+template<typename Entity>
+class Effect;
+
+enum class Pstat {
     Hp,
     Mp,
     MaxHp,
@@ -32,18 +35,24 @@ enum class Pstat
     MaxExp
 };
 
-
+class Essence;
 
 class Player {
- public:
-     // operator
-     int& operator[](const Pstat target);
-     const int& operator[](const Pstat target) const;
+public:
+    // operator
+
+    int& operator[](const Pstat target);
+    const int& operator[](const Pstat target) const;
+
+    int& operator[](const std::string& target);
+    const int& operator[](const std::string& target) const;
 
     // virtual
+
     virtual ~Player() = default;
 
     // Getter
+
     int GetGold() const;
 
     int GetLevel() const;
@@ -63,12 +72,16 @@ class Player {
     int GetCurrentPower() const;
     int GetCurrentDefence() const;
 
+    int GetBuffPower() const;
+    int GetBuffDefence() const;
+
     std::string GetName() const;
-    std::string GetJob() const;
+    std::string GetEssence() const;
 
     std::string GetSkill() const;
 
     // Setter
+
     void SetGold(int gold);
 
     void SetLevel(int level);
@@ -89,27 +102,65 @@ class Player {
     void SetCurrentPower(int currentPower);
     void SetCurrentDefence(int currentDefence);
 
-    void SetName(std::string name);
-    void SetJob(std::string job);
+    void SetBuffPower(int buffPower);
+    void SetBuffDefence(int buffDefence);
 
-    void SetSkill(std::string job);
+    void SetName(std::string name);
+    void SetEssence(std::string essence);
+
+    void SetSkill(std::string skill);
 
     // Function
     void SyncToBase(Pstat target);
 
     void SyncToMax(Pstat target);
 
-    void GetEffect(Pstat target, int num);
+    void ApplyEffect(Pstat target, int power);
 
- //protected:
-public:
+    void SetEssence(const Essence& essence);
+
+    void ViewStatus();
+
+    // singleton
+
+    static Player& GetInstance() {
+        static Player instance = []() {
+            std::string name;
+
+            std::cout << "닉네임을 입력해 주세요.\n";
+            std::cout << "닉네임: ";
+            std::cin >> name;
+
+            return Player(name);
+            }();
+
+        return instance;
+    }
+
+    static const Player& GetReadInstance() {
+        static Player instance = []() {
+            std::string name;
+
+            std::cout << "닉네임을 입력해 주세요.\n";
+            std::cout << "닉네임: ";
+            std::cin >> name;
+
+            return Player(name);
+            }();
+
+        return instance;
+    }
+
+protected:
+    // Constructor
+
     explicit Player(std::string name,
                     int level = 1,
                     int baseMaxHp = 200,
                     int baseMaxMp = 100,
                     int basePower = 30,
                     int baseDefence = 5,
-                    std::string skill = "Punch!");
+                    std::string skill = "주먹질!");
 
     int gold;
 
@@ -133,8 +184,11 @@ public:
     int buffPower = 0;
     int buffDefence = 0;
 
+    int attack = 0;
+    int guard = 0;
+
     std::string name;
-    std::string job;
+    std::string essence;
 
     std::string skill;
 };
