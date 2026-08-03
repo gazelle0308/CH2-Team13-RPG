@@ -315,10 +315,12 @@ void PotionWorkshop::HandleSearchByName()
 
 	while (!isOk)
 	{
-		std::cout << "포션 레시피를 이름을 기준으로 검색합니다." << std::endl;
-		std::cout << "검색할 단어 입력(돌아가기: 돌아가기): ";
+		std::cout << "포션 레시피를 이름을 기준으로 검색합니다. 단어마다 띄어쓰기를 해주세요." << std::endl;
+		std::cout << "검색(돌아가기: 돌아가기): ";
 
-		std::cin >> str;
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		std::getline(std::cin, str);
+		//std::cin >> str;
 
 		isOk = true;
 
@@ -326,6 +328,7 @@ void PotionWorkshop::HandleSearchByName()
 		{
 			isOk = true;
 			std::cout << "포션 제작소 메뉴로 돌아갑니다." << std::endl;
+			ClearScreen();
 		}
 		else
 		{
@@ -351,8 +354,8 @@ void PotionWorkshop::HandleSearchByIngredient()
 
 	while (!isOk)
 	{
-		std::cout << "포션 레시피를 재료를 기준으로 검색합니다." << std::endl;
-		std::cout << "검색할 단어 입력(돌아가기: 돌아가기): ";
+		std::cout << "포션 레시피를 재료를 기준으로 검색합니다. 단어마다 띄어쓰기를 해주세요." << std::endl;
+		std::cout << "검색(돌아가기: 돌아가기): ";
 
 		std::cin >> str;
 
@@ -362,6 +365,7 @@ void PotionWorkshop::HandleSearchByIngredient()
 		{
 			isOk = true;
 			std::cout << "포션 제작소 메뉴로 돌아갑니다." << std::endl;
+			ClearScreen();
 		}
 		else
 		{
@@ -380,9 +384,47 @@ void PotionWorkshop::HandleSearchByIngredient()
 	}
 }
 
-void PotionWorkshop::SetSelectedPrsByName(std::string str)
+void PotionWorkshop::SplitString(const std::string& str, std::vector<std::string>& result)
+{
+	std::istringstream iss(str);
+	std::string word{};
+
+	while (iss >> word)
+	{
+		result.push_back(word);
+	}
+}
+
+bool PotionWorkshop::ContainsAllString(const std::string& str, const std::string& target)
+{
+	std::string newStr(str);
+	std::string newTarget(target);
+
+	std::transform(str.begin(), str.end(), newStr.begin(), [](unsigned char c) {
+		return std::toupper(c);
+		});
+	std::transform(target.begin(), target.end(), newTarget.begin(), [](unsigned char c) {
+		return std::toupper(c);
+		});
+
+	std::vector<std::string> result{};
+	SplitString(newTarget, result);
+
+	for (std::string substr : result)
+	{
+		if (newStr.find(substr) == std::string::npos)
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void PotionWorkshop::SetSelectedPrsByName(const std::string& str)
 {
 	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+	
 	selectedPrs.clear();
 
 	std::string name{};
@@ -394,14 +436,15 @@ void PotionWorkshop::SetSelectedPrsByName(std::string str)
 			continue;
 		}
 
-		if (name.find(str) != std::string::npos)
+		//if (name.find(str) != std::string::npos)
+		if (ContainsAllString(name, str))
 		{
 			selectedPrs.push_back(&prs);
 		}
 	}
 }
 
-void PotionWorkshop::SetSelectedPrsByIngredient(std::string str)
+void PotionWorkshop::SetSelectedPrsByIngredient(const std::string& str)
 {
 	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 
@@ -418,7 +461,8 @@ void PotionWorkshop::SetSelectedPrsByIngredient(std::string str)
 			return;
 		}
 
-		if (primaryName.find(str) != std::string::npos || secondaryName.find(str) != std::string::npos)
+		//if (primaryName.find(str) != std::string::npos || secondaryName.find(str) != std::string::npos)
+		if (ContainsAllString(primaryName, str) || ContainsAllString(secondaryName, str))
 		{
 			selectedPrs.push_back(&prs);
 		}
@@ -427,7 +471,6 @@ void PotionWorkshop::SetSelectedPrsByIngredient(std::string str)
 
 void PotionWorkshop::HandleCraftPotion()
 {
-	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 	bool isEnd{};
 
 	selectedPrs.clear();
@@ -440,14 +483,188 @@ void PotionWorkshop::HandleCraftPotion()
 	while (!isEnd)
 	{
 		PrintSelectedPotionRecipes();
-		std::cout << std::endl;
-		inventorySystem.ShowInventoryInPotionWorkshop();
-		HandlePrimarySelection(isEnd);
+		HandleCraftOptions(isEnd);
 		ClearScreen();
 	}
 }
 
-void PotionWorkshop::HandlePrimarySelection(bool& isEnd)
+void PotionWorkshop::HandleCraftOptions(bool& isEnd)
+{
+	int number{};
+	bool isOk{};
+
+	std::cout << std::endl;
+	std::cout << "======== 선택 ========" << std::endl;
+	std::cout << "1. 레시피로 제작" << std::endl;
+	std::cout << "2. 직접 제작" << std::endl;
+	std::cout << "0. 돌아가기" << std::endl;
+
+	while (!isOk)
+	{
+		std::cout << std::endl;
+		std::cout << "번호 입력: ";
+		std::cin >> number;
+
+		isOk = true;
+
+		switch (number)
+		{
+		case 1:
+			HandleCraftByRecipe();
+			break;
+		case 2:
+			HandleCraftBySelf();
+			break;
+		case 0:
+			isEnd = true;
+			std::cout << "포션 제작소 메뉴로 돌아갑니다." << std::endl;
+			break;
+		default:
+			isOk = false;
+			std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+			break;
+		}
+	}
+}
+
+void PotionWorkshop::HandleCraftByRecipe()
+{
+	int size = (int)selectedPrs.size();
+	int recipeIndex{};
+	bool isOk{};
+
+	while (!isOk)
+	{
+		std::cout << std::endl;
+		std::cout << "레시피 번호 입력(0: 돌아가기): ";
+		std::cin >> recipeIndex;
+
+		isOk = true;
+
+		if (recipeIndex == 0)
+		{
+			std::cout << "포션 제작 초기로 돌아갑니다." << std::endl;
+		}
+		else if (1 <= recipeIndex && recipeIndex <= size)
+		{
+			if (selectedPrs[recipeIndex]->GetIsUnlocked())
+			{
+				HandleCraftRecipeSelection(recipeIndex - 1);
+			}
+			else
+			{
+				isOk = false;
+				std::cout << "미지의 레시피입니다. 다시 입력해주세요." << std::endl;
+			}
+		}
+		else
+		{
+			isOk = false;
+			std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+		}
+	}
+}
+
+void PotionWorkshop::HandleCraftRecipeSelection(int recipeIndex)
+{
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
+	int size = (int)selectedPrs.size();
+	int potionCount{};
+	bool isOk{};
+
+	while (!isOk)
+	{
+		std::cout << std::endl;
+		std::cout << "제작할 포션 개수 입력(0: 돌아가기): ";
+		std::cin >> potionCount;
+
+		isOk = true;
+
+		if (potionCount == 0)
+		{
+			std::cout << "포션 제작 초기로 돌아갑니다." << std::endl;
+		}
+		else if (potionCount < 0)
+		{
+			isOk = false;
+			std::cout << "잘못된 번호입니다. 포션 제작 초기로 돌아갑니다." << std::endl;
+		}
+		else
+		{
+			FPotionRecipeState potionRecipeState = *selectedPrs[recipeIndex];
+			std::string potionId = potionRecipeState.GetId();
+			
+			FItemData potionData;
+
+			if (!itemDataBase.GetItemData(potionId, potionData))
+			{
+				isOk = false;
+				std::cout << "제작에 실패했습니다. 유효하지 않은 포션입니다." << std::endl;
+				
+				continue;
+			}
+
+			std::vector<std::pair<int, int>> materials{};
+
+			int primaryIndex = inventorySystem.FindItem(potionRecipeState.GetPrimaryId());
+			int secondaryIndex = inventorySystem.FindItem(potionRecipeState.GetSecondaryId());
+
+			if (primaryIndex == -1 || secondaryIndex == -1)
+			{
+				isOk = false;
+				std::cout << "제작에 실패했습니다. 유효하지 않은 재료입니다." << std::endl;
+				
+				continue;
+			}
+
+			int totalPrimaryCount = potionRecipeState.GetPrimaryCount() * potionCount;
+			int totalSecondaryCount = potionRecipeState.GetSecondaryCount() * potionCount;
+
+			materials.push_back(std::make_pair(primaryIndex, totalPrimaryCount));
+			materials.push_back(std::make_pair(secondaryIndex, totalSecondaryCount));
+
+			int result = inventorySystem.CanCraftPotion(materials, potionId, potionCount);
+
+			if (result == 0)
+			{
+				std::string potionName{};
+				itemDataBase.GetName(potionId, potionName);
+
+				std::cout << std::endl;
+				std::cout << "제작 완료!" << std::endl;
+				std::string message = std::format("{}을(를) {}개 제작했습니다.", potionName, potionCount);
+				std::cout << message << std::endl;
+			}
+			else if (result == 1)
+			{
+				isOk = false;
+				std::cout << "인벤토리에 공간이 부족합니다. 비우고 다시 시도해주세요." << std::endl;
+			}
+			else if (result == 2)
+			{
+				isOk = false;
+				std::cout << "재료가 부족합니다. 다시 입력해주세요." << std::endl;
+			}
+			else if (result == 3)
+			{
+				isOk = false;
+				std::cout << "제작에 실패했습니다. 유효하지 않은 재료입니다." << std::endl;
+			}
+		}
+	}
+}
+
+void PotionWorkshop::HandleCraftBySelf()
+{
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
+
+	std::cout << std::endl;
+	inventorySystem.ShowInventoryInPotionWorkshop();
+	HandlePrimarySelection();
+}
+
+void PotionWorkshop::HandlePrimarySelection()
 {
 	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 	InventorySystem& inventorySystem = InventorySystem::GetInstance();
@@ -464,37 +681,44 @@ void PotionWorkshop::HandlePrimarySelection(bool& isEnd)
 
 		if (primaryIndex == 0)
 		{
-			isEnd = true;
 			std::cout << "포션 제작소 메뉴로 돌아갑니다." << std::endl;
 		}
-		else if (1 <= primaryIndex)
+		else if (primaryIndex < 0)
+		{
+			isOk = false;
+			std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+		}
+		else 
 		{
 			FItemData itemData;
 
 			if (!inventorySystem.GetItemData(primaryIndex - 1, itemData))
 			{
 				isOk = false;
-				std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+				std::cout << "유효하지 않은 아이템입니다. 다시 입력해주세요." << std::endl;
 			}
 			else
 			{
 				EMaterialType materialType{};
 
-				if (itemDataBase.GetMaterialType(itemData.GetId(), materialType) && materialType == EMaterialType::Primary)
+				if (itemDataBase.GetMaterialType(itemData.GetId(), materialType))
 				{
-					HandlePrimaryCount(primaryIndex - 1);
+					if (materialType == EMaterialType::Primary)
+					{
+						HandlePrimaryCount(primaryIndex - 1);
+					}
+					else
+					{
+						isOk = false;
+						std::cout << "원재료가 아닙니다.다시 입력해주세요." << std::endl;
+					}
 				}
 				else
 				{
 					isOk = false;
-					std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+					std::cout << "포션 재료가 아닙니다. 다시 입력해주세요." << std::endl;
 				}
 			}
-		}
-		else
-		{
-			isOk = false;
-			std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
 		}
 	}
 }
@@ -556,6 +780,11 @@ void PotionWorkshop::HandleSecondarySelection(int primaryIndex, int primaryCount
 		{
 			std::cout << "포션 제작 초기로 돌아갑니다." << std::endl;
 		}
+		else if (secondaryIndex < 0)
+		{
+			isOk = false;
+			std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+		}
 		else
 		{
 			FItemData itemData;
@@ -563,20 +792,28 @@ void PotionWorkshop::HandleSecondarySelection(int primaryIndex, int primaryCount
 			if (!inventorySystem.GetItemData(secondaryIndex - 1, itemData))
 			{
 				isOk = false;
-				std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+				std::cout << "유효하지 않은 아이템입니다. 다시 입력해주세요." << std::endl;
 			}
 			else
 			{
 				EMaterialType materialType{};
 
-				if (itemDataBase.GetMaterialType(itemData.GetId(), materialType) && materialType == EMaterialType::Secondary)
+				if (itemDataBase.GetMaterialType(itemData.GetId(), materialType))
 				{
-					HandleSecondaryCount(primaryIndex, primaryCount, secondaryIndex - 1);
+					if (materialType == EMaterialType::Secondary)
+					{
+						HandleSecondaryCount(primaryIndex, primaryCount, secondaryIndex - 1);
+					}
+					else
+					{
+						isOk = false;
+						std::cout << "부재료가 아닙니다. 다시 입력해주세요." << std::endl;
+					}
 				}
 				else
 				{
 					isOk = false;
-					std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+					std::cout << "포션 재료가 아닙니다. 다시 입력해주세요." << std::endl;
 				}
 			}
 		}
@@ -660,32 +897,53 @@ void PotionWorkshop::HandleCraftPotionResult(int primaryIndex, int primaryCount,
 		potionCount = std::min(primaryCount / pr.GetPrimaryCount(), secondaryCount / pr.GetSecondaryCount());
 	}
 
-	if (inventorySystem.CanCraftPotion(materials, potionId, potionCount))
+	std::string potionName{};
+
+	if (!itemDataBase.GetName(potionId, potionName))
 	{
-		std::string potionName{};
-		
-		if (!itemDataBase.GetName(potionId, potionName))
+		std::cout << "제작에 실패했습니다. 유효하지 않은 포션입니다." << std::endl;
+		return;
+	}
+
+	int result = inventorySystem.CanCraftPotion(materials, potionId, potionCount);
+
+	if (result == 0)
+	{
+		if (potionId == failedPotionId)
 		{
-			std::cout << "제작에 실패했습니다. 유효하지 않은 포션입니다." << std::endl;
-		}
-
-		std::cout << std::endl;
-		std::cout << "제작 완료!" << std::endl;
-		std::string message = std::format("{}을(를) {}개 제작했습니다.", potionName, potionCount);
-		std::cout << message << std::endl;
-
-		// 레시피 해금
-		if (!candidatePrs.empty() && !candidatePrs[0]->isUnlocked)
-		{
-			candidatePrs[0]->isUnlocked = true;
-
 			std::cout << std::endl;
-			std::cout << "★ New! ★" << std::endl;
-			std::cout << "새로운 레시피를 발견했습니다!" << std::endl;
+			std::cout << "제작 실패" << std::endl;
+			std::string message = std::format("{}을(를) {}개 획득했습니다.", potionName, potionCount);
+			std::cout << message << std::endl;
+		}
+		else
+		{
+			std::cout << std::endl;
+			std::cout << "제작 완료!" << std::endl;
+			std::string message = std::format("{}을(를) {}개 제작했습니다.", potionName, potionCount);
+			std::cout << message << std::endl;
+
+			// 레시피 해금
+			if (!candidatePrs.empty() && !candidatePrs[0]->isUnlocked)
+			{
+				candidatePrs[0]->isUnlocked = true;
+
+				std::cout << std::endl;
+				std::cout << "★ New! ★" << std::endl;
+				std::cout << "새로운 레시피를 발견했습니다!" << std::endl;
+			}
 		}
 	}
-	else
+	else if (result == 1)
 	{
 		std::cout << "인벤토리에 공간이 부족합니다. 비우고 다시 시도해주세요." << std::endl;
+	}
+	else if (result == 2)
+	{
+		std::cout << "재료가 부족합니다. 다시 시도해주세요." << std::endl;
+	}
+	else if (result == 3)
+	{
+		std::cout << "제작에 실패했습니다. 유효하지 않은 재료입니다." << std::endl;
 	}
 }

@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <iostream>
+#include <sstream>
 #include <conio.h>
 #include <vector>
 #include <string>
@@ -60,10 +61,16 @@ private:
 	void PrintRecipeInfo(int index) const;
 	void HandleSearchByName();
 	void HandleSearchByIngredient();
-	void SetSelectedPrsByName(std::string str);
-	void SetSelectedPrsByIngredient(std::string str);
+	void SplitString(const std::string& str, std::vector<std::string>& result);
+	bool ContainsAllString(const std::string& str, const std::string& target);
+	void SetSelectedPrsByName(const std::string& str);
+	void SetSelectedPrsByIngredient(const std::string& str);
 	void HandleCraftPotion();
-	void HandlePrimarySelection(bool& isEnd);
+	void HandleCraftOptions(bool& isEnd);
+	void HandleCraftByRecipe();
+	void HandleCraftRecipeSelection(int recipeIndex);
+	void HandleCraftBySelf();
+	void HandlePrimarySelection();
 	void HandlePrimaryCount(int primaryIndex);
 	void HandleSecondarySelection(int primaryIndex, int primaryCount);
 	void HandleSecondaryCount(int primaryIndex, int primaryCount, int secondaryIndex);
