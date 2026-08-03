@@ -5,6 +5,8 @@
 
 #include <string>
 
+#include "Effect/Effect.h"
+
 class Monster;
 
 class Essence {
@@ -24,7 +26,7 @@ class Essence {
 
     // Function
 
-    void Skill(Monster& monster);
+    void Skill(Monster& monster, Effect<Monster>& effect);
 
     void OpenEssence();
     void LockEssence();

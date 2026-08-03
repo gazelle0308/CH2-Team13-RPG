@@ -8,8 +8,7 @@
 #include "Essence.h"
 
 class EssenceOrb {
-public:
-
+ public:
     // Destructor
 
     ~EssenceOrb() = default;
@@ -28,6 +27,8 @@ public:
 
     void AcquireEssence(std::string name);
 
+    void UseSkill(Monster& monster, Effect<Monster>& effect);
+
     bool AllCollection();
 
     // singleton
@@ -35,9 +36,9 @@ public:
     static EssenceOrb& GetInstance() {
         static EssenceOrb instance;
         return instance;
-    };
+    }
 
-private:
+ private:
     // Constructor
 
     EssenceOrb();

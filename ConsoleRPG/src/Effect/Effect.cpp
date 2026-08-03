@@ -3,23 +3,31 @@
 
 #include "Effect/Effect.h"
 
+#include <iostream>
+
 #include "Player/Player.h"
 #include "Monster/Monster.h"
 
 template<>
-void Effect<Player>::ApplyPotion(EffectType target, unsigned int amount, unsigned int turn) {
+void Effect<Player>::ApplyPotion(EffectType target,
+                                 unsigned int amount,
+                                 unsigned int turn) {
     if (target == EffectType::PotionPowerUp) {
         this->entity.ApplyEffect(Pstat::BuffPower, amount);
         this->onBuff[8] = true;
         this->LeftTurn[8] = turn;
         std::cout << "당신은 공격력 증가 포션을 사용했습니다!\n";
-        std::cout << "(" << LeftTurn[8] << "턴 간" << this->entity.GetBuffPower() << "의 공격력이 증가합니다.).\n";
+        std::cout << "(" << LeftTurn[8] << "턴 간 "
+                         << this->entity.GetBuffPower()
+                         << "의 공격력이 증가합니다.).\n";
     } else if (target == EffectType::PotionDefenceUp) {
         this->entity.ApplyEffect(Pstat::BuffDefence, amount);
         this->onBuff[9] = true;
         this->LeftTurn[9] = turn;
         std::cout << "당신은 방어력 증가 포션을 사용했습니다!\n";
-        std::cout << "(" << LeftTurn[9] << "턴 간" << this->entity.GetBuffDefence() << "의 방어력이 증가합니다.).\n";
+        std::cout << "(" << LeftTurn[9] << "턴 간 "
+                         << this->entity.GetBuffDefence()
+                         << "의 방어력이 증가합니다.).\n";
     } else if (target == EffectType::PotionHeal) {
         this->entity.ApplyEffect(Pstat::Hp, amount);
         std::cout << "당신은 Hp 회복 포션을 사용했습니다!\n";
@@ -34,7 +42,9 @@ void Effect<Player>::ApplyPotion(EffectType target, unsigned int amount, unsigne
 }
 
 template<>
-void Effect<Monster>::ApplyPotion(EffectType target, unsigned int amount, unsigned int turn) {
+void Effect<Monster>::ApplyPotion(EffectType target,
+                                  unsigned int amount,
+                                  unsigned int turn) {
     throw std::logic_error("Monster is not have potion effect!");
 }
 
@@ -61,27 +71,29 @@ void Effect<Monster>::EndPotion(unsigned int effect) {
 template<>
 void Effect<Player>::EndEffect(unsigned int effect) {
     if (effect == 3) {
-        // entity->PowerSetter(entity->PowerGettter + this->amount[effect]);
+        entity.setatk(entity.getatk() + this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "공격력 저하의 효과가 떨어졌습니다!\n";
     } else if (effect == 4) {
-        // entity->DefenceSetter(entity->DefenceGettter + this->amount[effect]);
+        entity.setdef(entity.getdef() + this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "방어력 저하의 효과가 떨어졌습니다!\n";
     } else if (effect == 6) {
-        // entity->PowerSetter(entity->PowerGettter - this->amount[effect]);
+        entity.setatk(entity.getatk() - this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "공격력 증가의 효과가 떨어졌습니다!\n";
     } else if (effect == 7) {
-        // entity->DefenceSetter(entity->DefenceGettter - this->amount[effect]);
+        entity.setdef(entity.getdef() - this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "방어력 증가의 효과가 떨어졌습니다!\n";
     } else if (effect > 7 && effect < 10) {
         this->EndPotion(effect);
+    } else if((effect < 3 && effect >= 0)|| effect == 5) {
+        return;
     } else {
         throw std::out_of_range("No more effect");
     }
@@ -90,25 +102,27 @@ void Effect<Player>::EndEffect(unsigned int effect) {
 template<>
 void Effect<Monster>::EndEffect(unsigned int effect) {
     if (effect == 3) {
-        // entity->PowerSetter(entity->PowerGettter + this->amount[effect]);
+        entity.setatk(entity.getatk() + this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "적의 공격력 저하의 효과가 떨어졌습니다!\n";
     } else if (effect == 4) {
-        // entity->DefenceSetter(entity->DefenceGettter + this->amount[effect]);
+        entity.setdef(entity.getdef() + this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "적의 방어력 저하의 효과가 떨어졌습니다!\n";
     } else if (effect == 6) {
-        // entity->PowerSetter(entity->PowerGettter - this->amount[effect]);
+        entity.setatk(entity.getatk() - this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "적의 공격력 증가의 효과가 떨어졌습니다!\n";
     } else if (effect == 7) {
-        // entity->DefenceSetter(entity->DefenceGettter - this->amount[effect]);
+        entity.setdef(entity.getdef() - this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "적의 방어력 증가의 효과가 떨어졌습니다!\n";
+    } else if((effect < 3 && effect >= 0)|| effect == 5) {
+        return;
     } else {
         throw std::out_of_range("No more effect");
     }
@@ -131,15 +145,18 @@ void Effect<Monster>::Tick() {
 template<>
 void Effect<Player>::ClearEffect() {
     for (int i = 0; i < 10; i = i + 1) {
-
         if (i == 3) {
-            // entity->PowerSetter(entity->PowerGettter + this->amount[effect]);
+            entity.setatk(entity.getatk() +
+                          this->amount[i]);
         } else if (i == 4) {
-            // entity->DefenceSetter(entity->DefenceGettter + this->amount[effect]);
+            entity.setdef(entity.getdef() +
+                          this->amount[i]);
         } else if (i == 6) {
-            // entity->PowerSetter(entity->PowerGettter - this->amount[effect]);
+            entity.setatk(entity.getatk() +
+                          this->amount[i]);
         } else if (i == 7) {
-            // entity->DefenceSetter(entity->DefenceGettter - this->amount[effect]);
+            entity.setdef(entity.getdef() +
+                          this->amount[i]);
         } else if (i == 8) {
             this->entity.ApplyEffect(Pstat::BuffPower, 0);
         } else if (i == 9) {
@@ -158,15 +175,18 @@ void Effect<Player>::ClearEffect() {
 template<>
 void Effect<Monster>::ClearEffect() {
     for (int i = 0; i < 8; i = i + 1) {
-
         if (i == 3) {
-            // entity->PowerSetter(entity->PowerGettter + this->amount[effect]);
+            entity.setatk(entity.getatk() +
+                          this->amount[i]);
         } else if (i == 4) {
-            // entity->DefenceSetter(entity->DefenceGettter + this->amount[effect]);
+            entity.setdef(entity.getdef() +
+                          this->amount[i]);
         } else if (i == 6) {
-            // entity->PowerSetter(entity->PowerGettter - this->amount[effect]);
+            entity.setatk(entity.getatk() +
+                          this->amount[i]);
         } else if (i == 7) {
-            // entity->DefenceSetter(entity->DefenceGettter - this->amount[effect]);
+            entity.setdef(entity.getdef() +
+                          this->amount[i]);
         }
 
         this->amount[i] = 0;
