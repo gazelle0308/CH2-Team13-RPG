@@ -10,6 +10,7 @@
 
 #include "Types/InventoryTypes.h"
 #include "DataBase/ItemDataBase.h"
+#include "DataBase/InventoryDataBase.h"
 #include "Factory/ItemFactory.h"
 
 inline bool compareName(const FItemSlot& a, const FItemSlot& b)
@@ -119,6 +120,7 @@ private:
 private:
 	InventorySystem() : inventorySize(20), inventoryCount(0) {
 		items.clear();
+		SetInventoryData();
 	}
 
 	// 복사 방지
@@ -147,6 +149,8 @@ public:
 
 //private:
 public: // 테스트 위해 public 설정
+	void SetInventoryData();
+
 	void ClearScreen() const;
 	void PrintInventoryItems(EInventoryViewMode mode, double buybackRate = 1) const;
 	void HandleNormalInventoryOptions(bool& isEnd);

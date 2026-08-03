@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DataBase\InventoryDataBase.cpp" />
     <ClCompile Include="src\DataBase\PotionRecipeDataBase.cpp" />
     <ClCompile Include="src\PotionWorkshop\PotionWorkshop.cpp" />
     <ClCompile Include="src\Battle\Battle.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="include\Types\ItemTypes.h" />
     <ClInclude Include="include\PotionWorkshop\PotionWorkshop.h" />
     <ClInclude Include="include\DataBase\PotionRecipeDataBase.h" />
+    <ClInclude Include="include\DataBase\InventoryDataBase.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\consumables.json" />
