@@ -52,22 +52,22 @@ public:
 public:
 	const std::vector<std::string> GetAllItemIds() const;
 
-	const FItemData& GetItemData(std::string id) const;
-	const EItemCategory GetCategory(std::string id) const;
-	const std::string GetName(std::string id) const;
-	const std::string GetDescription(std::string id) const;
-	const int GetPrice(std::string id) const;
-	const int GetMaxStackCount(std::string id) const;
+	bool GetItemData(std::string id, FItemData& itemData) const;
+	bool GetCategory(std::string id, EItemCategory& category) const;
+	bool GetName(std::string id, std::string& name) const;
+	bool GetDescription(std::string id, std::string& description) const;
+	bool GetPrice(std::string id, int& price) const;
+	bool GetMaxStackCount(std::string id, int& maxStackCount) const;
 
-	const FConsumableItemData& GetConsumableData(std::string id) const;
-	const std::vector<FConsumableEffect>& GetConsumableEffects(std::string id) const;
-	const std::vector<EConsumableType>& GetConsumableTypes(std::string id) const;
+	bool GetConsumableData(std::string id, FConsumableItemData& consumableItemData) const;
+	bool GetConsumableEffects(std::string id, std::vector<FConsumableEffect>& consumbaleEffects) const;
+	bool GetConsumableTypes(std::string id, std::vector<EConsumableType>& consumableTypes) const;
 
-	const FUpgradeItemData& GetUpgradeData(std::string id) const;
-	const EUpgradeType GetUpgradeType(std::string id) const;
-	const int GetUpgradeValue(std::string id) const;
+	bool GetUpgradeData(std::string id, FUpgradeItemData& upgradeItemData) const;
+	bool GetUpgradeType(std::string id, EUpgradeType& upgradeType) const;
+	bool GetUpgradeValue(std::string id, int& value) const;
 
-	const FMaterialItemData& GetMaterialData(std::string id) const;
-	const EMaterialType GetMaterialType(std::string id) const;
+	bool GetMaterialData(std::string id, FMaterialItemData& materialItemData) const;
+	bool GetMaterialType(std::string id, EMaterialType& materialType) const;
 };
 

@@ -53,12 +53,11 @@ void ShopSystem::HandleShopOptions(bool& isEnd)
 		{
 		case 1:
 			ClearScreen();
-			PrintShopItems();
-			HandleSellOptions();
+			HandleSell();
 			break;
 		case 2:
 			ClearScreen();
-			HandleBuyOption();
+			HandleBuy();
 			break;
 		case 0:
 			isEnd = true;
@@ -73,10 +72,23 @@ void ShopSystem::HandleShopOptions(bool& isEnd)
 	}
 }
 
+void ShopSystem::HandleSell()
+{
+	bool isEnd{};
+
+	while (!isEnd)
+	{
+		PrintShopItems();
+		PrintPlayerGold();
+		HandleSellOptions(isEnd);
+		ClearScreen();
+	}
+}
+
 void ShopSystem::PrintShopItems() const
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 	int size = (int)shopItems.size();
-	//int playerGold = player->GetGold();
 	std::string itemName{};
 	int itemPrice{};
 	int itemCount{};
@@ -90,23 +102,35 @@ void ShopSystem::PrintShopItems() const
 	for (int index = 0; index < size; index++)
 	{
 		FShopItemData item = shopItems[index];
-		FItemData itemData = ItemDataBase::GetInstance().GetItemData(item.id);
+		FItemData itemData;
+		
+		if (!itemDataBase.GetItemData(item.id, itemData))
+		{
+			continue;
+		}
 
-		itemName = itemData.name;
-		itemPrice = itemData.price;
-		itemCount = item.count;
+		itemName = itemData.GetName();
+		itemPrice = itemData.GetPrice();
+		itemCount = item.GetCount();
 
 		itemInfo = std::format("{} ({}G) x{}", itemName, itemPrice, itemCount);
 		info = std::format("{}. {}", index + 1, itemInfo);
 
 		std::cout << info << std::endl;
 	}
-
-	std::cout << std::endl;
-	//std::cout << "소지 골드: " << playerGold << "G" << std::endl;
 }
 
-void ShopSystem::HandleSellOptions()
+void ShopSystem::PrintPlayerGold() const
+{
+	Player& player = Player::GetInstance();
+	int playerGold = player[Pstat::Gold];
+	std::string message = std::format("소지 골드: {}G", playerGold);
+
+	std::cout << std::endl;
+	std::cout << message << std::endl;
+}
+
+void ShopSystem::HandleSellOptions(bool& isEnd)
 {
 	int number{};
 	bool isOk{};
@@ -130,8 +154,8 @@ void ShopSystem::HandleSellOptions()
 			HandleItemSelection();
 			break;
 		case 0:
+			isEnd = true;
 			std::cout << "상점 메뉴로 돌아갑니다." << std::endl;
-			ClearScreen();
 			break;
 		default:
 			isOk = false;
@@ -141,12 +165,18 @@ void ShopSystem::HandleSellOptions()
 	}
 }
 
-void ShopSystem::HandleBuyOption() const
+void ShopSystem::HandleBuy() const
 {
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 	int totalBuyPrice{};
-	InventorySystem::GetInstance().ShowInventoryInShop(buybackRate, totalBuyPrice);
-	
-	BuyFromPlayer(totalBuyPrice);
+	bool isEnd{};
+
+	while (!isEnd)
+	{
+		totalBuyPrice = 0;
+		inventorySystem.ShowInventoryInShop(buybackRate, totalBuyPrice, isEnd);
+		BuyFromPlayer(totalBuyPrice);
+	}
 }
 
 void ShopSystem::HandleItemSelection()
@@ -165,8 +195,7 @@ void ShopSystem::HandleItemSelection()
 
 		if (number == 0)
 		{
-			std::cout << "상점 목록으로 돌아갑니다." << std::endl;
-			ClearScreen();
+			std::cout << "이전으로 돌아갑니다." << std::endl;
 		}
 		else if (1 <= number && number <= size)
 		{
@@ -183,21 +212,29 @@ void ShopSystem::HandleItemSelection()
 
 void ShopSystem::PrintItemInfo(int index) const
 {
-	std::string id = shopItems[index].id;
-	FItemData itemData = ItemDataBase::GetInstance().GetItemData(id);
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+	std::string id = shopItems[index].GetId();
+	FItemData itemData;
+	
+	if (!itemDataBase.GetItemData(id,itemData))
+	{
+		return;
+	}
 
-	std::string name = std::format("이름: {}", itemData.name);
-	std::string description = std::format("설명: {}", itemData.description);
-	std::string price = std::format("가격: {}G", itemData.price);
-	std::string count = std::format("개수: {}개", shopItems[index].count);
+	std::string name = std::format("이름: {}", itemData.GetName());
+	std::string description = std::format("{}", itemData.GetDescription());
+	std::string price = std::format("가격: {}G", itemData.GetPrice());
+	std::string count = std::format("보유: {}개", shopItems[index].GetCount());
 
 	std::cout << std::endl;
-	std::cout << "------------------------------------------------------------" << std::endl;
+	std::cout << "---------------------------------------------------------------" << std::endl;
 	std::cout << name << std::endl;
+	std::cout << std::endl;
 	std::cout << description << std::endl;
+	std::cout << std::endl;
 	std::cout << price << std::endl;
 	std::cout << count << std::endl;
-	std::cout << "------------------------------------------------------------" << std::endl;
+	std::cout << "---------------------------------------------------------------" << std::endl;
 }
 
 void ShopSystem::HandleItemOptions(int index)
@@ -224,8 +261,7 @@ void ShopSystem::HandleItemOptions(int index)
 			HandleSellItem(index);
 			break;
 		case 0:
-			std::cout << "상점 목록으로 돌아갑니다." << std::endl;
-			ClearScreen();
+			std::cout << "구매 초기로 돌아갑니다." << std::endl;
 			break;
 		default:
 			isOk = false;
@@ -237,6 +273,8 @@ void ShopSystem::HandleItemOptions(int index)
 
 void ShopSystem::HandleSellItem(int index)
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+	Player& player = Player::GetInstance();
 	int number{};
 	bool isOk{};
 
@@ -253,23 +291,31 @@ void ShopSystem::HandleSellItem(int index)
 			std::cout << "다시 선택합니다." << std::endl;
 			HandleItemOptions(index);
 		}
-		else if (1 <= number && number <= shopItems[index].count)
+		else if (1 <= number && number <= shopItems[index].GetCount())
 		{
-			FItemData itemData = ItemDataBase::GetInstance().GetItemData(shopItems[index].id);
-			int price = itemData.price * number;
+			FItemData itemData;
 
-			//if (price <= player->GetGold()) // Player 재화 확인
-			//{
-				//std::string message = std::format("{}을(를) {}개 구매했습니다.", itemData.name, number);
-				//std::cout << message << std::endl;
-				//SellToPlayer(index, number, price);
-				//ClearScreen();
-			//}
-			//else
-			//{
-				//isOk = false;
-				//std::cout << "골드가 부족합니다." << std::endl;
-			//}
+			if (!itemDataBase.GetItemData(shopItems[index].GetId(), itemData))
+			{
+				isOk = false;
+				std::cout << "아이템 정보가 유효하지 않습니다. 다시 선택해 주세요." << std::endl;
+				
+				continue;
+			}
+
+			int price = itemData.GetPrice() * number;
+
+			if (price <= player[Pstat::Gold]) // Player 재화 확인
+			{
+				std::string message = std::format("{}을(를) {}개 구매했습니다.", itemData.GetName(), number);
+				std::cout << message << std::endl;
+				SellToPlayer(index, number, price);
+			}
+			else
+			{
+				isOk = false;
+				std::cout << "골드가 부족합니다." << std::endl;
+			}
 		}
 		else
 		{
@@ -281,14 +327,20 @@ void ShopSystem::HandleSellItem(int index)
 
 void ShopSystem::SellToPlayer(int index, int count, int price)
 {
-	//int playerGold = player->GetGold();
-	//player->SetGold(playerGold - price);
+	Player& player = Player::GetInstance();
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 
-	InventorySystem::GetInstance().AddItem(shopItems[index].id, count);
+	int shopCount{};
+	
+	player[Pstat::Gold] -= price;
 
-	shopItems[index].count -= count;
+	inventorySystem.AddItem(shopItems[index].GetId(), count);
 
-	if (shopItems[index].count == 0)
+	shopCount = shopItems[index].GetCount();
+	shopItems[index].SetCount(shopCount - count);
+	shopCount = shopItems[index].GetCount();
+
+	if (shopCount == 0)
 	{
 		shopItems.erase(shopItems.begin() + index);
 	}
@@ -296,7 +348,8 @@ void ShopSystem::SellToPlayer(int index, int count, int price)
 
 void ShopSystem::BuyFromPlayer(int totalBuyPrice) const
 {
-	// Player 재화 변경
-	//int playerGold = player->GetGold();
-	//player->SetGold(playerGold + totalBuyPrice);
+	 //Player 재화 변경
+	Player& player = Player::GetInstance();
+
+	player[Pstat::Gold] += totalBuyPrice;
 }

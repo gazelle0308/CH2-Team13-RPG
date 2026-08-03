@@ -12,7 +12,7 @@ void MaterialItem::PrintUseMessage() const
 
 void MaterialItem::SetMaterialData(std::string id)
 {
-	materialItemData = ItemDataBase::GetInstance().GetMaterialData(id);
+	ItemDataBase::GetInstance().GetMaterialData(id, materialItemData);
 }
 
 const FMaterialItemData& MaterialItem::GetMaterialData() const
@@ -20,7 +20,7 @@ const FMaterialItemData& MaterialItem::GetMaterialData() const
 	return materialItemData;
 }
 
-const EMaterialType MaterialItem::GetMaterialType() const
+EMaterialType MaterialItem::GetMaterialType() const
 {
-	return materialItemData.materialType;
+	return materialItemData.GetMaterialType();
 }

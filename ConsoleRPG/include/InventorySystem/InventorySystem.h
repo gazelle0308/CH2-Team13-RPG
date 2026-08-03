@@ -3,6 +3,7 @@
 #include <iostream>
 #include <conio.h>
 #include <vector>
+#include <unordered_set>
 #include <string>
 #include <algorithm>
 #include <format>
@@ -11,41 +12,107 @@
 #include "DataBase/ItemDataBase.h"
 #include "Factory/ItemFactory.h"
 
-inline bool compareName(const FInventorySlot& a, const FInventorySlot& b)
+inline bool compareName(const FItemSlot& a, const FItemSlot& b)
 {
-	std::string aName = a.itemData.name;
-	std::string bName = b.itemData.name;
+	std::string aName = a.GetName();
+	std::string bName = b.GetName();
+
+	if (aName == bName)
+	{
+		return a.count > b.count;
+	}
 
 	return aName < bName;
 }
 
-inline bool comparePrice(const FInventorySlot& a, const FInventorySlot& b)
+inline bool compareFunc(const FItemSlot& a, const FItemSlot& b)
 {
-	int aPrice = a.itemData.price;
-	int bPrice = b.itemData.price;
+	// 기능 별로 순서 정해서 오름차순 정렬
 
-	if (aPrice == bPrice) // 동일한 경우 넘기면 Merge 함수 동작 제대로 안 됨
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+	FEnumDisplay enumDisplay;
+	EItemCategory aCategory = a.GetCategory();
+	EItemCategory bCategory = b.GetCategory();
+	int aSequence = enumDisplay.GetItemCategorySequence(aCategory);
+	int bSequence = enumDisplay.GetItemCategorySequence(bCategory);
+
+	if (aCategory == bCategory)
 	{
-		return a.itemData.id < b.itemData.id;
+		std::string aId = a.GetId();
+		std::string bId = b.GetId();
+		
+		switch (aCategory)
+		{
+		case EItemCategory::Consumable:
+		{
+			std::vector<EConsumableType> aTypes{};
+			std::vector<EConsumableType> bTypes{};
+			
+			if (itemDataBase.GetConsumableTypes(aId, aTypes) && itemDataBase.GetConsumableTypes(bId, bTypes))
+			{
+				if (!aTypes.empty() && !bTypes.empty())
+				{
+					aSequence = enumDisplay.GetConsumableTypeSequence(aTypes[0]);
+					bSequence = enumDisplay.GetConsumableTypeSequence(bTypes[0]);
+				}
+			}
+
+			break;
+		}
+		case EItemCategory::Upgrade:
+		{
+			EUpgradeType aUpgradeType{};
+			EUpgradeType bUpgradeType{};
+
+			if (itemDataBase.GetUpgradeType(aId, aUpgradeType) && itemDataBase.GetUpgradeType(bId, bUpgradeType))
+			{
+				aSequence = enumDisplay.GetUpgradeTypeSequence(aUpgradeType);
+				bSequence = enumDisplay.GetUpgradeTypeSequence(bUpgradeType);
+			}
+
+			break;
+		}
+		case EItemCategory::Material:
+		{
+			EMaterialType aMaterialType{};
+			EMaterialType bMaterialType{};
+
+			if (itemDataBase.GetMaterialType(aId, aMaterialType) && itemDataBase.GetMaterialType(bId, bMaterialType))
+			{
+				aSequence = enumDisplay.GetMaterialTypeSequence(aMaterialType);
+				bSequence = enumDisplay.GetMaterialTypeSequence(bMaterialType);
+			}
+
+			break;
+		}
+		}
+
+		if (aSequence == bSequence)
+		{
+			return compareName(a, b);
+		}
+	}
+
+	return aSequence < bSequence;
+}
+
+inline bool comparePrice(const FItemSlot& a, const FItemSlot& b)
+{
+	int aPrice = a.GetPrice();
+	int bPrice = b.GetPrice();
+
+	if (aPrice == bPrice)
+	{
+		return compareFunc(a, b);
 	}
 
 	return aPrice < bPrice;
 }
 
-inline bool compareFunc(const FInventorySlot& a, const FInventorySlot& b)
-{
-	// id를 ITEM_CONSUMABLE_HP_01 과 같은 형식으로 설정했음을 전제
-
-	std::string aId = a.itemData.id;
-	std::string bId = b.itemData.id;
-
-	return aId < bId;
-}
-
 class InventorySystem
 {
 private:
-	std::vector<FInventorySlot> items;
+	std::vector<FItemSlot> items;
 	int inventorySize;
 	int inventoryCount;
 
@@ -71,11 +138,12 @@ public:
 
 	void ShowInventoryInNormal();
 	void ShowInventoryInBattle();
-	void ShowInventoryInShop(double buybackRate, int& totalBuyPrice);
+	void ShowInventoryInShop(double buybackRate, int& totalBuyPrice, bool& isEnd);
 	void ShowInventoryInPotionWorkshop();
 
 	bool CanCraftPotion(const std::vector<std::pair<int, int>> materials, std::string potionId, int potionCount);
-	const FItemData& GetItemData(int index) const;
+	bool GetItemData(int index, FItemData& itemData) const;
+	std::string GetId(int index) const;
 
 //private:
 public: // 테스트 위해 public 설정
@@ -83,6 +151,7 @@ public: // 테스트 위해 public 설정
 	void PrintInventoryItems(EInventoryViewMode mode, double buybackRate = 1) const;
 	void HandleNormalInventoryOptions(bool& isEnd);
 	void HandleBattleInventoryOptions(bool& isEnd);
+	void PrintPlayerGold() const;
 	void HandleShopInventoryOptions(double buybackRate, int& totalBuyPrice, bool& isEnd);
 	void HandleNormalItemSelection();
 	void PrintItemInfo(int index) const;
@@ -98,10 +167,9 @@ public: // 테스트 위해 public 설정
 	int GetTotalItemCount(int index) const;
 	bool UseItem(int index);
 
-	void SortOriginal();
 	void SortByName();
-	void SortByPrice();
 	void SortByFunc();
+	void SortByPrice();
 	void MergeSameItems();
 
 	void ExpandInventory(int size);

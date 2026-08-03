@@ -10,12 +10,12 @@
 
 inline bool compareMaterial(const FPotionRecipeState* a, const FPotionRecipeState* b)
 {
-	if (a->potionRecipe.primaryCount == b->potionRecipe.primaryCount)
+	if (a->potionRecipe.GetPrimaryCount() == b->potionRecipe.GetPrimaryCount())
 	{
-		return a->potionRecipe.secondaryCount > b->potionRecipe.secondaryCount;
+		return a->potionRecipe.GetSecondaryCount() > b->potionRecipe.GetSecondaryCount();
 	}
 
-	return a->potionRecipe.primaryCount > a->potionRecipe.primaryCount;
+	return a->potionRecipe.GetPrimaryCount() > b->potionRecipe.GetPrimaryCount();
 }
 
 class PotionWorkshop

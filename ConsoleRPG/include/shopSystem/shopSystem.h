@@ -44,9 +44,11 @@ private:
 
 	void ClearScreen() const;
 	void HandleShopOptions(bool& isEnd);
+	void HandleSell();
 	void PrintShopItems() const;
-	void HandleSellOptions();
-	void HandleBuyOption() const;
+	void PrintPlayerGold() const;
+	void HandleSellOptions(bool& isEnd);
+	void HandleBuy() const;
 	void HandleItemSelection();
 	void PrintItemInfo(int index) const;
 	void HandleItemOptions(int index);

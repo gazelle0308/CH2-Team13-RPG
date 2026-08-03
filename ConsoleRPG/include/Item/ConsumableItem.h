@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include "Item/Item.h"
+#include "Player/player.h"
 
 class ConsumableItem :
     public Item

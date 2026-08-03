@@ -12,6 +12,7 @@ void PotionWorkshop::ShowPotionWorkshop()
 
 void PotionWorkshop::PrintAllPotionRecipes()
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 	int size = (int)potionRecipeStates.size();
 	std::string recipeName{};
 	std::string primaryName{};
@@ -30,11 +31,15 @@ void PotionWorkshop::PrintAllPotionRecipes()
 	{
 		FPotionRecipeState potionRecipeState = potionRecipeStates[index];
 
-		recipeName = ItemDataBase::GetInstance().GetName(potionRecipeState.potionRecipe.id);
-		primaryName = ItemDataBase::GetInstance().GetName(potionRecipeState.potionRecipe.primaryId);
-		secondaryName = ItemDataBase::GetInstance().GetName(potionRecipeState.potionRecipe.secondaryId);
-		primaryCount = potionRecipeState.potionRecipe.primaryCount;
-		secondaryCount = potionRecipeState.potionRecipe.secondaryCount;
+		if (!itemDataBase.GetName(potionRecipeState.GetId(), recipeName)
+			|| !itemDataBase.GetName(potionRecipeState.GetPrimaryId(), primaryName)
+			|| !itemDataBase.GetName(potionRecipeState.GetSecondaryId(), secondaryName))
+		{
+			continue;
+		}
+
+		primaryCount = potionRecipeState.GetPrimaryCount();
+		secondaryCount = potionRecipeState.GetSecondaryCount();
 
 		recipeInfo = std::format("{} ({} x{}, {} x{})", recipeName, primaryName, primaryCount, secondaryName, secondaryCount);
 
@@ -46,13 +51,14 @@ void PotionWorkshop::PrintAllPotionRecipes()
 
 void PotionWorkshop::SetPotionWorkshopData()
 {
-	std::vector<FPotionRecipe> potionRecipes = PotionRecipeDataBase::GetInstance().GetPotionRecipes();
+	PotionRecipeDataBase& potionRecipeDataBase = PotionRecipeDataBase::GetInstance();
+	std::vector<FPotionRecipe> potionRecipes = potionRecipeDataBase.GetPotionRecipes();
 
 	for (const FPotionRecipe& potionRecipe : potionRecipes)
 	{
 		FPotionRecipeState potionRecipeState;
-		potionRecipeState.potionRecipe = potionRecipe;
-		potionRecipeState.isUnlocked = potionRecipe.defaultUnlocked;
+		potionRecipeState.SetPotionRecipe(potionRecipe);
+		potionRecipeState.SetIsUnlocked(potionRecipe.GetDefaultUnlocked());
 
 		potionRecipeStates.push_back(potionRecipeState);
 	}
@@ -185,6 +191,7 @@ void PotionWorkshop::HandleRecipeOptions(bool& isEnd)
 
 void PotionWorkshop::PrintSelectedPotionRecipes() const
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 	int size = (int)selectedPrs.size();
 	std::string recipeName{};
 	std::string primaryName{};
@@ -204,11 +211,15 @@ void PotionWorkshop::PrintSelectedPotionRecipes() const
 
 		if (potionRecipeState.isUnlocked)
 		{
-			recipeName = ItemDataBase::GetInstance().GetName(potionRecipeState.potionRecipe.id);
-			primaryName = ItemDataBase::GetInstance().GetName(potionRecipeState.potionRecipe.primaryId);
-			secondaryName = ItemDataBase::GetInstance().GetName(potionRecipeState.potionRecipe.secondaryId);
-			primaryCount = potionRecipeState.potionRecipe.primaryCount;
-			secondaryCount = potionRecipeState.potionRecipe.secondaryCount;
+			if (!itemDataBase.GetName(potionRecipeState.GetId(), recipeName)
+				|| !itemDataBase.GetName(potionRecipeState.GetPrimaryId(), primaryName)
+				|| !itemDataBase.GetName(potionRecipeState.GetSecondaryId(), secondaryName))
+			{
+				continue;
+			}
+
+			primaryCount = potionRecipeState.GetPrimaryCount();
+			secondaryCount = potionRecipeState.GetSecondaryCount();
 
 			recipeInfo = std::format("{} ({} x{}, {} x{})", recipeName, primaryName, primaryCount, secondaryName, secondaryCount);
 		}
@@ -261,19 +272,27 @@ void PotionWorkshop::HandleRecipeSelection()
 
 void PotionWorkshop::PrintRecipeInfo(int index) const
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 	FPotionRecipeState prs = *selectedPrs[index];
 	std::string name{};
 	std::string description{};
 
 	if (prs.isUnlocked)
 	{
-		FItemData recipeData = ItemDataBase::GetInstance().GetItemData(prs.potionRecipe.id);
-		FItemData primaryData = ItemDataBase::GetInstance().GetItemData(prs.potionRecipe.primaryId);
-		FItemData secondaryData = ItemDataBase::GetInstance().GetItemData(prs.potionRecipe.secondaryId);
+		FItemData recipeData;
+		FItemData primaryData;
+		FItemData secondaryData;
 
-		name = std::format("이름: {}", recipeData.name);
+		if (!itemDataBase.GetItemData(prs.GetId(), recipeData)
+			|| !itemDataBase.GetItemData(prs.GetPrimaryId(), primaryData)
+			|| !itemDataBase.GetItemData(prs.GetSecondaryId(), secondaryData))
+		{
+			return;
+		}
+
+		name = std::format("이름: {}", recipeData.GetName());
 		description = std::format("{}\n\n원재료로 {}이(가) {}개,\n부재료로 {}이(가) {}개 들어갑니다.",
-			recipeData.description, primaryData.name, prs.potionRecipe.primaryCount, secondaryData.name, prs.potionRecipe.secondaryCount);
+			recipeData.GetDescription(), primaryData.GetName(), prs.GetPrimaryCount(), secondaryData.GetName(), prs.GetSecondaryCount());
 	}
 	else
 	{
@@ -282,11 +301,11 @@ void PotionWorkshop::PrintRecipeInfo(int index) const
 	}
 
 	std::cout << std::endl;
-	std::cout << "------------------------------------------------------------" << std::endl;
+	std::cout << "---------------------------------------------------------------" << std::endl;
 	std::cout << name << std::endl;
 	std::cout << std::endl;
 	std::cout << description << std::endl;
-	std::cout << "------------------------------------------------------------" << std::endl;
+	std::cout << "---------------------------------------------------------------" << std::endl;
 }
 
 void PotionWorkshop::HandleSearchByName()
@@ -363,13 +382,17 @@ void PotionWorkshop::HandleSearchByIngredient()
 
 void PotionWorkshop::SetSelectedPrsByName(std::string str)
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 	selectedPrs.clear();
 
 	std::string name{};
 
 	for (FPotionRecipeState& prs : potionRecipeStates)
 	{
-		name = ItemDataBase::GetInstance().GetName(prs.potionRecipe.id);
+		if (!itemDataBase.GetName(prs.GetId(), name))
+		{
+			continue;
+		}
 
 		if (name.find(str) != std::string::npos)
 		{
@@ -380,6 +403,8 @@ void PotionWorkshop::SetSelectedPrsByName(std::string str)
 
 void PotionWorkshop::SetSelectedPrsByIngredient(std::string str)
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+
 	selectedPrs.clear();
 
 	std::string primaryName{};
@@ -387,8 +412,11 @@ void PotionWorkshop::SetSelectedPrsByIngredient(std::string str)
 
 	for (FPotionRecipeState& prs : potionRecipeStates)
 	{
-		primaryName = ItemDataBase::GetInstance().GetName(prs.potionRecipe.primaryId);
-		secondaryName = ItemDataBase::GetInstance().GetName(prs.potionRecipe.secondaryId);
+		if (!itemDataBase.GetName(prs.GetPrimaryId(), primaryName)
+			|| !itemDataBase.GetName(prs.GetSecondaryId(), secondaryName))
+		{
+			return;
+		}
 
 		if (primaryName.find(str) != std::string::npos || secondaryName.find(str) != std::string::npos)
 		{
@@ -399,6 +427,7 @@ void PotionWorkshop::SetSelectedPrsByIngredient(std::string str)
 
 void PotionWorkshop::HandleCraftPotion()
 {
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 	bool isEnd{};
 
 	selectedPrs.clear();
@@ -412,7 +441,7 @@ void PotionWorkshop::HandleCraftPotion()
 	{
 		PrintSelectedPotionRecipes();
 		std::cout << std::endl;
-		InventorySystem::GetInstance().ShowInventoryInPotionWorkshop();
+		inventorySystem.ShowInventoryInPotionWorkshop();
 		HandlePrimarySelection(isEnd);
 		ClearScreen();
 	}
@@ -420,6 +449,8 @@ void PotionWorkshop::HandleCraftPotion()
 
 void PotionWorkshop::HandlePrimarySelection(bool& isEnd)
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 	int primaryIndex{};
 	bool isOk{};
 
@@ -438,15 +469,26 @@ void PotionWorkshop::HandlePrimarySelection(bool& isEnd)
 		}
 		else if (1 <= primaryIndex)
 		{
-			const FItemData itemData = InventorySystem::GetInstance().GetItemData(primaryIndex - 1);
-			if (ItemDataBase::GetInstance().GetMaterialType(itemData.id) == EMaterialType::Primary)
-			{
-				HandlePrimaryCount(primaryIndex - 1);
-			}
-			else
+			FItemData itemData;
+
+			if (!inventorySystem.GetItemData(primaryIndex - 1, itemData))
 			{
 				isOk = false;
 				std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+			}
+			else
+			{
+				EMaterialType materialType{};
+
+				if (itemDataBase.GetMaterialType(itemData.GetId(), materialType) && materialType == EMaterialType::Primary)
+				{
+					HandlePrimaryCount(primaryIndex - 1);
+				}
+				else
+				{
+					isOk = false;
+					std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+				}
 			}
 		}
 		else
@@ -459,6 +501,7 @@ void PotionWorkshop::HandlePrimarySelection(bool& isEnd)
 
 void PotionWorkshop::HandlePrimaryCount(int primaryIndex)
 {
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 	int primaryCount{};
 	bool isOk{};
 
@@ -476,7 +519,15 @@ void PotionWorkshop::HandlePrimaryCount(int primaryIndex)
 		}
 		else if (1 <= primaryCount && primaryCount <= 3)
 		{
-			HandleSecondarySelection(primaryIndex, primaryCount);
+			if (primaryCount <= inventorySystem.GetTotalItemCount(primaryIndex))
+			{
+				HandleSecondarySelection(primaryIndex, primaryCount);
+			}
+			else
+			{
+				isOk = false;
+				std::cout << "재료 개수가 부족합니다. 다시 입력해주세요." << std::endl;
+			}
 		}
 		else
 		{
@@ -488,6 +539,8 @@ void PotionWorkshop::HandlePrimaryCount(int primaryIndex)
 
 void PotionWorkshop::HandleSecondarySelection(int primaryIndex, int primaryCount)
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 	int secondaryIndex{};
 	bool isOk{};
 
@@ -505,15 +558,26 @@ void PotionWorkshop::HandleSecondarySelection(int primaryIndex, int primaryCount
 		}
 		else
 		{
-			const FItemData itemData = InventorySystem::GetInstance().GetItemData(secondaryIndex - 1);
-			if (ItemDataBase::GetInstance().GetMaterialType(itemData.id) == EMaterialType::Secondary)
-			{
-				HandleSecondaryCount(primaryIndex, primaryCount, secondaryIndex - 1);
-			}
-			else
+			FItemData itemData;
+
+			if (!inventorySystem.GetItemData(secondaryIndex - 1, itemData))
 			{
 				isOk = false;
 				std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+			}
+			else
+			{
+				EMaterialType materialType{};
+
+				if (itemDataBase.GetMaterialType(itemData.GetId(), materialType) && materialType == EMaterialType::Secondary)
+				{
+					HandleSecondaryCount(primaryIndex, primaryCount, secondaryIndex - 1);
+				}
+				else
+				{
+					isOk = false;
+					std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+				}
 			}
 		}
 	}
@@ -521,6 +585,7 @@ void PotionWorkshop::HandleSecondarySelection(int primaryIndex, int primaryCount
 
 void PotionWorkshop::HandleSecondaryCount(int primaryIndex, int primaryCount, int secondaryIndex)
 {
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 	int secondaryCount{};
 	bool isOk{};
 
@@ -538,7 +603,15 @@ void PotionWorkshop::HandleSecondaryCount(int primaryIndex, int primaryCount, in
 		}
 		else if (1 <= secondaryCount && secondaryCount <= 3)
 		{
-			HandleCraftPotionResult(primaryIndex, primaryCount, secondaryIndex, secondaryCount);
+			if (secondaryCount <= inventorySystem.GetTotalItemCount(secondaryIndex))
+			{
+				HandleCraftPotionResult(primaryIndex, primaryCount, secondaryIndex, secondaryCount);
+			}
+			else
+			{
+				isOk = false;
+				std::cout << "재료 개수가 부족합니다. 다시 입력해주세요." << std::endl;
+			}
 		}
 		else
 		{
@@ -550,21 +623,24 @@ void PotionWorkshop::HandleSecondaryCount(int primaryIndex, int primaryCount, in
 
 void PotionWorkshop::HandleCraftPotionResult(int primaryIndex, int primaryCount, int secondaryIndex, int secondaryCount)
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
+
 	std::vector<std::pair<int, int>> materials{};
 	materials.push_back(std::make_pair(primaryIndex, primaryCount));
 	materials.push_back(std::make_pair(secondaryIndex, secondaryCount));
 
 	std::vector<FPotionRecipeState*> candidatePrs{};
-	std::string primaryId = InventorySystem::GetInstance().GetItemData(primaryIndex).id;
-	std::string secondaryId = InventorySystem::GetInstance().GetItemData(secondaryIndex).id;
+	std::string primaryId = inventorySystem.GetId(primaryIndex);
+	std::string secondaryId = inventorySystem.GetId(secondaryIndex);
 	std::string potionId{};
 	int potionCount{};
 
 	// 제작 로직
 	for (FPotionRecipeState& prs : potionRecipeStates)
 	{
-		if (prs.potionRecipe.primaryId == primaryId && prs.potionRecipe.primaryCount <= primaryCount
-			&& prs.potionRecipe.secondaryId == secondaryId && prs.potionRecipe.secondaryCount <= secondaryCount)
+		if (prs.GetPrimaryId() == primaryId && prs.GetPrimaryCount() <= primaryCount
+			&& prs.GetSecondaryId() == secondaryId && prs.GetSecondaryCount() <= secondaryCount)
 		{
 			candidatePrs.push_back(&prs);
 		}
@@ -581,12 +657,17 @@ void PotionWorkshop::HandleCraftPotionResult(int primaryIndex, int primaryCount,
 
 		FPotionRecipe pr = candidatePrs[0]->potionRecipe;
 		potionId = pr.id;
-		potionCount = std::min(primaryCount / pr.primaryCount, secondaryCount / pr.secondaryCount);
+		potionCount = std::min(primaryCount / pr.GetPrimaryCount(), secondaryCount / pr.GetSecondaryCount());
 	}
 
-	if (InventorySystem::GetInstance().CanCraftPotion(materials, potionId, potionCount))
+	if (inventorySystem.CanCraftPotion(materials, potionId, potionCount))
 	{
-		std::string potionName = ItemDataBase::GetInstance().GetName(potionId);
+		std::string potionName{};
+		
+		if (!itemDataBase.GetName(potionId, potionName))
+		{
+			std::cout << "제작에 실패했습니다. 유효하지 않은 포션입니다." << std::endl;
+		}
 
 		std::cout << std::endl;
 		std::cout << "제작 완료!" << std::endl;

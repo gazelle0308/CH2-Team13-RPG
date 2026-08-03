@@ -17,8 +17,8 @@ void ShopDataBase::LoadShopData()
 	{
 		FShopItemData shopItemData;
 
-		shopItemData.id = item["id"];
-		shopItemData.count = item["count"];
+		shopItemData.SetId(item["id"]);
+		shopItemData.SetCount(item["count"]);
 
 		shopItemDatas.push_back(shopItemData);
 	}
@@ -28,8 +28,8 @@ void ShopDataBase::PrintAllShopDatas() const
 {
 	for (const FShopItemData& item : shopItemDatas)
 	{
-		std::cout << std::format("id: {}", item.id) << std::endl;
-		std::cout << std::format("count: {}", item.count) << std::endl;
+		std::cout << std::format("id: {}", item.GetId()) << std::endl;
+		std::cout << std::format("count: {}", item.GetCount()) << std::endl;
 	}
 }
 
