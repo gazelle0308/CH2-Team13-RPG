@@ -1,35 +1,54 @@
-﻿/*
-#ifndef BATTLE_H
-#define BATTLE_H
+﻿
+#pragma once
+
+// Copyright 2026 CH2-Team13-RPG
+
 #include <iostream>
 #include <string>
 #include <vector>
-#include "monster/monster.h"
-#include "player/player.h"
-#include "boss/boss.h"
+#include <map>
+#include <memory>
+#include <functional>
+#include "Monster/monster.h"
+#include "Player/player.h"
+#include "Boss/boss.h"
+#include "Effect/effect.h"
 
+enum class BattleResult { WIN, LOSE };
 
-bool playerlive = 1;
-bool monsterlive = 1;
-int actionmenu;
-int aftermenu;
-int region = 0;
-int damage = 0;
+class Battle {
+private:
+    int damage;
+    std::string choice;
 
-std::string choice;
+public:
+    bool playerlive;
+    bool monsterlive;
 
-std::map<std::string, std::vector <monster*>> regionmonsters;
+    using MonsterFactory = std::function<std::unique_ptr<Monster>()>;
+    using MonsterMap = std::map<std::string, std::vector <MonsterFactory>>;
+    MonsterMap CreateMonsterMap();
+    void Encounter(MonsterMap& regionMonsters,
+        const std::string& choice, std::unique_ptr<Monster>& m_ptr);
 
-void selectedregion(int region);
-monster* CreateMonster(std::string choice);
-void Encounter(monster*monster, regionmonsters[choice]);
-void PlayerHealthCheck(player*player);
-void MonsterHealthCheck(monster*monster);
-void dealDamage(player*player, monster*monster);
-void monsterdealDamage(player*player, monster*monster);
-void Attack(player*player, monster*monster);
-void BattleMenu(actionmenu);
-void AfterMenu(aftermenu);
+    std::string SelectedRegion();
+    bool PlayerHealthCheck();
+    bool MonsterHealthCheck(Monster& monster);
+    int DealDamage(Monster& monster);
+    int MonsterDealDamage(Monster& monster);
+    void Attack(Monster& monster);
+    void MonsterAttack(Monster& monster);
+    void BattleMenu(Monster& monster, Effect<Monster>& effect);
 
-#endif
-*/
+    void HuntRewardGold(int gold);
+
+    bool AfterMenu();
+
+    BattleResult RunBattle(Monster& monster, Effect<Monster>& effect);
+
+    void BattleLoop();
+};
+
+inline Battle::MonsterFactory MakeFactory(MonsterType type) {
+    return [type]() {return std::make_unique<Monster>(type); };
+}
