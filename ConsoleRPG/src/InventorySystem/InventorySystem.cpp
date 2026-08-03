@@ -22,15 +22,11 @@ void InventorySystem::ShowInventoryInBattle()
 	}
 }
 
-void InventorySystem::ShowInventoryInShop(double buybackRate, int& totalBuyPrice)
+void InventorySystem::ShowInventoryInShop(double buybackRate, int& totalBuyPrice, bool& isEnd)
 {
-	bool isEnd{};
-
-	while (!isEnd)
-	{
-		PrintInventoryItems(EInventoryViewMode::Shop, buybackRate);
-		HandleShopInventoryOptions(buybackRate, totalBuyPrice, isEnd);
-	}
+	PrintInventoryItems(EInventoryViewMode::Shop, buybackRate);
+	PrintPlayerGold();
+	HandleShopInventoryOptions(buybackRate, totalBuyPrice, isEnd);
 }
 
 void InventorySystem::ShowInventoryInPotionWorkshop()
@@ -40,11 +36,14 @@ void InventorySystem::ShowInventoryInPotionWorkshop()
 
 bool InventorySystem::CanCraftPotion(const std::vector<std::pair<int, int>> materials, std::string potionId, int potionCount)
 {
-	std::vector<FInventorySlot> tmpItems(items);
+	std::vector<FItemSlot> tmpItems(items);
 
 	for (const std::pair<int, int> material : materials)
 	{
-		RemoveItem(material.first, material.second);
+		if (!RemoveItem(material.first, material.second))
+		{
+			return false;
+		}
 	}
 
 	if (AddItem(potionId, potionCount))
@@ -57,14 +56,21 @@ bool InventorySystem::CanCraftPotion(const std::vector<std::pair<int, int>> mate
 	return false;
 }
 
-const FItemData& InventorySystem::GetItemData(int index) const
+bool InventorySystem::GetItemData(int index, FItemData& itemData) const
 {
 	if (index < 0 || inventoryCount <= index)
 	{
-		return FItemData();
+		return false;
 	}
 
-	return items[index].itemData;
+	itemData = items[index].GetItemData();
+
+	return true;
+}
+
+std::string InventorySystem::GetId(int index) const
+{
+	return items[index].GetItemData().GetId();
 }
 
 void InventorySystem::ClearScreen() const
@@ -79,6 +85,7 @@ void InventorySystem::ClearScreen() const
 
 void InventorySystem::PrintInventoryItems(EInventoryViewMode mode, double buybackRate) const
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 	FEnumDisplay enumDisplay;
 
 	std::cout << "================================================================" << std::endl;
@@ -89,41 +96,59 @@ void InventorySystem::PrintInventoryItems(EInventoryViewMode mode, double buybac
 
 	for (int index = 0; index < inventoryCount; index++)
 	{
-		std::string itemName = items[index].itemData.name;
-		int itemCount = items[index].count;
+		std::string itemName = items[index].GetName();
+		int itemCount = items[index].GetCount();
 		std::string itemInfo = std::format("{} x{}", itemName, itemCount);
 		std::string info{};
 
 		if (mode == EInventoryViewMode::Battle)
 		{
-			if (items[index].itemData.category != EItemCategory::Consumable)
+			if (items[index].GetCategory() != EItemCategory::Consumable)
 			{
 				continue;
 			}
 
-			const std::vector<FConsumableEffect> effects = ItemDataBase::GetInstance().GetConsumableEffects(items[index].itemData.id);
+			std::vector<FConsumableEffect> effects{};
+
+			if (!itemDataBase.GetConsumableEffects(items[index].GetId(), effects))
+			{
+				continue;
+			}
+
 			std::string effect{};
+
 			effect = std::accumulate(effects.begin(), effects.end(), effect, [&enumDisplay](std::string result, const FConsumableEffect& e) {
 				std::string s = std::format("{} +{}", enumDisplay.GetConsumableTypeDisplayName(e.consumableType), e.value);
 				return result + s + ", ";
 				});
+
 			effect.erase(effect.end() - 2, effect.end());
+
 			itemInfo = std::format("{} ({}) x{}", itemName, effect, itemCount);
 		}
 		else if (mode == EInventoryViewMode::PotionWorkshop)
 		{
-			if (items[index].itemData.category != EItemCategory::Material)
+			if (items[index].GetCategory() != EItemCategory::Material)
 			{
 				continue;
 			}
 
-			EMaterialType materialType = ItemDataBase::GetInstance().GetMaterialType(items[index].itemData.id);
+			EMaterialType materialType{};
+			
+			if (!itemDataBase.GetMaterialType(items[index].GetId(), materialType) 
+				|| materialType != EMaterialType::Primary && materialType != EMaterialType::Secondary)
+			{
+				continue;
+			}
+
 			std::string mT = enumDisplay.GetMaterialTypeDisplayName(materialType);
+
 			itemInfo = std::format("{} ({}) x{}", itemName, mT, itemCount);
 		}
 		else if (mode == EInventoryViewMode::Shop)
 		{
-			int itemPrice = int(items[index].itemData.price * buybackRate); // 낮춘 가격으로 판매 가능
+			int itemPrice = int(items[index].GetPrice() * buybackRate); // 낮춘 가격으로 판매 가능
+
 			itemInfo = std::format("{} ({}G) x{}", itemName, itemPrice, itemCount);
 		}
 		
@@ -141,10 +166,10 @@ void InventorySystem::HandleNormalInventoryOptions(bool& isEnd)
 	std::cout << std::endl;
 	std::cout << "======= 선택 =======" << std::endl;
 	std::cout << "1. 조회" << std::endl;
-	std::cout << "2. 정렬 (기본)" << std::endl;
+	std::cout << "2. 아이템 정리" << std::endl;
 	std::cout << "3. 정렬 (이름순)" << std::endl;
-	std::cout << "4. 정렬 (가격순)" << std::endl;
-	std::cout << "5. 정렬 (기능순)" << std::endl;
+	std::cout << "4. 정렬 (기능순)" << std::endl;
+	std::cout << "5. 정렬 (가격순)" << std::endl;
 	std::cout << "0. 돌아가기" << std::endl;
 
 	while (!isOk)
@@ -161,7 +186,7 @@ void InventorySystem::HandleNormalInventoryOptions(bool& isEnd)
 			HandleNormalItemSelection();
 			break;
 		case 2:
-			SortOriginal();
+			MergeSameItems();
 			ClearScreen();
 			break;
 		case 3:
@@ -169,11 +194,11 @@ void InventorySystem::HandleNormalInventoryOptions(bool& isEnd)
 			ClearScreen();
 			break;
 		case 4:
-			SortByPrice();
+			SortByFunc();
 			ClearScreen();
 			break;
 		case 5:
-			SortByFunc();
+			SortByPrice();
 			ClearScreen();
 			break;
 		case 0:
@@ -210,7 +235,7 @@ void InventorySystem::HandleBattleInventoryOptions(bool& isEnd)
 		}
 		else if (1 <= number && number <= inventoryCount)
 		{
-			if (items[number - 1].itemData.category == EItemCategory::Consumable)
+			if (items[number - 1].GetCategory() == EItemCategory::Consumable)
 			{
 				UseItem(number - 1);
 				ClearScreen();
@@ -227,6 +252,15 @@ void InventorySystem::HandleBattleInventoryOptions(bool& isEnd)
 			std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
 		}
 	}
+}
+
+void InventorySystem::PrintPlayerGold() const
+{
+	Player& player = Player::GetInstance();
+	int playerGold = player[Pstat::Gold];
+
+	std::cout << std::endl;
+	std::cout << "소지 골드: " << playerGold << "G" << std::endl;
 }
 
 void InventorySystem::HandleShopInventoryOptions(double buybackRate, int& totalBuyPrice, bool& isEnd)
@@ -293,23 +327,25 @@ void InventorySystem::HandleNormalItemSelection()
 
 void InventorySystem::PrintItemInfo(int index) const
 {
-	std::string name = std::format("이름: {}", items[index].itemData.name);
-	std::string description = std::format("설명: {}", items[index].itemData.description);
-	std::string price = std::format("가격: {}G", items[index].itemData.price);
-	std::string count = std::format("개수: {}개", GetTotalItemCount(index));
+	std::string name = std::format("이름: {}", items[index].GetName());
+	std::string description = std::format("{}", items[index].GetDescription());
+	std::string price = std::format("가격: {}G", items[index].GetPrice());
+	std::string count = std::format("보유: {}개", GetTotalItemCount(index));
 
 	std::cout << std::endl;
-	std::cout << "------------------------------------------------------------" << std::endl;
+	std::cout << "---------------------------------------------------------------" << std::endl;
 	std::cout << name << std::endl;
+	std::cout << std::endl;
 	std::cout << description << std::endl;
+	std::cout << std::endl;
 	std::cout << price << std::endl;
 	std::cout << count << std::endl;
-	std::cout << "------------------------------------------------------------" << std::endl;
+	std::cout << "---------------------------------------------------------------" << std::endl;
 }
 
 void InventorySystem::HandleNormalItemOptions(int index)
 {
-	if (items[index].itemData.category == EItemCategory::Material)
+	if (items[index].GetCategory() == EItemCategory::Material)
 	{
 		HandleNormalNonUsableItemOptions(index);
 	}
@@ -412,11 +448,11 @@ void InventorySystem::HandleShopItemOptions(int index, double buybackRate, int& 
 			std::cout << "판매 목록을 조회합니다." << std::endl;
 			ClearScreen();
 		}
-		else if (1 <= number && number <= items[index].count)
+		else if (1 <= number && number <= items[index].GetCount())
 		{
-			std::string messages = std::format("{}을(를) {}개 판매했습니다.", items[index].itemData.name, number);
+			std::string messages = std::format("{}을(를) {}개 판매했습니다.", items[index].GetName(), number);
 			std::cout << messages << std::endl;
-			totalBuyPrice += int(items[index].itemData.price * buybackRate) * number;
+			totalBuyPrice += int(items[index].GetPrice() * buybackRate) * number;
 			
 			RemoveItem(index, number);
 			ClearScreen();
@@ -450,7 +486,7 @@ void InventorySystem::HandleDiscardItem(int index)
 		}
 		else if (1 <= number && number <= itemCount)
 		{
-			std::string message = std::format("{}을(를) {}개 버렸습니다.", items[index].itemData.name, number);
+			std::string message = std::format("{}을(를) {}개 버렸습니다.", items[index].GetName(), number);
 			std::cout << message << std::endl;
 			RemoveItem(index, number);
 			ClearScreen();
@@ -465,86 +501,59 @@ void InventorySystem::HandleDiscardItem(int index)
 
 bool InventorySystem::AddItem(std::string id, int itemCount)
 {
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+	FItemData itemData{};
+
+	if (!itemDataBase.GetItemData(id, itemData))
+	{
+		return false;
+	}
+	
 	int result = FindItem(id);
-	int itemMaxStackCount = ItemDataBase::GetInstance().GetMaxStackCount(id);
+	int itemMaxStackCount = itemData.maxStackCount;
 	int fullSlotCount{};
 	int partiallyFullSlotCount{};
 
-	if (result == -1)
+	if (result != -1)
 	{
-		fullSlotCount = itemCount / itemMaxStackCount;
-		partiallyFullSlotCount = itemCount % itemMaxStackCount == 0 ? 0 : 1;
+		int count = items[result].GetCount();
 
-		if (inventoryCount + fullSlotCount + partiallyFullSlotCount <= inventorySize)
+		if (count + itemCount <= itemMaxStackCount)
 		{
-			FInventorySlot inventorySlot;
-			inventorySlot.itemData = ItemDataBase::GetInstance().GetItemData(id);
-			inventorySlot.count = itemMaxStackCount;
-
-			for (int i = 0; i < fullSlotCount; i++)
-			{
-				inventoryCount += 1;
-				items.push_back(inventorySlot);
-			}
-
-			if (partiallyFullSlotCount == 1)
-			{
-				inventoryCount += 1;
-				inventorySlot.count = itemCount % itemMaxStackCount;
-				items.push_back(inventorySlot);
-			}
-
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-	else
-	{
-		int count = items[result].count;
-		int maxCount = items[result].itemData.maxStackCount;
-
-		if (count + itemCount <= maxCount)
-		{
-			items[result].count += itemCount;
+			items[result].SetCount(count + itemCount);
 			
 			return true;
 		}
 		else
 		{
-			fullSlotCount = (itemCount - (maxCount - count)) / itemMaxStackCount;
-			partiallyFullSlotCount = (itemCount - (maxCount - count)) % itemMaxStackCount == 0 ? 0 : 1;
-
-			if (inventoryCount + fullSlotCount + partiallyFullSlotCount <= inventorySize)
-			{
-				items[result].count = maxCount;
-
-				FInventorySlot inventorySlot;
-				inventorySlot.itemData = ItemDataBase::GetInstance().GetItemData(id);
-				inventorySlot.count = itemMaxStackCount;
-
-				for (int i = 0; i < fullSlotCount; i++)
-				{
-					inventoryCount += 1;
-					items.push_back(inventorySlot);
-				}
-
-				if (partiallyFullSlotCount == 1)
-				{
-					inventoryCount += 1;
-					inventorySlot.count = itemCount % itemMaxStackCount;
-					items.push_back(inventorySlot);
-				}
-
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			itemCount -= itemMaxStackCount - count;
+			items[result].SetCount(itemMaxStackCount);
 		}
+	}
+
+	fullSlotCount = itemCount / itemMaxStackCount;
+	partiallyFullSlotCount = itemCount % itemMaxStackCount == 0 ? 0 : 1;
+
+	if (inventoryCount + fullSlotCount + partiallyFullSlotCount <= inventorySize)
+	{
+		FItemSlot inventorySlot;
+		inventorySlot.SetItemData(itemData);
+		inventorySlot.SetCount(itemMaxStackCount);
+
+		for (int i = 0; i < fullSlotCount; i++)
+		{
+			inventoryCount += 1;
+			items.push_back(inventorySlot);
+		}
+
+		if (partiallyFullSlotCount == 1)
+		{
+			inventoryCount += 1;
+			inventorySlot.SetCount(itemCount % itemMaxStackCount);
+			items.push_back(inventorySlot);
+		}
+
+		return true;
 	}
 
 	return false;
@@ -561,18 +570,20 @@ bool InventorySystem::RemoveItem(int index, int count)
 	
 	if (count <= result)
 	{
-		std::string itemId = items[index].itemData.id;
+		std::string itemId = items[index].GetId();
 		int left = count;
 		int slotIndex = index;
 		int number{};
+		int itemCount{};
 
 		while (left != 0)
 		{
-			number = std::min(left, items[slotIndex].count);
+			itemCount = items[slotIndex].GetCount();
+			number = std::min(left, itemCount);
 			left -= number;
-			items[slotIndex].count -= number;
+			items[slotIndex].SetCount(itemCount - number);
 
-			if (items[slotIndex].count == 0)
+			if (items[slotIndex].GetCount() == 0)
 			{
 				inventoryCount -= 1;
 				items.erase(items.begin() + slotIndex);
@@ -590,16 +601,16 @@ bool InventorySystem::RemoveItem(int index, int count)
 int InventorySystem::FindItem(std::string id) const
 {
 	int index = -1;
-	int minNum = ItemDataBase::GetInstance().GetMaxStackCount(id) + 1;
+	int minNum = -1;
 
 	for (int i = 0; i < inventoryCount; i++)
 	{
-		if (items[i].itemData.id == id)
+		if (items[i].GetId() == id)
 		{
-			if (items[i].count < minNum)
+			if (minNum == -1 || items[i].GetCount() < minNum)
 			{
 				index = i;
-				minNum = items[i].count;
+				minNum = items[i].GetCount();
 			}
 		}
 	}
@@ -609,14 +620,14 @@ int InventorySystem::FindItem(std::string id) const
 
 int InventorySystem::GetTotalItemCount(int index) const
 {
-	std::string itemId = items[index].itemData.id;
+	std::string itemId = items[index].GetId();
 	int total{};
 
 	for (int i = 0; i < inventoryCount; i++)
 	{
-		if (items[i].itemData.id == itemId)
+		if (items[i].GetId() == itemId)
 		{
-			total += items[i].count;
+			total += items[i].GetCount();
 		}
 	}
 
@@ -631,8 +642,13 @@ bool InventorySystem::UseItem(int index)
 	}
 
 	ItemFactory itemFactory;
-	std::string itemId = items[index].itemData.id;
-	EItemCategory itemCategory = items[index].itemData.category;
+	std::string itemId = items[index].GetId();
+	EItemCategory itemCategory = items[index].GetCategory();
+
+	if (!RemoveItem(index))
+	{
+		return false;
+	}
 
 	switch (itemCategory)
 	{
@@ -643,40 +659,30 @@ bool InventorySystem::UseItem(int index)
 		itemFactory.CreateUpgradeItem(itemId)->Use();
 		break;
 	}
-	
-	RemoveItem(index);
 
 	return true;
-}
-
-void InventorySystem::SortOriginal()
-{
-	MergeSameItems();
 }
 
 void InventorySystem::SortByName()
 {
 	std::sort(items.begin(), items.end(), compareName);
-	MergeSameItems();
-}
-
-void InventorySystem::SortByPrice()
-{
-	std::sort(items.begin(), items.end(), comparePrice);
-	MergeSameItems();
 }
 
 void InventorySystem::SortByFunc()
 {
 	std::sort(items.begin(), items.end(), compareFunc);
-	MergeSameItems();
+}
+
+void InventorySystem::SortByPrice()
+{
+	std::sort(items.begin(), items.end(), comparePrice);
 }
 
 void InventorySystem::MergeSameItems()
 {
-	// 정렬 후를 전제로 함
-	std::vector<FInventorySlot> newItems{};
-	std::string prevId{};
+	std::vector<FItemSlot> newItems{};
+	std::unordered_set<std::string> visit{};
+	
 	int newInventoryCount{};
 	int totalCount{};
 	int fullSlot{};
@@ -685,18 +691,18 @@ void InventorySystem::MergeSameItems()
 
 	for (int i = 0; i < inventoryCount; i++)
 	{
-		if (items[i].itemData.id != prevId)
+		if (!visit.contains(items[i].GetId()))
 		{
-			prevId = items[i].itemData.id;
+			visit.emplace(items[i].GetId());
 
 			totalCount = GetTotalItemCount(i);
-			itemMaxStackCount = items[i].itemData.maxStackCount;
+			itemMaxStackCount = items[i].GetMaxStackCount();
 			fullSlot = totalCount / itemMaxStackCount;
 			remainder = totalCount % itemMaxStackCount;
 
-			FInventorySlot inventorySlot;
-			inventorySlot.itemData = items[i].itemData;
-			inventorySlot.count = itemMaxStackCount;
+			FItemSlot inventorySlot;
+			inventorySlot.SetItemData(items[i].GetItemData());
+			inventorySlot.SetCount(itemMaxStackCount);
 
 			for (int j = 0; j < fullSlot; j++)
 			{
@@ -707,7 +713,7 @@ void InventorySystem::MergeSameItems()
 			if (remainder != 0)
 			{
 				newInventoryCount += 1;
-				inventorySlot.count = remainder;
+				inventorySlot.SetCount(remainder);
 				newItems.push_back(inventorySlot);
 			}
 		}

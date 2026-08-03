@@ -10,8 +10,8 @@
 class ItemFactory
 {
 public:
-	const std::unique_ptr<ConsumableItem> CreateConsumableItem(std::string id) const;
-	const std::unique_ptr<UpgradeItem> CreateUpgradeItem(std::string id) const;
-	const std::unique_ptr<MaterialItem> CreateMaterialItem(std::string id) const;
+	std::unique_ptr<ConsumableItem> CreateConsumableItem(std::string id) const;
+	std::unique_ptr<UpgradeItem> CreateUpgradeItem(std::string id) const;
+	std::unique_ptr<MaterialItem> CreateMaterialItem(std::string id) const;
 };
 

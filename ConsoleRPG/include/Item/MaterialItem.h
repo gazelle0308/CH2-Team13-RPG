@@ -21,6 +21,6 @@ private:
 
 public:
     const FMaterialItemData& GetMaterialData() const;
-    const EMaterialType GetMaterialType() const;
+    EMaterialType GetMaterialType() const;
 };
 

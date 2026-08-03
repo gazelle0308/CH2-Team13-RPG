@@ -19,11 +19,11 @@ int main()
 	SetConsoleOutputCP(CP_UTF8);
 	SetConsoleCP(CP_UTF8);
 
+	Player& player = Player::GetInstance();
+
 	const std::vector<std::string> itemIds = ItemDataBase::GetInstance().GetAllItemIds();
 
-	InventorySystem::GetInstance().ExpandInventory(80);
-
-	InventorySystem::GetInstance().ExpandInventory(1000);
+	InventorySystem::GetInstance().ExpandInventory(78);
 	for (const std::string id : itemIds)
 	{
 		InventorySystem::GetInstance().AddItem(id, 11);

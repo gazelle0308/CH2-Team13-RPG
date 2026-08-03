@@ -15,7 +15,7 @@ public:
         SetUpgradeData(id);
     }
 
-    virtual void Use() override; // Player 인자 넣기
+    virtual void Use() override;
 
 private:
     virtual void PrintUseMessage() const override;
@@ -23,7 +23,7 @@ private:
 
 public:
     const FUpgradeItemData& GetUpgradeData() const;
-    const EUpgradeType GetUpgradeType() const;
-    const int GetValue() const;
+    EUpgradeType GetUpgradeType() const;
+    int GetValue() const;
 };
 

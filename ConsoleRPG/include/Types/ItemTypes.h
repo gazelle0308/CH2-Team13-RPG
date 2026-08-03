@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_map>
 
+class ItemDataBase;
+
 enum class EItemCategory
 {
 	None,
@@ -38,37 +40,157 @@ enum class EMaterialType
 
 struct FItemData
 {
+public:
 	std::string id = "ITEM";
 	EItemCategory category = EItemCategory::None;
 	std::string name = "item";
 	std::string description = "description";
 	int price = 0;
 	int maxStackCount = 0;
+
+public:
+	void SetId(std::string id_) {
+		id = id_;
+	}
+	void SetCategory(EItemCategory category_) {
+		category = category_;
+	}
+	void SetName(std::string name_) {
+		name = name_;
+	}
+	void SetDescription(std::string description_)  {
+		description = description_;
+	}
+	void SetPrice(int price_) {
+		price = price_;
+	}
+	void SetMaxStackCount(int maxStackCount_) {
+		maxStackCount = maxStackCount_;
+	}
+
+	std::string GetId() const {
+		return id;
+	}
+	EItemCategory GetCategory() const {
+		return category;
+	}
+	std::string GetName() const {
+		return name;
+	}
+	std::string GetDescription() const {
+		return description;
+	}
+	int GetPrice() const {
+		return price;
+	}
+	int GetMaxStackCount() const {
+		return maxStackCount;
+	}
 };
 
 struct FConsumableEffect
 {
+public:
 	EConsumableType consumableType = EConsumableType::None;
 	int value = 0;
+
+public:
+	void SetConsumableType(EConsumableType consumableType_) {
+		consumableType = consumableType_;
+	}
+	void SetValue(int value_) {
+		value = value_;
+	}
+
+	EConsumableType GetConsumableType() const {
+		return consumableType;
+	}
+	int GetValue() const {
+		return value;
+	}
 };
 
 struct FConsumableItemData
 {
+public:
 	std::string id = "ITEM";
 	std::vector<FConsumableEffect> effects;
+
+public:
+	void SetId(std::string id_) {
+		id = id_;
+	}
+	void SetEffects(const std::vector<FConsumableEffect>& effects_) {
+		effects = effects_;
+	}
+
+	std::string GetId() const {
+		return id;
+	}
+	const std::vector<FConsumableEffect>& GetConsumableEffects() const {
+		return effects;
+	}
+	const std::vector<EConsumableType>& GetConsumableTypes() const {
+		std::vector<EConsumableType> consumableTypes{};
+
+		for (const FConsumableEffect& effect : effects)
+		{
+			consumableTypes.push_back(effect.consumableType);
+		}
+
+		return consumableTypes;
+	}
 };
 
 struct FUpgradeItemData
 {
+public:
 	std::string id = "ITEM";
 	EUpgradeType upgradeType = EUpgradeType::None;
 	int value = 0;
+
+public:
+	void SetId(std::string id_) {
+		id = id_;
+	}
+	void SetUpgradeType(EUpgradeType upgradeType_) {
+		upgradeType = upgradeType_;
+	}
+	void SetValue(int value_) {
+		value = value_;
+	}
+
+	std::string GetId() const {
+		return id;
+	}
+	EUpgradeType GetUpgradeType() const {
+		return upgradeType;
+	}
+	int GetValue() const {
+		return value;
+	}
 };
 
 struct FMaterialItemData
 {
+public:
 	std::string id = "ITEM";
 	EMaterialType materialType = EMaterialType::None;
+
+public:
+	void SetId(std::string id_) {
+		id = id_;
+	}
+	void SetMaterialType(EMaterialType materialType_) {
+		materialType = materialType_;
+	}
+
+	std::string GetId() const {
+		return id;
+	}
+	EMaterialType GetMaterialType() const {
+		return materialType;
+	}
 };
 
 // ==========================================================================================//
@@ -76,6 +198,14 @@ struct FMaterialItemData
 struct FEnumDisplay
 {
 private:
+	// Item
+	std::unordered_map<EItemCategory, int> itemCategorySequenceMap =
+	{
+		{EItemCategory::None, 0},
+		{EItemCategory::Consumable, 1},
+		{EItemCategory::Upgrade, 2},
+		{EItemCategory::Material, 3},
+	};
 	std::unordered_map<EItemCategory, std::string> itemCategoryToStringMap =
 	{
 		{EItemCategory::None, "None"},
@@ -96,6 +226,16 @@ private:
 		{EItemCategory::Consumable, "소비"},
 		{EItemCategory::Upgrade, "강화"},
 		{EItemCategory::Material, "기타"},
+	};
+
+	// Consumable
+	std::unordered_map<EConsumableType, int> consumableSequenceMap =
+	{ 
+		{EConsumableType::None, 0},
+		{EConsumableType::Hp, 1},
+		{EConsumableType::Mp, 2},
+		{EConsumableType::Power, 3},
+		{EConsumableType::Defence, 4}
 	};
 	std::unordered_map<EConsumableType, std::string> consumableToStringMap =
 	{ 
@@ -121,6 +261,13 @@ private:
 		{EConsumableType::Power, "공격력"},
 		{EConsumableType::Defence, "방어력"}
 	};
+
+	// Upgrade
+	std::unordered_map<EUpgradeType, int> upgradeSequenceMap =
+	{
+		{EUpgradeType::None, 0},
+		{EUpgradeType::Inventory, 1}
+	};
 	std::unordered_map<EUpgradeType, std::string> upgradeToStringMap =
 	{
 		{EUpgradeType::None, "None"},
@@ -135,6 +282,14 @@ private:
 	{
 		{EUpgradeType::None, ""},
 		{EUpgradeType::Inventory, "인벤토리"}
+	};
+
+	// Material
+	std::unordered_map<EMaterialType, int> materialSequenceMap =
+	{
+		{EMaterialType::None, 0},
+		{EMaterialType::Primary, 1},
+		{EMaterialType::Secondary, 2}
 	};
 	std::unordered_map<EMaterialType, std::string> materialToStringMap =
 	{
@@ -156,52 +311,103 @@ private:
 	};
 
 public:
-	inline std::string GetItemCategoryToString(EItemCategory itemCategory)
+	// Item
+	inline int GetItemCategorySequence(EItemCategory itemCategory) const
 	{
-		return itemCategoryToStringMap[itemCategory];
+		return itemCategorySequenceMap.at(itemCategory);
 	}
-	inline EItemCategory GetItemCategoryToEnum(std::string str)
+	inline std::string GetItemCategoryToString(EItemCategory itemCategory) const
 	{
-		return itemCategoryToEnumMap[str];
+		return itemCategoryToStringMap.at(itemCategory);
 	}
-	inline std::string GetItemCategoryDisplayName(EItemCategory itemCategory)
+	inline bool GetItemCategoryToEnum(std::string str, EItemCategory& itemCategory) const
 	{
-		return itemCategoryDisplayNameMap[itemCategory];
+		if (itemCategoryToEnumMap.contains(str))
+		{
+			itemCategory = itemCategoryToEnumMap.at(str);
+			
+			return true;
+		}
+		
+		return false;
 	}
-	inline std::string GetConsumableTypeToString(EConsumableType consumableType)
+	inline std::string GetItemCategoryDisplayName(EItemCategory itemCategory) const
 	{
-		return consumableToStringMap[consumableType];
+		return itemCategoryDisplayNameMap.at(itemCategory);
 	}
-	inline EConsumableType GetConsumableTypeToEnum(std::string str)
+
+	// Consumable
+	inline int GetConsumableTypeSequence(EConsumableType consumableType) const
 	{
-		return consumableToEnumMap[str];
+		return consumableSequenceMap.at(consumableType);
 	}
-	inline std::string GetConsumableTypeDisplayName(EConsumableType ConsumableType)
+	inline std::string GetConsumableTypeToString(EConsumableType consumableType) const
 	{
-		return consumableDisplayNameMap[ConsumableType];
+		return consumableToStringMap.at(consumableType);
 	}
-	inline std::string GetUpgradeTypeToString(EUpgradeType upgradeType)
+	inline bool GetConsumableTypeToEnum(std::string str, EConsumableType& consumableType) const
 	{
-		return upgradeToStringMap[upgradeType];
+		if (consumableToEnumMap.contains(str))
+		{
+			consumableType = consumableToEnumMap.at(str);
+
+			return true;
+		}
+
+		return false;
 	}
-	inline EUpgradeType GetUpgradeTypeToEnum(std::string str)
+	inline std::string GetConsumableTypeDisplayName(EConsumableType consumableType) const
 	{
-		return upgradeToEnumMap[str];
+		return consumableDisplayNameMap.at(consumableType);
 	}
-	inline std::string GetUpgradeTypeDisplayName(EUpgradeType upgradeType)
+
+	// Upgrade
+	inline int GetUpgradeTypeSequence(EUpgradeType upgradeType) const
 	{
-		return upgradeDisplayNameMap[upgradeType];
+		return upgradeSequenceMap.at(upgradeType);
 	}
-	inline std::string GetMaterialTypeToString(EMaterialType materialType)
+	inline std::string GetUpgradeTypeToString(EUpgradeType upgradeType) const
 	{
-		return materialToStringMap[materialType];
+		return upgradeToStringMap.at(upgradeType);
 	}
-	inline EMaterialType GetMaterialTypeToEnum(std::string str)
+	inline bool GetUpgradeTypeToEnum(std::string str, EUpgradeType& upgradeType) const
 	{
-		return materialToEnumMap[str];
+		if (upgradeToEnumMap.contains(str))
+		{
+			upgradeType = upgradeToEnumMap.at(str);
+
+			return true;
+		}
+
+		return false;
 	}
-	inline std::string GetMaterialTypeDisplayName(EMaterialType materialType)
+	inline std::string GetUpgradeTypeDisplayName(EUpgradeType upgradeType) const
 	{
-		return materialDisplayNameMap[materialType];
+		return upgradeDisplayNameMap.at(upgradeType);
+	}
+
+	// Material
+	inline int GetMaterialTypeSequence(EMaterialType materialType) const
+	{
+		return materialSequenceMap.at(materialType);
+	}
+	inline std::string GetMaterialTypeToString(EMaterialType materialType) const
+	{
+		return materialToStringMap.at(materialType);
+	}
+	inline bool GetMaterialTypeToEnum(std::string str, EMaterialType& materialType) const
+	{
+		if (materialToEnumMap.contains(str))
+		{
+			materialType = materialToEnumMap.at(str);
+
+			return true;
+		}
+
+		return false;
+	}
+	inline std::string GetMaterialTypeDisplayName(EMaterialType materialType) const
+	{
+		return materialDisplayNameMap.at(materialType);
 	}
 };

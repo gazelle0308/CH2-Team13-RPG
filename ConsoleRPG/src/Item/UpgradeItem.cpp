@@ -5,10 +5,10 @@ void UpgradeItem::Use()
 {
 	PrintUseMessage();
 
-	switch (upgradeItemData.upgradeType)
+	switch (upgradeItemData.GetUpgradeType())
 	{
 	case EUpgradeType::Inventory:
-		InventorySystem::GetInstance().ExpandInventory(upgradeItemData.value);
+		InventorySystem::GetInstance().ExpandInventory(upgradeItemData.GetValue());
 		break;
 	}
 }
@@ -18,15 +18,15 @@ void UpgradeItem::PrintUseMessage() const
 	Item::PrintUseMessage();
 
 	FEnumDisplay enumDisplay;
-	std::string displayName = enumDisplay.GetUpgradeTypeDisplayName(upgradeItemData.upgradeType);
-	std::string message = std::format("{}이(가) {} 증가했습니다.", displayName, upgradeItemData.value);
+	std::string displayName = enumDisplay.GetUpgradeTypeDisplayName(upgradeItemData.GetUpgradeType());
+	std::string message = std::format("{}이(가) {} 증가했습니다.", displayName, upgradeItemData.GetValue());
 
 	// AddLog(message);
 }
 
 void UpgradeItem::SetUpgradeData(std::string id)
 {
-	upgradeItemData = ItemDataBase::GetInstance().GetUpgradeData(id);
+	ItemDataBase::GetInstance().GetUpgradeData(id, upgradeItemData);
 }
 
 const FUpgradeItemData& UpgradeItem::GetUpgradeData() const
@@ -34,12 +34,12 @@ const FUpgradeItemData& UpgradeItem::GetUpgradeData() const
 	return upgradeItemData;
 }
 
-const EUpgradeType UpgradeItem::GetUpgradeType() const
+EUpgradeType UpgradeItem::GetUpgradeType() const
 {
-	return upgradeItemData.upgradeType;
+	return upgradeItemData.GetUpgradeType();
 }
 
-const int UpgradeItem::GetValue() const
+int UpgradeItem::GetValue() const
 {
-	return upgradeItemData.value;
+	return upgradeItemData.GetValue();
 }

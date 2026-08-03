@@ -2,14 +2,14 @@
 
 void Item::PrintUseMessage() const
 {
-	std::string message = std::format("{}을(를) 사용했습니다.", itemData.name);
+	std::string message = std::format("{}을(를) 사용했습니다.", itemData.GetName());
 	std::cout << message << std::endl;
 	// AddLog(message);
 }
 
 void Item::SetItemData(std::string id)
 {
-	itemData = ItemDataBase::GetInstance().GetItemData(id);
+	ItemDataBase::GetInstance().GetItemData(id, itemData);
 }
 
 const FItemData& Item::GetItemData() const
@@ -17,32 +17,32 @@ const FItemData& Item::GetItemData() const
 	return itemData;
 }
 
-const std::string Item::GetId() const
+std::string Item::GetId() const
 {
-	return itemData.id;
+	return itemData.GetId();
 }
 
-const EItemCategory Item::GetCategory() const
+EItemCategory Item::GetCategory() const
 {
-	return itemData.category;
+	return itemData.GetCategory();
 }
 
-const std::string Item::GetName() const
+std::string Item::GetName() const
 {
-	return itemData.name;
+	return itemData.GetName();
 }
 
-const std::string Item::GetDescription() const
+std::string Item::GetDescription() const
 {
-	return itemData.description;
+	return itemData.GetDescription();
 }
 
-const int Item::GetPrice() const
+int Item::GetPrice() const
 {
-	return itemData.price;
+	return itemData.GetPrice();
 }
 
-const int Item::GetMaxStackCount() const
+int Item::GetMaxStackCount() const
 {
-	return itemData.maxStackCount;
+	return itemData.GetMaxStackCount();
 }

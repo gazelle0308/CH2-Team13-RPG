@@ -182,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="data\consumables.json" />
+    <None Include="data\inventoryItems.json" />
     <None Include="data\items.json" />
     <None Include="data\materials.json" />
     <None Include="data\potionRecipes.json" />

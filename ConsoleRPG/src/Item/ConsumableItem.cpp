@@ -4,22 +4,32 @@ void ConsumableItem::Use()
 {
 	PrintUseMessage();
 	
+	Player& player = Player::GetInstance();
+
 	// Player stat change
-	for (const FConsumableEffect& effect : consumableItemData.effects)
+	for (const FConsumableEffect& effect : consumableItemData.GetConsumableEffects())
 	{
-		switch (effect.consumableType)
+		switch (effect.GetConsumableType())
 		{
 		case EConsumableType::Hp:
-			// hp
+			std::cout << "hp" << std::endl;
+
+			player.ApplyEffect(Pstat::Hp, effect.GetValue());
 			break;
 		case EConsumableType::Mp:
-			// mp
+			std::cout << "mp" << std::endl;
+
+			player.ApplyEffect(Pstat::Mp, effect.GetValue());
 			break;
 		case EConsumableType::Power:
-			// power
+			std::cout << "power" << std::endl;
+
+			player.ApplyEffect(Pstat::BuffPower, effect.GetValue());
 			break;
 		case EConsumableType::Defence:
-			// defence
+			std::cout << "defence" << std::endl;
+
+			player.ApplyEffect(Pstat::BuffDefence, effect.GetValue());
 			break;
 		}
 	}
@@ -31,10 +41,10 @@ void ConsumableItem::PrintUseMessage() const
 
 	FEnumDisplay enumDisplay;
 
-	for (const FConsumableEffect& effect : consumableItemData.effects)
+	for (const FConsumableEffect& effect : consumableItemData.GetConsumableEffects())
 	{
-		std::string displayName = enumDisplay.GetConsumableTypeDisplayName(effect.consumableType);
-		std::string message = std::format("{}이(가) {} 증가했습니다.", displayName, effect.value);
+		std::string displayName = enumDisplay.GetConsumableTypeDisplayName(effect.GetConsumableType());
+		std::string message = std::format("{}이(가) {} 증가했습니다.", displayName, effect.GetValue());
 		std::cout << message << std::endl;
 		// AddLog(message);
 	}
@@ -42,7 +52,7 @@ void ConsumableItem::PrintUseMessage() const
 
 void ConsumableItem::SetConsumableData(std::string id)
 {
-	consumableItemData = ItemDataBase::GetInstance().GetConsumableData(id);
+	ItemDataBase::GetInstance().GetConsumableData(id, consumableItemData);
 }
 
 const FConsumableItemData& ConsumableItem::GetConsumableData() const
@@ -52,16 +62,19 @@ const FConsumableItemData& ConsumableItem::GetConsumableData() const
 
 const std::vector<FConsumableEffect>& ConsumableItem::GetConsumableEffects() const
 {
-	return consumableItemData.effects;
+	return consumableItemData.GetConsumableEffects();
 }
 
 const std::vector<EConsumableType>& ConsumableItem::GetConsumableTypes() const
 {
-	std::vector<EConsumableType> consumableTypes{};
-
-	for (const FConsumableEffect& effect : consumableItemData.effects)
+	static std::vector<EConsumableType> consumableTypes{};
+	
+	if (consumableTypes.empty())
 	{
-		consumableTypes.push_back(effect.consumableType);
+		for (const FConsumableEffect& effect : consumableItemData.GetConsumableEffects())
+		{
+			consumableTypes.push_back(effect.GetConsumableType());
+		}
 	}
 
 	return consumableTypes;

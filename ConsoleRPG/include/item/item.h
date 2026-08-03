@@ -25,11 +25,11 @@ protected:
 
 public:
 	const FItemData& GetItemData() const;
-	const std::string GetId() const;
-	const EItemCategory GetCategory() const;
-	const std::string GetName() const;
-	const std::string GetDescription() const;
-	const int GetPrice() const;
-	const int GetMaxStackCount() const;
+	std::string GetId() const;
+	EItemCategory GetCategory() const;
+	std::string GetName() const;
+	std::string GetDescription() const;
+	int GetPrice() const;
+	int GetMaxStackCount() const;
 };
 

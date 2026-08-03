@@ -19,14 +19,18 @@ void ItemDataBase::LoadItemData()
 	{
 		FItemData itemData;
 
-		itemData.id = item["id"];
-		itemData.category = enumDisplay.GetItemCategoryToEnum(item["category"]);
-		itemData.name = item["name"];
-		itemData.description = item["description"];
-		itemData.price = item["price"];
-		itemData.maxStackCount = item["maxStackCount"];
+		if (!enumDisplay.GetItemCategoryToEnum(item["category"], itemData.category))
+		{
+			return;
+		}
 
-		itemDataMap.emplace(itemData.id, itemData);
+		itemData.SetId(item["id"]);
+		itemData.SetName(item["name"]);
+		itemData.SetDescription(item["description"]);
+		itemData.SetPrice(item["price"]);
+		itemData.SetMaxStackCount(item["maxStackCount"]);
+
+		itemDataMap.emplace(itemData.GetId(), itemData);
 	}
 }
 
@@ -55,13 +59,17 @@ void ItemDataBase::LoadConsumableData()
 		{
 			FConsumableEffect consumableEffect;
 
-			consumableEffect.consumableType = enumDisplay.GetConsumableTypeToEnum(effect["consumableType"]);
-			consumableEffect.value = effect["value"];
+			if (!enumDisplay.GetConsumableTypeToEnum(effect["consumableType"], consumableEffect.consumableType))
+			{
+				return;
+			}
+
+			consumableEffect.SetValue(effect["value"]);
 
 			consumableData.effects.push_back(consumableEffect);
 		}
 
-		consumableDataMap.emplace(consumableData.id, consumableData);
+		consumableDataMap.emplace(consumableData.GetId(), consumableData);
 	}
 }
 
@@ -84,11 +92,15 @@ void ItemDataBase::LoadUpgradeData()
 	{
 		FUpgradeItemData upgradeItemData;
 
-		upgradeItemData.id = item["id"];
-		upgradeItemData.upgradeType = enumDisplay.GetUpgradeTypeToEnum(item["upgradeType"]);
-		upgradeItemData.value = item["value"];
+		if (!enumDisplay.GetUpgradeTypeToEnum(item["upgradeType"], upgradeItemData.upgradeType))
+		{
+			return;
+		}
 
-		upgradeDataMap.emplace(upgradeItemData.id, upgradeItemData);
+		upgradeItemData.SetId(item["id"]);
+		upgradeItemData.SetValue(item["value"]);
+
+		upgradeDataMap.emplace(upgradeItemData.GetId(), upgradeItemData);
 	}
 }
 
@@ -111,10 +123,14 @@ void ItemDataBase::LoadMaterialData()
 	{
 		FMaterialItemData materialItemData;
 
-		materialItemData.id = item["id"];
-		materialItemData.materialType = enumDisplay.GetMaterialTypeToEnum(item["materialType"]);
+		if (!enumDisplay.GetMaterialTypeToEnum(item["materialType"], materialItemData.materialType))
+		{
+			return;
+		}
 
-		materialDataMap.emplace(materialItemData.id, materialItemData);
+		materialItemData.SetId(item["id"]);
+
+		materialDataMap.emplace(materialItemData.GetId(), materialItemData);
 	}
 }
 
@@ -125,12 +141,12 @@ void ItemDataBase::PrintAllItemData() const
 	for (std::unordered_map<std::string, FItemData>::const_iterator iter = itemDataMap.begin(); iter != itemDataMap.end(); iter++)
 	{
 		std::cout << std::format("ID: {}", iter->first) << std::endl;
-		std::cout << std::format("id: {}", iter->second.id) << std::endl;
-		std::cout << std::format("category: {}", enumDisplay.GetItemCategoryToString(iter->second.category)) << std::endl;
-		std::cout << std::format("description: {}", iter->second.description) << std::endl;
-		std::cout << std::format("name: {}", iter->second.name) << std::endl;
-		std::cout << std::format("price: {}", iter->second.price) << std::endl;
-		std::cout << std::format("maxStackCount: {}", iter->second.maxStackCount) << std::endl;
+		std::cout << std::format("id: {}", iter->second.GetId()) << std::endl;
+		std::cout << std::format("category: {}", enumDisplay.GetItemCategoryToString(iter->second.GetCategory())) << std::endl;
+		std::cout << std::format("description: {}", iter->second.GetDescription()) << std::endl;
+		std::cout << std::format("name: {}", iter->second.GetName()) << std::endl;
+		std::cout << std::format("price: {}", iter->second.GetPrice()) << std::endl;
+		std::cout << std::format("maxStackCount: {}", iter->second.GetMaxStackCount()) << std::endl;
 	}
 }
 
@@ -141,11 +157,11 @@ void ItemDataBase::PrintAllConsumableData() const
 	for (std::unordered_map<std::string, FConsumableItemData>::const_iterator iter = consumableDataMap.begin(); iter != consumableDataMap.end(); iter++)
 	{
 		std::cout << std::format("ID: {}", iter->first) << std::endl;
-		std::cout << std::format("id: {}", iter->second.id) << std::endl;
+		std::cout << std::format("id: {}", iter->second.GetId()) << std::endl;
 
-		for (const FConsumableEffect& effect : iter->second.effects)
+		for (const FConsumableEffect& effect : iter->second.GetConsumableEffects())
 		{
-			std::cout << std::format("consumableType: {}, value: {}", enumDisplay.GetConsumableTypeToString(effect.consumableType), effect.value) << std::endl;
+			std::cout << std::format("consumableType: {}, value: {}", enumDisplay.GetConsumableTypeToString(effect.GetConsumableType()), effect.GetValue()) << std::endl;
 		}
 	}
 }
@@ -157,9 +173,9 @@ void ItemDataBase::PrintAllUpgradeData() const
 	for (std::unordered_map<std::string, FUpgradeItemData>::const_iterator iter = upgradeDataMap.begin(); iter != upgradeDataMap.end(); iter++)
 	{
 		std::cout << std::format("ID: {}", iter->first) << std::endl;
-		std::cout << std::format("id: {}", iter->second.id) << std::endl;
-		std::cout << std::format("upgradeType: {}", enumDisplay.GetUpgradeTypeToString(iter->second.upgradeType)) << std::endl;
-		std::cout << std::format("value: {}", iter->second.value) << std::endl;
+		std::cout << std::format("id: {}", iter->second.GetId()) << std::endl;
+		std::cout << std::format("upgradeType: {}", enumDisplay.GetUpgradeTypeToString(iter->second.GetUpgradeType())) << std::endl;
+		std::cout << std::format("value: {}", iter->second.GetValue()) << std::endl;
 	}
 }
 
@@ -170,8 +186,8 @@ void ItemDataBase::PrintAllMaterialData() const
 	for (std::unordered_map<std::string, FMaterialItemData>::const_iterator iter = materialDataMap.begin(); iter != materialDataMap.end(); iter++)
 	{
 		std::cout << std::format("ID: {}", iter->first) << std::endl;
-		std::cout << std::format("id: {}", iter->second.id) << std::endl;
-		std::cout << std::format("materialType: {}", enumDisplay.GetMaterialTypeToString(iter->second.materialType)) << std::endl;
+		std::cout << std::format("id: {}", iter->second.GetId()) << std::endl;
+		std::cout << std::format("materialType: {}", enumDisplay.GetMaterialTypeToString(iter->second.GetMaterialType())) << std::endl;
 	}
 }
 
@@ -187,150 +203,178 @@ const std::vector<std::string> ItemDataBase::GetAllItemIds() const
 	return ids;
 }
 
-const FItemData& ItemDataBase::GetItemData(std::string id) const
+bool ItemDataBase::GetItemData(std::string id, FItemData& itemData) const
 {
 	if (!itemDataMap.contains(id))
 	{
-		return FItemData();
+		return false;
 	}
 
-	return itemDataMap.at(id);
+	itemData = itemDataMap.at(id);
+
+	return true;
 }
 
-const EItemCategory ItemDataBase::GetCategory(std::string id) const
+bool ItemDataBase::GetCategory(std::string id, EItemCategory& category) const
 {
 	if (!itemDataMap.contains(id))
 	{
-		return EItemCategory::None;
+		return false;
 	}
 
-	return itemDataMap.at(id).category;
+	category = itemDataMap.at(id).GetCategory();
+
+	return true;
 }
 
-const std::string ItemDataBase::GetName(std::string id) const
+bool ItemDataBase::GetName(std::string id, std::string& name) const
 {
 	if (!itemDataMap.contains(id))
 	{
-		return std::string();
+		return false;
 	}
 
-	return itemDataMap.at(id).name;
+	name = itemDataMap.at(id).GetName();
+
+	return true;
 }
 
-const std::string ItemDataBase::GetDescription(std::string id) const
+bool ItemDataBase::GetDescription(std::string id, std::string& description) const
 {
 	if (!itemDataMap.contains(id))
 	{
-		return std::string();
+		return false;
 	}
 
-	return itemDataMap.at(id).description;
+	description = itemDataMap.at(id).GetDescription();
+	
+	return true;
 }
 
-const int ItemDataBase::GetPrice(std::string id) const
+bool ItemDataBase::GetPrice(std::string id, int& price) const
 {
 	if (!itemDataMap.contains(id))
 	{
-		return int();
+		return false;
 	}
 
-	return itemDataMap.at(id).price;
+	price = itemDataMap.at(id).GetPrice();
+	
+	return true;
 }
 
-const int ItemDataBase::GetMaxStackCount(std::string id) const
+bool ItemDataBase::GetMaxStackCount(std::string id, int& maxStackCount) const
 {
 	if (!itemDataMap.contains(id))
 	{
-		return int();
+		return false;
 	}
 
-	return itemDataMap.at(id).maxStackCount;
+	maxStackCount = itemDataMap.at(id).GetMaxStackCount();
+	
+	return true;
 }
 
-const FConsumableItemData& ItemDataBase::GetConsumableData(std::string id) const
+bool ItemDataBase::GetConsumableData(std::string id, FConsumableItemData& consumableItemData) const
 {
 	if (!consumableDataMap.contains(id))
 	{
-		return FConsumableItemData();
+		return false;
 	}
 
-	return consumableDataMap.at(id);
+	consumableItemData = consumableDataMap.at(id);
+	
+	return true;
 }
 
-const std::vector<FConsumableEffect>& ItemDataBase::GetConsumableEffects(std::string id) const
+bool ItemDataBase::GetConsumableEffects(std::string id, std::vector<FConsumableEffect>& consumbaleEffects) const
 {
 	if (!consumableDataMap.contains(id))
 	{
-		return std::vector<FConsumableEffect>();
+		return false;
 	}
 
-	return consumableDataMap.at(id).effects;
+	consumbaleEffects = consumableDataMap.at(id).GetConsumableEffects();
+	
+	return true;
 }
 
-const std::vector<EConsumableType>& ItemDataBase::GetConsumableTypes(std::string id) const
+bool ItemDataBase::GetConsumableTypes(std::string id, std::vector<EConsumableType>& consumableTypes) const
 {
 	if (!consumableDataMap.contains(id))
 	{
-		return std::vector<EConsumableType>();
+		return false;
 	}
 
-	std::vector<EConsumableType> consumableTypes{};
+	std::vector<EConsumableType> types{};
 	FConsumableItemData consumableItemData = consumableDataMap.at(id);
 
-	for (const FConsumableEffect& effect : consumableItemData.effects)
+	for (const FConsumableEffect& effect : consumableItemData.GetConsumableEffects())
 	{
-		consumableTypes.push_back(effect.consumableType);
+		types.push_back(effect.GetConsumableType());
 	}
 
-	return consumableTypes;
+	consumableTypes = types;
+
+	return true;
 }
 
-const FUpgradeItemData& ItemDataBase::GetUpgradeData(std::string id) const
+bool ItemDataBase::GetUpgradeData(std::string id, FUpgradeItemData& upgradeItemData) const
 {
 	if (!upgradeDataMap.contains(id))
 	{
-		return FUpgradeItemData();
+		return false;
 	}
 
-	return upgradeDataMap.at(id);
+	upgradeItemData = upgradeDataMap.at(id);
+	
+	return true;
 }
 
-const EUpgradeType ItemDataBase::GetUpgradeType(std::string id) const
+bool ItemDataBase::GetUpgradeType(std::string id, EUpgradeType& upgradeType) const
 {
 	if (!upgradeDataMap.contains(id))
 	{
-		return EUpgradeType::None;
+		return false;
 	}
 
-	return upgradeDataMap.at(id).upgradeType;
+	upgradeType = upgradeDataMap.at(id).GetUpgradeType();
+	
+	return true;
 }
 
-const int ItemDataBase::GetUpgradeValue(std::string id) const
+bool ItemDataBase::GetUpgradeValue(std::string id, int& value) const
 {
 	if (!upgradeDataMap.contains(id))
 	{
-		return int();
+		return false;
 	}
 
-	return upgradeDataMap.at(id).value;
+	value = upgradeDataMap.at(id).GetValue();
+
+	return true;
 }
 
-const FMaterialItemData& ItemDataBase::GetMaterialData(std::string id) const
+bool ItemDataBase::GetMaterialData(std::string id, FMaterialItemData& materialItemData) const
 {
 	if (!materialDataMap.contains(id))
 	{
-		return FMaterialItemData();
+		return false;
 	}
 
-	return materialDataMap.at(id);
+	materialItemData = materialDataMap.at(id);
+	
+	return true;
 }
 
-const EMaterialType ItemDataBase::GetMaterialType(std::string id) const
+bool ItemDataBase::GetMaterialType(std::string id, EMaterialType& materialType) const
 {
 	if (!materialDataMap.contains(id))
 	{
-		return EMaterialType::None;
+		return false;
 	}
 
-	return materialDataMap.at(id).materialType;
+	materialType = materialDataMap.at(id).GetMaterialType();
+	
+	return true;
 }
