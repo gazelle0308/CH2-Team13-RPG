@@ -5,13 +5,12 @@
 
 #include <string>
 
-#include "player/player.h"
+#include "Player/Player.h"
 
 void LevelUpPlayer() {
     Player& player = Player::GetInstance();
 
     while (player.GetExp() >= player.GetMaxExp()) {
-
         player.SetLevel(player.GetLevel() + 1);
 
         player.SetExp(player.GetExp() - player.GetMaxExp());

@@ -32,10 +32,10 @@ EssenceOrb::EssenceOrb() {
     this->orb[17] = Essence("세이렌", 0, 0, 0, 0);
     this->orb[18] = Essence("미노타우르스", 0, 0, 0, 0);
     this->orb[19] = Essence("얼음 정령", 0, 0, 0, 0);
-    this->orb[20] = Essence("상급 데몬", 0, 0, 0, 0);
-    this->orb[21] = Essence("상급 미노타우르스", 0, 0, 0, 0);
-    this->orb[22] = Essence("상급 뱀파이어", 0, 0, 0, 0);
-    this->orb[23] = Essence("상급 키메라", 0, 0, 0, 0);
+    this->orb[20] = Essence("헬 하운드", 0, 0, 0, 0);
+    this->orb[21] = Essence("살라맨더", 0, 0, 0, 0);
+    this->orb[22] = Essence("와이번", 0, 0, 0, 0);
+    this->orb[23] = Essence("맨티코어", 0, 0, 0, 0);
     this->orb[24] = Essence("피닉스", 0, 0, 0, 0);
     this->orb[25] = Essence("잘못된 정보", 0, 0, 0, 0);
 }
@@ -106,7 +106,8 @@ void EssenceOrb::AcquireEssence(std::string name) {
 
     // 몬스터 name 값 확인
     if (essence == -1) {
-        throw std::logic_error("에러! 전달 받은 인자" + name + "의 정보가 존재하지 않습니다!");
+        throw std::logic_error("에러! 전달 받은 인자"
+                      + name + "의 정보가 존재하지 않습니다!");
     }
     // 이미 얻은 정수 선택지X
     if (!this->orb[essence].GetLock()) {
@@ -130,7 +131,30 @@ void EssenceOrb::AcquireEssence(std::string name) {
     }
 
     this->orb[essence].OpenEssence();
-    std::cout << "정수" << this->orb[essence].GetName() << "을 획득하셨습니다! \n";
+    std::cout << this->orb[essence].GetName()
+              << "의 정수를 획득하셨습니다! \n";
+}
+
+void EssenceOrb::UseSkill(Monster& monster, Effect<Monster>& effect) {
+    for (int loop = 0; loop < 25; loop = loop + 1) {
+        if (this->orb[loop].GetEnable()) {
+            this->orb[loop].Skill(monster, effect);
+            return;
+        }
+    }
+
+    Player& player = Player::GetInstance();
+    
+    std::cout << player.GetName() << "의 " << player.GetSkill() << "!!\n";
+    std::cout << "(반동으로 10 데미지를 받았다)" << "!!\n";
+    int  damage = 1;
+    player[Pstat::Hp] -= 10;
+
+    if (player[Pstat::Power] - monster.getdef() > 0) {
+        damage = player[Pstat::Power] + 10 - monster.getdef();
+    }
+
+    monster.sethp(monster.gethp() - damage);
 }
 
 bool EssenceOrb::AllCollection() {

@@ -10,6 +10,7 @@
 #include "ShopSystem/ShopSystem.h"
 #include "PotionWorkshop/PotionWorkshop.h"
 #include "Player/Player.h"
+#include "Monster/Monster.h"
 #include "Essence/EssenceOrb.h"
 #include "LevelUp/levelUp.h"
 

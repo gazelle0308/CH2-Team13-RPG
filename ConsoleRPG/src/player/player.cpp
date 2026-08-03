@@ -49,10 +49,18 @@ const int& Player::operator[](const Pstat target) const {
         return this->currentMaxHp;
     } else if (target == Pstat::MaxMp) {
         return this->currentMaxMp;
+    } else if (target == Pstat::BaseHp) {
+        return this->baseMaxHp;
+    } else if (target == Pstat::BaseMp) {
+        return this->baseMaxMp;
     } else if (target == Pstat::Power) {
         return this->currentPower;
     } else if (target == Pstat::Defence) {
         return this->currentDefence;
+    } else if (target == Pstat::BasePower) {
+        return this->basePower;
+    } else if (target == Pstat::BaseDefence) {
+        return this->baseDefence;
     } else if (target == Pstat::BuffPower) {
         return this->buffPower;
     } else if (target == Pstat::BuffDefence) {
@@ -248,6 +256,21 @@ void Player::SetEssence(std::string essence) { this->essence = essence; }
 void Player::SetSkill(std::string skill) { this->skill = skill; }
 
 
+// Universal interface
+
+std::string Player::getName() const { return this->name; }
+
+int Player::gethp() const { return this->currentHp; }
+int Player::getmp() const { return this->currentMp; }
+int Player::getatk() const { return this->currentPower; }
+int Player::getdef() const { return this->currentDefence; }
+
+
+void Player::sethp(int value) { this->currentHp = value; }
+void Player::setmp(int value) { this->currentMp = value; }
+void Player::setatk(int value) { this->currentPower = value; }
+void Player::setdef(int value) { this->currentDefence = value; }
+
 
 // Function
 
@@ -317,10 +340,16 @@ void Player::SetEssence(const Essence& essence) {
 
 void Player::ViewStatus() {
     std::cout << "<플레이어>\n";
-    std::cout << "이름: " << this->name << " 정수: " << this->essence << "\n";
-    std::cout << "레벨: " << this->level << " 경험치: " << this->exp << "/" << this->maxExp << " 골드: " << this->gold << "\n";
-    std::cout << "HP: " << this->currentHp << "/" << this->currentMaxHp << " MP: " << this->currentMp << "/" << this->currentMaxMp << "\n";
-    std::cout << "공격력: " << this->currentPower << " 방어력: " << this->currentDefence << " 스킬: " << this->skill << "\n";
+    std::cout << "이름: "  << this->name
+              << " 정수: " << this->essence << "\n";
+    std::cout << "레벨: "    << this->level
+              << " 경험치: " << this->exp << "/" << this->maxExp
+              <<" 골드: "    << this->gold << "\n";
+    std::cout << "HP: "  << this->currentHp << "/" << this->currentMaxHp
+              << " MP: " << this->currentMp << "/" << this->currentMaxMp << "\n";
+    std::cout << "공격력: "  << this->attack
+              << " 방어력: " << this->guard
+              << " 스킬: "   << this->skill << "\n";
 }
 
 // Constructor
@@ -356,5 +385,4 @@ Player::Player(std::string name,
 
     this->attack = currentPower;
     this->guard = currentDefence;
-
 }

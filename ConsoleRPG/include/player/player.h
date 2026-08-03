@@ -11,8 +11,10 @@
 #include <vector>
 #include <string>
 
+
 template<typename Entity>
 class Effect;
+
 
 enum class Pstat {
     Hp,
@@ -38,7 +40,8 @@ enum class Pstat {
 class Essence;
 
 class Player {
-public:
+ public:
+
     // operator
 
     int& operator[](const Pstat target);
@@ -110,6 +113,21 @@ public:
 
     void SetSkill(std::string skill);
 
+    // Universal interface
+
+    std::string getName() const;
+
+    int gethp() const;
+    int getmp() const;
+    int getatk() const;
+    int getdef() const;
+
+
+    void sethp(int value);
+    void setmp(int value);
+    void setatk(int value);
+    void setdef(int value);
+
     // Function
     void SyncToBase(Pstat target);
 
@@ -151,7 +169,8 @@ public:
         return instance;
     }
 
-protected:
+ protected:
+
     // Constructor
 
     explicit Player(std::string name,
@@ -160,7 +179,7 @@ protected:
                     int baseMaxMp = 100,
                     int basePower = 30,
                     int baseDefence = 5,
-                    std::string skill = "주먹질!");
+                    std::string skill = "몸통 박치기!");
 
     int gold;
 
