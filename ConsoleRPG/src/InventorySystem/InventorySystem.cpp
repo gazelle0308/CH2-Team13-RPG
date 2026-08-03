@@ -73,6 +73,32 @@ std::string InventorySystem::GetId(int index) const
 	return items[index].GetItemData().GetId();
 }
 
+void InventorySystem::SetInventoryData()
+{
+	InventoryDataBase& inventoryDataBase = InventoryDataBase::GetInstance();
+	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+
+	const std::vector<FInventoryItemData> inventoryItemDatas = inventoryDataBase.GetInventoryItemDatas();
+
+	for (const FInventoryItemData& data : inventoryItemDatas)
+	{
+		FItemData itemData;
+
+		if (!itemDataBase.GetItemData(data.GetId(), itemData))
+		{
+			continue;
+		}
+
+		FItemSlot itemSlot;
+
+		itemSlot.SetItemData(itemData);
+		itemSlot.SetCount(data.GetCount());
+
+		items.push_back(itemSlot);
+		inventoryCount += 1;
+	}
+}
+
 void InventorySystem::ClearScreen() const
 {
 	std::cout << std::endl;

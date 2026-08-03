@@ -12,25 +12,25 @@ void ConsumableItem::Use()
 		switch (effect.GetConsumableType())
 		{
 		case EConsumableType::Hp:
-			std::cout << "hp" << std::endl;
-
+		{
 			player.ApplyEffect(Pstat::Hp, effect.GetValue());
 			break;
+		}
 		case EConsumableType::Mp:
-			std::cout << "mp" << std::endl;
-
+		{
 			player.ApplyEffect(Pstat::Mp, effect.GetValue());
 			break;
+		}
 		case EConsumableType::Power:
-			std::cout << "power" << std::endl;
-
+		{
 			player.ApplyEffect(Pstat::BuffPower, effect.GetValue());
 			break;
+		}
 		case EConsumableType::Defence:
-			std::cout << "defence" << std::endl;
-
+		{
 			player.ApplyEffect(Pstat::BuffDefence, effect.GetValue());
 			break;
+		}
 		}
 	}
 }

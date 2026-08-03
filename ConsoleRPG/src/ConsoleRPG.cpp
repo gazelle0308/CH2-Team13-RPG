@@ -20,14 +20,15 @@ int main()
 	SetConsoleCP(CP_UTF8);
 
 	Player& player = Player::GetInstance();
+	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 
-	const std::vector<std::string> itemIds = ItemDataBase::GetInstance().GetAllItemIds();
+	//const std::vector<std::string> itemIds = ItemDataBase::GetInstance().GetAllItemIds();
 
-	InventorySystem::GetInstance().ExpandInventory(78);
-	for (const std::string id : itemIds)
-	{
-		InventorySystem::GetInstance().AddItem(id, 11);
-	}
+	//InventorySystem::GetInstance().ExpandInventory(78);
+	//for (const std::string id : itemIds)
+	//{
+		//InventorySystem::GetInstance().AddItem(id, 11);
+	//}
 
 	int number{};
 
@@ -44,7 +45,7 @@ int main()
 		switch (number)
 		{
 		case 1:
-			InventorySystem::GetInstance().ShowInventoryInNormal();
+			inventorySystem.ShowInventoryInNormal();
 			break;
 		case 2:
 			ShopSystem::GetInstance().ShowShop();
@@ -53,7 +54,7 @@ int main()
 			PotionWorkshop::GetInstance().ShowPotionWorkshop();
 			break;
 		case 4:
-			InventorySystem::GetInstance().ShowInventoryInBattle();
+			inventorySystem.ShowInventoryInBattle();
 			break;
 		}
 	}
