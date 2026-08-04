@@ -304,34 +304,34 @@
         "maxStackCount": 99
     },
     {
-        "id": "ITEM_MATERIAL_DAEMON_TONGUE",
+        "id": "ITEM_MATERIAL_HELL_HOUND_COLLAR",
         "category": "Material",
-        "name": "악마의 혀",
-        "description": "악마의 혀입니다. 포션 제작에 부재료로 사용됩니다.",
+        "name": "헬 하운드의 부서진 목줄",
+        "description": "헬 하운드의 부서진 목줄입니다. 포션 제작에 부재료로 사용됩니다.",
         "price": 50,
         "maxStackCount": 99
     },
     {
-        "id": "ITEM_MATERIAL_MINOTAUR_HELMET",
+        "id": "ITEM_MATERIAL_WYVERN_POISON",
         "category": "Material",
-        "name": "미노타우르스의 투구",
-        "description": "미노타우르스의 투구입니다. 포션 제작에 부재료로 사용됩니다.",
+        "name": "와이번의 독",
+        "description": "와이번의 독입니다. 포션 제작에 부재료로 사용됩니다.",
         "price": 50,
         "maxStackCount": 99
     },
     {
-        "id": "ITEM_MATERIAL_VAMPIRE_BLOOD",
+        "id": "ITEM_MATERIAL_SALAMANDER_SKIN",
         "category": "Material",
-        "name": "뱀파이어의 피",
-        "description": "뱀파이어가 흘린 피입니다. 포션 제작에 원재료로 사용됩니다.",
+        "name": "살라맨더의 가죽",
+        "description": "살라맨더의 가죽입니다. 포션 제작에 원재료로 사용됩니다.",
         "price": 50,
         "maxStackCount": 99
     },
     {
-        "id": "ITEM_MATERIAL_CHIMERA_TOOTH",
+        "id": "ITEM_MATERIAL_MANTICORE_TAIL",
         "category": "Material",
-        "name": "키메라의 어금니",
-        "description": "키메라의 어금니입니다. 포션 제작에 원재료로 사용됩니다.",
+        "name": "멘티코어의 독 꼬리",
+        "description": "멘티코어의 독 꼬리입니다. 포션 제작에 원재료로 사용됩니다.",
         "price": 50,
         "maxStackCount": 99
     },
