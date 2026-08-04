@@ -4,12 +4,10 @@
 #include <string>
 
 #include "Item/Item.h"
+#include "GameLog/GameLog.h"
 
 void Item::PrintUseMessage() const {
-    std::string message =
-        std::format("{}을(를) 사용했습니다.", itemData.GetName());
-    std::cout << message << std::endl;
-    // AddLog(message);
+    GameLog::GetInstance().itemLog(itemData.GetName(), "사용했습니다.");
 }
 
 void Item::SetItemData(std::string id) {

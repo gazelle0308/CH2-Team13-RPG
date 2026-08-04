@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Item/ConsumableItem.h"
+#include "GameLog/GameLog.h"
 
 void ConsumableItem::Use() {
     // PrintUseMessage();
@@ -61,12 +62,8 @@ void ConsumableItem::PrintUseMessage() const {
         std::string displayName =
             enumDisplay.GetConsumableTypeDisplayName(
                             effect.GetConsumableType());
-        std::string message =
-            std::format("{}이(가) {} 증가했습니다.",
-                         displayName,
-                         effect.GetValue());
-        std::cout << message << std::endl;
-        // AddLog(message);
+        GameLog::GetInstance().itemLog(displayName, std::format("{} 증가했습니다.", effect.GetValue()));
+        
     }
 }
 
