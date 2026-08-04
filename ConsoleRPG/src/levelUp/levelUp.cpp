@@ -4,11 +4,12 @@
 #include "levelUp/levelUp.h"
 
 #include <string>
+#include <iostream>
 
+#include "Utility/Utility.h"
 #include "Player/Player.h"
 
 void LevelUpPlayer() {
-
     Player& player = Player::GetInstance();
     const Player& readPlayer = Player::GetReadInstance();
 
@@ -22,9 +23,9 @@ void LevelUpPlayer() {
             player.SetExp(player.GetMaxExp());
             return;
         }
-        std::cout << "=====================================================\n";
+        StartLine();
         std::cout << "레벨업!\n";
-        std::cout << "=====================================================\n";
+        StartLine();
         player.SetLevel(player.GetLevel() + 1);
 
         player.SetExp(player.GetExp() - player.GetMaxExp());

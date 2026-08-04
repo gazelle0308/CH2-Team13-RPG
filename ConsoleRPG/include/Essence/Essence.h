@@ -48,6 +48,8 @@ class Essence {
 
     void SetName(std::string name);
 
+    void SetupSkill();
+
     // Getter
 
     bool GetLock() const;
@@ -60,6 +62,8 @@ class Essence {
 
     std::string GetName() const;
 
+    std::string GetSkill() const;
+
  private:
     bool lock = true;
     bool enable = false;
@@ -70,4 +74,5 @@ class Essence {
     int defence = 0;
 
     std::string name = "Empty";
+    std::string skill = "Empty";
 };

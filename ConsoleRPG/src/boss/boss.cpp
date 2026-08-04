@@ -2,6 +2,7 @@
 
 #include "Boss/Boss.h"
 
+#include <string>
 #include <random>
 #include <iostream>
 #include <algorithm>
@@ -30,8 +31,7 @@ Alatreon::Alatreon() {
         this->elementForm = ElementForm::Fire;
         this->beforeForm = ElementForm::Fire;
         this->anotherForm = ElementForm::Ice;
-    }
-    else {
+    } else {
         this->elementForm = ElementForm::Ice;
         this->beforeForm = ElementForm::Ice;
         this->anotherForm = ElementForm::Fire;
@@ -111,8 +111,10 @@ void Alatreon::EndTurn() {
     this->FormPrint();
     this->BeforeFormPrint();
     StartLine();
-    std::cout << "현재 까지의 속성 억제 누적 수치: " << this->elementalSuppression << "! \n";
-    std::cout << "현재 까지의 뿔 파괴 수치: " << this->hornDamage << "! \n";
+    std::cout << "현재 까지의 속성 억제 누적 수치: "
+              << this->elementalSuppression << "! \n";
+    std::cout << "현재 까지의 뿔 파괴 수치: "
+              << this->hornDamage << "! \n";
     StartLine();
     this->IsHornBreak();
     this->ElementFormChange();
@@ -133,7 +135,7 @@ void Alatreon::BeforeEffect() {
         this->elementalSuppression +=
             (this->statBuf[static_cast<int>(Stat::HP)] - this->hp) / 4;
 
-        if (this->elementForm == ElementForm::Dragon ) {
+        if (this->elementForm == ElementForm::Dragon) {
             this->hornDamage +=
                 (this->statBuf[static_cast<int>(Stat::HP)] - this->hp) / 4;
         }
