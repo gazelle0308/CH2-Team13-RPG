@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <string>
 
 // 포션 레시피 초기 데이터

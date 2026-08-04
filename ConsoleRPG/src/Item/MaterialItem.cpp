@@ -1,4 +1,4 @@
-﻿#include "Item/MaterialItem.h"
+#include "Item/MaterialItem.h"
 
 void MaterialItem::Use()
 {

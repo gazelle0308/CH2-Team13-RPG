@@ -1,4 +1,4 @@
-﻿#include "PotionWorkshop/PotionWorkshop.h"
+#include "PotionWorkshop/PotionWorkshop.h"
 
 void PotionWorkshop::ShowPotionWorkshop()
 {

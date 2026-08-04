@@ -62,8 +62,9 @@ Essence& EssenceOrb::operator[](int index) {
 Essence& EssenceOrb::UseEssence(int index) {
     int choice = 0;
 
-    if ((index < 0 && index > 25) || this->orb[index].GetLock()) {
-        while (!(index < 0 && index > 24) && !this->orb[index].GetLock()) {
+    if ((index < 0 && index > 25)) {
+        while (index < 1 || index > 25
+            || this->orb[index - 1].GetLock()) {
             std::cout << "=====================================================\n";
             std::cout << "잘못 된 입력입니다! \n";
             std::cout << "재입력: ";
@@ -75,9 +76,14 @@ Essence& EssenceOrb::UseEssence(int index) {
             std::cout << "=====================================================\n";
         }
     }
+
+    if (this->orb[index - 1].GetLock()) {
+        return this->orb[25];
+    }
+
     if (this->orb[index - 1].GetEnable()) {
         this->orb[index - 1].DisableEssence();
-        return this->orb[index];
+        return this->orb[index - 1];
     } else {
         this->orb[index - 1].EnableEssence();
         for (int loop = 0; loop < 25; loop = loop + 1) {
@@ -211,7 +217,7 @@ void EssenceOrb::UseSkill(Monster& monster, Effect<Monster>& effect) {
 
 bool EssenceOrb::AllCollection() {
     for (int loop = 0; loop < 25; loop = loop + 1) {
-        if (!this->orb[loop].GetLock()) {
+        if (this->orb[loop].GetLock()) {
             return false;
         }
     }

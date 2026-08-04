@@ -1,8 +1,9 @@
-﻿// Copyright 2026/07/30 JinHo
+// Copyright 2026/07/30 JinHo
 
 #include "Utility/Utility.h"
 
 #include <string>
+#include <iostream>
 
 bool ignoreCaseCompare(const std::string& oneString,
                        const std::string& twoString) {
@@ -44,4 +45,8 @@ bool IsSmallCase(char data) {
         return true;
     }
     return false;
+}
+
+void StartLine() {
+    std::cout << "=================================================\n";
 }

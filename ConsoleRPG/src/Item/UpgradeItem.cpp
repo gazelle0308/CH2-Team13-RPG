@@ -1,4 +1,4 @@
-﻿#include "Item/UpgradeItem.h"
+#include "Item/UpgradeItem.h"
 #include "InventorySystem/InventorySystem.h"
 
 void UpgradeItem::Use()

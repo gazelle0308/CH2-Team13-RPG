@@ -11,5 +11,5 @@ private:
     void VillageMenu() const;
     int GetMenuChoice() const;
     void HandleMenuChoice(int choice, bool& isRunning);
-    void EnterBattle();
+    void EnterBattle(bool& end);
 };

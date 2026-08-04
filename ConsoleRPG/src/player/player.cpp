@@ -1,4 +1,4 @@
-﻿// Copyright 2026/07/30 JinHo
+// Copyright 2026/07/30 JinHo
 
 
 #include "Player/Player.h"
@@ -318,12 +318,12 @@ void Player::ApplyEffect(Pstat target, int power) {
     }
 }
 
-void Player::SetEssence(const Essence& essence) {
+bool Player::SetEssence(const Essence& essence) {
     if (essence.GetName() == "잘못된 정보") {
         std::cout << "=====================================================\n";
         std::cout << "정수 사용에 실패 했습니다! \n";
         std::cout << "=====================================================\n";
-        return;
+        return false;
     }
     if (essence.GetEnable()) {
         this->currentMaxHp = this->baseMaxHp + essence.GetHp();
@@ -338,9 +338,12 @@ void Player::SetEssence(const Essence& essence) {
         this->SyncToBase(Pstat::Defence);
         this->essence = "미장착";
     }
+    return true;
 }
 
 void Player::ViewStatus() {
+    this->ApplyEffect(Pstat::BuffPower, this->buffPower);
+    this->ApplyEffect(Pstat::BuffDefence, this->buffDefence);
     std::cout << "=====================================================\n";
     std::cout << "<플레이어>\n";
     std::cout << "이름: "  << this->name

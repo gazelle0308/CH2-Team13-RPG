@@ -1,4 +1,4 @@
-﻿#include "DataBase/ItemDataBase.h"
+#include "DataBase/ItemDataBase.h"
 
 void ItemDataBase::LoadItemData()
 {

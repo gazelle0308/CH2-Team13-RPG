@@ -1,9 +1,10 @@
-﻿// Copyright 2026/08/03 minjung
+// Copyright 2026/08/03 minjung
 
 #include "GameManager/GameManager.h"
 
 #include <iostream>
 
+#include <Windows.h>
 #include "DataBase/ItemDataBase.h"
 #include "InventorySystem/InventorySystem.h"
 #include "ShopSystem/ShopSystem.h"
@@ -13,6 +14,11 @@
 #include "PotionWorkshop/PotionWorkshop.h"
 
 void GameManager::Run() {
+
+    // 한글 출력
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+
     Init();
     bool isRunning = true;
     while (isRunning) {
@@ -81,5 +87,9 @@ void GameManager::HandleMenuChoice(int choice, bool& isRunning) {
 }
 void GameManager::EnterBattle(bool& end) {
     Battle battle;
-    end = TotalBattleSystem();
+    bool IsClear;
+    IsClear = battle.TotalBattleSystem();
+    if (IsClear) {
+        end = false;
+    }
 }

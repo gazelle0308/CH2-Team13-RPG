@@ -67,11 +67,12 @@
     <ClCompile Include="src\DataBase\InventoryDataBase.cpp">
       <Filter>src\DataBase</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
+    <ClCompile Include="src\GameManager\GameManager.cpp">
       <Filter>src\GameManager</Filter>
     </ClCompile>
-    <ClCompile Include="src\ConsoleRPG.cpp" />
-    <ClCompile Include="src\GameManager\GameManager.cpp" />
+    <ClCompile Include="src\ConsoleRPG.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\boss\boss.h">
@@ -155,10 +156,9 @@
     <ClInclude Include="include\DataBase\InventoryDataBase.h">
       <Filter>include\DataBase</Filter>
     </ClInclude>
-    <ClInclude Include="GameManager.h">
+    <ClInclude Include="include\GameManager\GameManager.h">
       <Filter>include\GameManager</Filter>
     </ClInclude>
-    <ClInclude Include="include\GameManager\GameManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\items.json">

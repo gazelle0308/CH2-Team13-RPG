@@ -1,4 +1,4 @@
-﻿// Copyright 2026/07/30 JinHo
+// Copyright 2026/07/30 JinHo
 
 
 #include "Effect/Effect.h"
@@ -287,5 +287,106 @@ void Effect<Alatreon>::ClearEffect() {
         this->amount[i] = 0;
         this->LeftTurn[i] = 0;
         this->onBuff[i] = false;
+    }
+}
+
+
+template<>
+void Effect<Player>::DotEffect(int effect) {
+    if (effect == 0) {
+        this->entity.sethp(this->entity.gethp() -
+            this->amount[effect]);
+        std::cout << "=====================================================\n";
+        std::cout << "( " << this->entity.getName()
+            << "의 독 "
+            << this->amount[effect]
+            << " 데미지!).\n";
+        std::cout << "=====================================================\n";
+    }
+    else if (effect == 2) {
+        this->entity.setmp(this->entity.getmp() -
+            this->amount[effect]);
+        std::cout << "=====================================================\n";
+        std::cout << "( " << this->entity.getName()
+            << "의 마나 저주! "
+            << this->amount[effect]
+            << " 마나 감소!).\n";
+        std::cout << "=====================================================\n";
+    }
+    else if (effect == 5) {
+        entity[Pstat::Hp] = std::min(entity[Pstat::Hp] + this->amount[effect], entity[Pstat::MaxHp]);
+        std::cout << "=====================================================\n";
+        std::cout << "( " << this->entity.getName()
+            << "의 재생 "
+            << this->amount[effect]
+            << " 회복!).\n";
+        std::cout << "=====================================================\n";
+    }
+}
+
+
+template<>
+void Effect<Monster>::DotEffect(int effect) {
+    if (effect == 0) {
+        this->entity.sethp(this->entity.gethp() -
+            this->amount[effect]);
+        std::cout << "=====================================================\n";
+        std::cout << "( " << this->entity.getName()
+            << "의 독 "
+            << this->amount[effect]
+            << " 데미지!).\n";
+        std::cout << "=====================================================\n";
+    }
+    else if (effect == 2) {
+        this->entity.setmp(this->entity.getmp() -
+            this->amount[effect]);
+        std::cout << "=====================================================\n";
+        std::cout << "( " << this->entity.getName()
+            << "의 마나 저주! "
+            << this->amount[effect]
+            << " 마나 감소!).\n";
+        std::cout << "=====================================================\n";
+    }
+    else if (effect == 5) {
+        entity.sethp(std::min(entity.gethp() + this->amount[effect], this->cMaxBuf));
+        std::cout << "=====================================================\n";
+        std::cout << "( " << this->entity.getName()
+            << "의 재생 "
+            << this->amount[effect]
+            << " 회복!).\n";
+        std::cout << "=====================================================\n";
+    }
+}
+
+template<>
+void Effect<Alatreon>::DotEffect(int effect) {
+    if (effect == 0) {
+        this->entity.sethp(this->entity.gethp() -
+            this->amount[effect]);
+        std::cout << "=====================================================\n";
+        std::cout << "( " << this->entity.getName()
+            << "의 독 "
+            << this->amount[effect]
+            << " 데미지!).\n";
+        std::cout << "=====================================================\n";
+    }
+    else if (effect == 2) {
+        this->entity.setmp(this->entity.getmp() -
+            this->amount[effect]);
+        std::cout << "=====================================================\n";
+        std::cout << "( " << this->entity.getName()
+            << "의 마나 저주! "
+            << this->amount[effect]
+            << " 마나 감소!).\n";
+        std::cout << "=====================================================\n";
+    }
+    else if (effect == 5) {
+        entity.sethp(std::min(entity.gethp() + this->amount[effect], this->cMaxBuf));
+        std::cout << "=====================================================\n";
+        std::cout << "( " << this->entity.getName()
+            << "의 재생 "
+            << this->amount[effect]
+            << " 회복!).\n";
+        std::cout << "=====================================================\n";
     }
 }
