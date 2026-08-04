@@ -4,17 +4,19 @@
 #include "Effect/Effect.h"
 
 #include <iostream>
+#include <algorithm>
 
 #include "Player/Player.h"
 #include "Monster/Monster.h"
+#include "Utility/Utility.h"
 #include "Boss/Boss.h"
 
 template<>
 void Effect<Player>::ApplyPotion(EffectType target,
                                  unsigned int amount,
                                  unsigned int turn) {
-    std::cout << "=====================================================\n";
-    
+    StartLine();
+
     if (target == EffectType::PotionPowerUp) {
         this->entity.ApplyEffect(Pstat::BuffPower, amount);
         this->onBuff[8] = true;
@@ -43,7 +45,7 @@ void Effect<Player>::ApplyPotion(EffectType target,
         throw std::logic_error("That is not potion effect");
     }
 
-    std::cout << "=====================================================\n";
+    StartLine();
 }
 
 template<>
@@ -62,7 +64,7 @@ void Effect<Alatreon>::ApplyPotion(EffectType target,
 
 template<>
 void Effect<Player>::EndPotion(unsigned int effect) {
-    std::cout << "=====================================================\n";
+    StartLine();
 
     if (effect == 8) {
         this->entity.ApplyEffect(Pstat::BuffPower, 0);
@@ -76,7 +78,7 @@ void Effect<Player>::EndPotion(unsigned int effect) {
         throw std::logic_error("That is not potion effect");
     }
 
-    std::cout << "=====================================================\n";
+    StartLine();
 }
 
 template<>
@@ -91,7 +93,7 @@ void Effect<Alatreon>::EndPotion(unsigned int effect) {
 
 template<>
 void Effect<Player>::EndEffect(unsigned int effect) {
-    std::cout << "=====================================================\n";
+    StartLine();
 
     if (effect == 3) {
         entity.setatk(entity.getatk() + this->amount[effect]);
@@ -115,18 +117,18 @@ void Effect<Player>::EndEffect(unsigned int effect) {
         std::cout << "방어력 증가의 효과가 떨어졌습니다!\n";
     } else if (effect > 7 && effect < 10) {
         this->EndPotion(effect);
-    } else if((effect < 3 && effect >= 0)|| effect == 5) {
+    } else if ((effect < 3 && effect >= 0)|| effect == 5) {
         return;
     } else {
         throw std::out_of_range("No more effect");
     }
 
-    std::cout << "=====================================================\n";
+    StartLine();
 }
 
 template<>
 void Effect<Monster>::EndEffect(unsigned int effect) {
-    std::cout << "=====================================================\n";
+    StartLine();
 
     if (effect == 3) {
         entity.setatk(entity.getatk() + this->amount[effect]);
@@ -148,49 +150,44 @@ void Effect<Monster>::EndEffect(unsigned int effect) {
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "적의 방어력 증가의 효과가 떨어졌습니다!\n";
-    } else if((effect < 3 && effect >= 0)|| effect == 5) {
+    } else if ((effect < 3 && effect >= 0)|| effect == 5) {
         return;
     } else {
         throw std::out_of_range("No more effect");
     }
-    std::cout << "=====================================================\n";
+    StartLine();
 }
 
 template<>
 void Effect<Alatreon>::EndEffect(unsigned int effect) {
-    std::cout << "=====================================================\n";
+    StartLine();
 
     if (effect == 3) {
         entity.setatk(entity.getatk() + this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "적의 공격력 저하의 효과가 떨어졌습니다!\n";
-    }
-    else if (effect == 4) {
+    } else if (effect == 4) {
         entity.setdef(entity.getdef() + this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "적의 방어력 저하의 효과가 떨어졌습니다!\n";
-    }
-    else if (effect == 6) {
+    } else if (effect == 6) {
         entity.setatk(entity.getatk() - this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "적의 공격력 증가의 효과가 떨어졌습니다!\n";
-    }
-    else if (effect == 7) {
+    } else if (effect == 7) {
         entity.setdef(entity.getdef() - this->amount[effect]);
         this->amount[effect] = 0;
         this->onBuff[effect] = false;
         std::cout << "적의 방어력 증가의 효과가 떨어졌습니다!\n";
-    }
-    else if ((effect < 3 && effect >= 0) || effect == 5) {
+    } else if ((effect < 3 && effect >= 0) || effect == 5) {
         return;
-    }
-    else {
+    } else {
         throw std::out_of_range("No more effect");
     }
-    std::cout << "=====================================================\n";
+    StartLine();
 }
 
 template<>
@@ -296,31 +293,30 @@ void Effect<Player>::DotEffect(int effect) {
     if (effect == 0) {
         this->entity.sethp(this->entity.gethp() -
             this->amount[effect]);
-        std::cout << "=====================================================\n";
+        StartLine();
         std::cout << "( " << this->entity.getName()
             << "의 독 "
             << this->amount[effect]
             << " 데미지!).\n";
-        std::cout << "=====================================================\n";
-    }
-    else if (effect == 2) {
+        StartLine();
+    } else if (effect == 2) {
         this->entity.setmp(this->entity.getmp() -
             this->amount[effect]);
-        std::cout << "=====================================================\n";
+        StartLine();
         std::cout << "( " << this->entity.getName()
             << "의 마나 저주! "
             << this->amount[effect]
             << " 마나 감소!).\n";
-        std::cout << "=====================================================\n";
-    }
-    else if (effect == 5) {
-        entity[Pstat::Hp] = std::min(entity[Pstat::Hp] + this->amount[effect], entity[Pstat::MaxHp]);
-        std::cout << "=====================================================\n";
+        StartLine();
+    } else if (effect == 5) {
+        entity[Pstat::Hp] = std::min(entity[Pstat::Hp] + 
+                            this->amount[effect], entity[Pstat::MaxHp]);
+        StartLine();
         std::cout << "( " << this->entity.getName()
             << "의 재생 "
             << this->amount[effect]
             << " 회복!).\n";
-        std::cout << "=====================================================\n";
+        StartLine();
     }
 }
 
@@ -336,8 +332,7 @@ void Effect<Monster>::DotEffect(int effect) {
             << this->amount[effect]
             << " 데미지!).\n";
         std::cout << "=====================================================\n";
-    }
-    else if (effect == 2) {
+    } else if (effect == 2) {
         this->entity.setmp(this->entity.getmp() -
             this->amount[effect]);
         std::cout << "=====================================================\n";
@@ -346,8 +341,7 @@ void Effect<Monster>::DotEffect(int effect) {
             << this->amount[effect]
             << " 마나 감소!).\n";
         std::cout << "=====================================================\n";
-    }
-    else if (effect == 5) {
+    } else if (effect == 5) {
         entity.sethp(std::min(entity.gethp() + this->amount[effect], this->cMaxBuf));
         std::cout << "=====================================================\n";
         std::cout << "( " << this->entity.getName()
@@ -369,8 +363,7 @@ void Effect<Alatreon>::DotEffect(int effect) {
             << this->amount[effect]
             << " 데미지!).\n";
         std::cout << "=====================================================\n";
-    }
-    else if (effect == 2) {
+    } else if (effect == 2) {
         this->entity.setmp(this->entity.getmp() -
             this->amount[effect]);
         std::cout << "=====================================================\n";
@@ -379,8 +372,7 @@ void Effect<Alatreon>::DotEffect(int effect) {
             << this->amount[effect]
             << " 마나 감소!).\n";
         std::cout << "=====================================================\n";
-    }
-    else if (effect == 5) {
+    } else if (effect == 5) {
         entity.sethp(std::min(entity.gethp() + this->amount[effect], this->cMaxBuf));
         std::cout << "=====================================================\n";
         std::cout << "( " << this->entity.getName()

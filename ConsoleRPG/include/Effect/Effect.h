@@ -5,6 +5,7 @@
 
 #include "Player/Player.h"
 #include "Monster/Monster.h"
+#include "Utility/Utility.h"
 
 class Player;
 class Monster;
@@ -32,49 +33,51 @@ class Effect {
          if (this->onBuff[1]) {
              this->entity.sethp(this->entity.gethp() -
                                 this->amount[1]);
-             std::cout << "=====================================================\n";
+             StartLine();
              std::cout << "( " << this->entity.getName()
                                << "의 출혈 "
                                << this->amount[1]
                                << " 데미지!).\n";
-             std::cout << "=====================================================\n";
+             StartLine();
          }
      }
 
-     void ReceiveEffect(EffectType target, unsigned int amount, unsigned int turn = 3) {
+     void ReceiveEffect(EffectType target,
+                        unsigned int amount,
+                        unsigned int turn = 3) {
          if (target == EffectType::Poison) {
              this->onBuff[0] = true;
              this->LeftTurn[0] = turn;
              this->amount[0] = amount;
-             std::cout << "=====================================================\n";
+             StartLine();
              std::cout << this->entity.getName()
                        << "은 독에 걸렸습니다!\n";
              std::cout << "(매턴 Hp - "
                        << this->amount[0]
                        << "의 데미지를 받습니다.).\n";
-             std::cout << "=====================================================\n";
+             StartLine();
          } else if (target == EffectType::Bleeding) {
              this->onBuff[1] = true;
              this->LeftTurn[1] = turn;
              this->amount[1] = amount;
-             std::cout << "=====================================================\n";
+             StartLine();
              std::cout << this->entity.getName()
                        << "은 출혈에 걸렸습니다!\n";
              std::cout << "(매턴 공격시 Hp -"
                        << this->amount[1]
                        << "의 데미지를 받습니다.).\n";
-             std::cout << "=====================================================\n";
+             StartLine();
          } else if (target == EffectType::ManaBurn) {
              this->onBuff[2] = true;
              this->LeftTurn[2] = turn;
              this->amount[2] = amount;
-             std::cout << "=====================================================\n";
+             StartLine();
              std::cout << this->entity.getName()
                        << "은 마나 저주에 걸렸습니다!\n";
              std::cout << "(매턴 Mp -"
                        << this->amount[2]
                        << "의 데미지를 받습니다.).\n";
-             std::cout << "=====================================================\n";
+             StartLine();
          } else if (target == EffectType::PowerDown) {
              this->LeftTurn[3] = turn;
              this->amount[3] = amount;
@@ -84,14 +87,14 @@ class Effect {
                                      this->amount[3]);
              }
              this->onBuff[3] = true;
-             std::cout << "=====================================================\n";
+             StartLine();
              std::cout << this->entity.getName()
                        << "은 공격력 저하에 걸렸습니다!\n";
              std::cout << "(" << LeftTurn[3]
                        << "턴 간"
                        << this->amount[3]
                        << "의 공격력이 떨어집니다.).\n";
-             std::cout << "=====================================================\n";
+             StartLine();
          } else if (target == EffectType::DefenceDown) {
              this->LeftTurn[4] = turn;
              this->amount[4] = amount;
@@ -101,24 +104,25 @@ class Effect {
                                      this->amount[4]);
              }
              this->onBuff[4] = true;
-             std::cout << "=====================================================\n";
-             std::cout << this->entity.getName() << "은 방어력 저하에 걸렸습니다!\n";
+             StartLine();
+             std::cout << this->entity.getName()
+                       << "은 방어력 저하에 걸렸습니다!\n";
              std::cout << "(" << LeftTurn[4]
                               << "턴 간"
                               << this->amount[4]
                               << "의 방어력이 떨어집니다.).\n";
-             std::cout << "=====================================================\n";
+             StartLine();
          } else if (target == EffectType::Regen) {
              this->onBuff[5] = true;
              this->LeftTurn[5] = turn;
              this->amount[5] = amount;
-             std::cout << "=====================================================\n";
+             StartLine();
              std::cout << this->entity.getName()
                        << "은 재생을 받았습니다!\n";
              std::cout << "(매턴 "
                        << this->amount[5]
                        << "씩  회복합니다.).\n";
-             std::cout << "=====================================================\n";
+             StartLine();
          } else if (target == EffectType::PowerUp) {
              this->LeftTurn[6] = turn;
              this->amount[6] = amount;
@@ -127,14 +131,14 @@ class Effect {
                                      this->amount[6]);
              }
              this->onBuff[6] = true;
-             std::cout << "=====================================================\n";
+             StartLine();
              std::cout << this->entity.getName()
                        << "은 공격력 증가를 받았습니다!\n";
              std::cout << "(" << LeftTurn[6]
                        << "턴 간"
                        << this->amount[6]
                        << "의 공격력이 증가합니다.).\n";
-             std::cout << "=====================================================\n";
+             StartLine();
          } else if (target == EffectType::DefenceUp) {
              this->LeftTurn[7] = turn;
              this->amount[7] = amount;
@@ -143,14 +147,14 @@ class Effect {
                                      this->amount[7]);
              }
              this->onBuff[7] = true;
-             std::cout << "=====================================================\n";
+             StartLine();
              std::cout << this->entity.getName()
                        << "은 방어력 증가를 받았습니다!\n";
              std::cout << "(" << LeftTurn[7]
                        << "턴 간"
                        << this->amount[7]
                        << "의 방어력이 증가합니다.).\n";
-             std::cout << "=====================================================\n";
+             StartLine();
          } else {
              throw std::logic_error("Unknown Effect!");
          }
@@ -158,7 +162,9 @@ class Effect {
 
      void DotEffect(int effect);
 
-     void ApplyPotion(EffectType target, unsigned int amount, unsigned int turn = 3);
+     void ApplyPotion(EffectType target,
+                      unsigned int amount,
+                      unsigned int turn = 3);
 
      void EndPotion(unsigned int effect);
 
@@ -179,7 +185,6 @@ class Effect {
      }
 
  private:
-
      Effect(const Effect&) = delete;
      Effect& operator=(const Effect&) = delete;
 
@@ -208,7 +213,9 @@ class Effect {
 
      // Function
      void UpdateEffect(int effect) {
-         if (LeftTurn[effect] == 0) { return; }
+         if (LeftTurn[effect] == 0) {
+             return;
+         }
 
          this->LeftTurn[effect] = this->LeftTurn[effect] - 1;
          this->DotEffect(effect);

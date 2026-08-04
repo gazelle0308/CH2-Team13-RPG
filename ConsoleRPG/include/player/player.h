@@ -41,7 +41,6 @@ class Essence;
 
 class Player {
  public:
-
     // operator
 
     int& operator[](const Pstat target);
@@ -161,7 +160,6 @@ class Player {
     }
 
  protected:
-
     // Constructor
 
     explicit Player(std::string name,

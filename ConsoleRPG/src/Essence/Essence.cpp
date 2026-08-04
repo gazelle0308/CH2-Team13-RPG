@@ -7,11 +7,11 @@
 #include <iostream>
 #include <algorithm>
 
-#include "Player/Player.h"
-#include "Monster/Monster.h"
-#include "Effect/Effect.h"
 #include "Boss/Boss.h"
+#include "Effect/Effect.h"
+#include "Player/Player.h"
 #include "Utility/Utility.h"
+#include "Monster/Monster.h"
 
 
 // Constructor
@@ -25,7 +25,9 @@ Essence::Essence(std::string name,
                  hp(hp),
                  mp(mp),
                  power(power),
-                 defence(defence) {}
+                 defence(defence) {
+    SetupSkill();
+}
 
 
 
@@ -398,6 +400,62 @@ void Essence::SetDefence(int defence) { this->defence = defence; }
 
 void Essence::SetName(std::string name) { this->name = name; }
 
+void Essence::SetupSkill() {
+    if (this->name == "슬라임") {
+         this->skill = "방어구 손상";
+    } else if (this->name == "좀비") {
+        this->skill = "재생";
+    } else if (this->name == "고블린") {
+        this->skill = "방망이 타격";
+    } else if (this->name == "야생 늑대") {
+        this->skill = "투기 강화";
+    } else if (this->name == "키메라") {
+        this->skill = "독";
+    } else if (this->name == "고스트") {
+        this->skill = "정신 침식";
+    } else if (this->name == "서큐버스") {
+        this->skill = "매혹";
+    } else if (this->name == "인큐버스") {
+        this->skill = "매혹";
+    } else if (this->name == "구울") {
+        this->skill = "마나 침식";
+    } else if (this->name == "웨어울프") {
+        this->skill = "고급 투기 강화";
+    } else if (this->name == "가고일") {
+        this->skill = "경화";
+    } else if (this->name == "마고일") {
+        this->skill = "칼날 경화";
+    } else if (this->name == "미라") {
+        this->skill = "방어구 부식";
+    } else if (this->name == "데몬") {
+        this->skill = "저주(대상:monster): ";
+    } else if (this->name == "골렘") {
+        this->skill = "고급 경화";
+    } else if (this->name == "그리폰") {
+        this->skill = "순풍";
+    } else if (this->name == "뱀파이어") {
+        this->skill = "출혈";
+    } else if (this->name == "세이렌") {
+        this->skill = "고급 매혹";
+    } else if (this->name == "미노타우르스") {
+        this->skill = "방어구 경파";
+    } else if (this->name == "얼음 정령") {
+        this->skill = "서리 강화";
+    } else if (this->name == "헬 하운드") {
+        this->skill = "심각한 저주";
+    } else if (this->name == "살라맨더") {
+        this->skill = "방어구 완파";
+    } else if (this->name == "와이번") {
+        this->skill = "심각한 출혈";
+    } else if (this->name == "맨티코어") {
+        this->skill = "맹독";
+    } else if (this->name == "피닉스") {
+        this->skill = "극재생";
+    } else {
+        this->skill = "Empty";
+    }
+}
+
 // Getter
 
 bool Essence::GetLock() const { return this->lock; }
@@ -409,3 +467,5 @@ int Essence::GetPower() const { return this->power; }
 int Essence::GetDefence() const { return this->defence; }
 
 std::string Essence::GetName() const { return this->name; }
+
+std::string Essence::GetSkill() const { return this->skill; }

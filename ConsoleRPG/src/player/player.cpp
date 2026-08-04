@@ -331,12 +331,14 @@ bool Player::SetEssence(const Essence& essence) {
         this->currentPower = this->basePower + essence.GetPower();
         this->currentDefence = this->baseDefence + essence.GetDefence();
         this->essence = essence.GetName();
+        this->skill = essence.GetSkill();
     } else {
         this->SyncToBase(Pstat::MaxHp);
         this->SyncToBase(Pstat::MaxMp);
         this->SyncToBase(Pstat::Power);
         this->SyncToBase(Pstat::Defence);
         this->essence = "미장착";
+        this->skill = "몸통 박치기!";
     }
     return true;
 }
@@ -379,7 +381,7 @@ Player::Player(std::string name,
                baseDefence(baseDefence),
                skill(skill) {
                if (this->essence.empty()) {
-                   this->essence = "미장착";
+                   this->essence = "몸통 박치기!";
                }
 
     this->maxExp = 100;
