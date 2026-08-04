@@ -143,7 +143,7 @@ public:
 	void ShowInventoryInShop(double buybackRate, int& totalBuyPrice, bool& isEnd);
 	void ShowInventoryInPotionWorkshop();
 
-	bool CanCraftPotion(const std::vector<std::pair<int, int>> materials, std::string potionId, int potionCount);
+	int CanCraftPotion(std::vector<std::pair<int, int>>& materials, std::string potionId, int potionCount); // 0: 성공, 1: 공간 부족, 2: 재료 부족, 3: 잘못된 index
 	bool GetItemData(int index, FItemData& itemData) const;
 	std::string GetId(int index) const;
 
@@ -166,7 +166,7 @@ public: // 테스트 위해 public 설정
 	void HandleDiscardItem(int index);
 
 	bool AddItem(std::string id, int itemCount = 1);
-	bool RemoveItem(int index, int itemCount = 1);
+	int RemoveItem(int index, int itemCount = 1); // 0: 성공, 1: 개수 초과, 2: 잘못된 inde
 	int FindItem(std::string id) const; // -1: fail, 0~: index(동일한 아이템 존재 시 아이템 가장 적게 들어있는 슬롯)
 	int GetTotalItemCount(int index) const;
 	bool UseItem(int index);

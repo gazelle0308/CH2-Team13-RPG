@@ -23,13 +23,13 @@ int main()
 	Player& player = Player::GetInstance();
 	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 
-	//const std::vector<std::string> itemIds = ItemDataBase::GetInstance().GetAllItemIds();
+	const std::vector<std::string> itemIds = ItemDataBase::GetInstance().GetAllItemIds();
 
-	//InventorySystem::GetInstance().ExpandInventory(78);
-	//for (const std::string id : itemIds)
-	//{
-		//InventorySystem::GetInstance().AddItem(id, 11);
-	//}
+	InventorySystem::GetInstance().ExpandInventory(78);
+	for (const std::string id : itemIds)
+	{
+		InventorySystem::GetInstance().AddItem(id, 11);
+	}
 
 	int number{};
 
