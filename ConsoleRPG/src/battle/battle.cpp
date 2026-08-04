@@ -5,8 +5,6 @@
 
 #include "Battle/battle.h"
 
-#include <cstdlib>
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -14,20 +12,23 @@
 #include <memory>
 #include <limits>
 #include <utility>
+#include <random>
+#include <algorithm>
 
 #include "Player/player.h"
 #include "Monster/monster.h"
+#include "Boss/Boss.h"
 #include "LevelUp/levelup.h"
 #include "Effect/effect.h"
 #include "Essence/EssenceOrb.h"
 #include "InventorySystem/InventorySystem.h"
 
 namespace {
-    const char kField[] = "라벤더 들판";
-    const char kForest[] = "검은 숲";
-    const char kCanyon[] = "스산한 협곡";
-    const char kIceField[] = "로야 빙원";
-    const char kVolcano[] = "라플라 화산 지대";
+const char kField[] = "라벤더 들판";
+const char kForest[] = "검은 숲";
+const char kCanyon[] = "스산한 협곡";
+const char kIceField[] = "로야 빙원";
+const char kVolcano[] = "라플라 화산 지대";
 }
 
 Battle::MonsterMap Battle::CreateMonsterMap() {
@@ -75,14 +76,14 @@ Battle::MonsterMap Battle::CreateMonsterMap() {
 
     return regionMonsters;
 }
-// 지역 선택 함수
+
 std::string Battle::SelectedRegion() {
-    std::cout << "===============================\n";
-    std::cout << "  어느 지역을 탐색하시겠습니까?\n";
-    std::cout << "-------------------------------\n";
+    std::cout << "================================\n";
+    std::cout << "   어느 지역을 탐색하시겠습니까?\n";
+    std::cout << "--------------------------------\n";
     std::cout << "1. 라벤더 들판  2. 검은 숲  3. 스산한 협곡\n";
     std::cout << "4. 로야 빙원  5. 라플라 화산 지대 0. 다시 마을로 \n";
-    std::cout << "===============================\n";
+    std::cout << "================================\n";
     std::cout << "선택한 지역:";
     int region;
     std::cin >> region;
@@ -148,64 +149,70 @@ void Battle::Encounter(MonsterMap& regionMonsters,
         return;
     }
 
-    int idx = rand() % monsters.size();
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<size_t> dist(0, monsters.size() - 1);
+    size_t idx = dist(gen);
+
     auto encountered = monsters[idx]();
 
     std::cout << "\n당신은 야생의 " << encountered->getName()
         << "와(과) 마주쳤다!\n";
     m_ptr = std::move(encountered);
 }
-// Player HP 체크
+
 bool Battle::PlayerHealthCheck() {
     Player& player = Player::GetInstance();
     if (player[Pstat::Hp] > 0) {
         playerlive = 1;
-    }
-    else if (player[Pstat::Hp] <= 0) {
+    } else if (player[Pstat::Hp] <= 0) {
         playerlive = 0;
     }
     return playerlive;
 }
-// Monster HP 체크
+
 bool Battle::MonsterHealthCheck(Monster& monster) {
     if (monster.gethp() > 0) {
         monsterlive = 1;
-    }
-    else if (monster.gethp() <= 0) {
+    } else if (monster.gethp() <= 0) {
         monsterlive = 0;
     }
     return monsterlive;
 }
-// Player Damage 계산
+
 int Battle::DealDamage(Monster& monster) {
     const Player& readPlayer = Player::GetReadInstance();
     Player& player = Player::GetInstance();
     if (readPlayer[Pstat::Attack] - monster.getdef() <= 0) {
         damage = 1;
-    }
-    else {
+    } else {
         damage = readPlayer[Pstat::Attack] - monster.getdef();
     }
     return damage;
 }
-// Monster Damage 계산
+
 int Battle::MonsterDealDamage(Monster& monster) {
     const Player& readPlayer = Player::GetReadInstance();
     Player& player = Player::GetInstance();
     if (monster.getatk() - readPlayer[Pstat::Guard] <= 0) {
         damage = 1;
-    }
-    else {
+    } else {
         damage = monster.getatk() - readPlayer[Pstat::Guard];
     }
     return damage;
 }
-// Player 공격 함수
+
 void Battle::Attack(Monster& monster) {
     Player& player = Player::GetInstance();
     monster.sethp(monster.gethp() - DealDamage(monster));
 }
-// Monster 공격 함수
+
+void Battle::Attack(Alatreon& boss) {
+    const Player& readPlayer = Player::GetReadInstance();
+    int damage = std::max(readPlayer[Pstat::Attack] - boss.getdef(), 1);
+    boss.sethp(boss.gethp() - damage);
+}
+
 void Battle::MonsterAttack(Monster& monster) {
     Player& player = Player::GetInstance();
     player[Pstat::Hp] -= MonsterDealDamage(monster);
@@ -216,7 +223,7 @@ void Battle::HuntRewardGold(int gold) {
     player[Pstat::Gold] += gold;
     std::cout << gold << " 골드를 획득했습니다!\n";
 }
-// Battle Menu 선택
+
 void Battle::BattleMenu(Monster& monster, Effect<Monster>& effect) {
     Player& player = Player::GetInstance();
     EssenceOrb& orb = EssenceOrb::GetInstance();
@@ -277,7 +284,70 @@ void Battle::BattleMenu(Monster& monster, Effect<Monster>& effect) {
     }
     }
 }
-// Battle 시스템 오케스트레이션
+
+void Battle::BossBattleMenu(Alatreon& alatreon, Effect<Alatreon>& effect) {
+    Player& player = Player::GetInstance();
+    EssenceOrb& orb = EssenceOrb::GetInstance();
+    Effect<Player>& playerEffect = Effect<Player>::GetPlayerInstance(player);
+    std::cout << "===============================\n";
+    std::cout << "      행동을 선택해주세요.\n";
+    std::cout << "===============================\n";
+    std::cout << "1. 공격  2. 스킬  3. 정수 가방 \n";
+    std::cout << "4.아이템\n";
+    std::cout << "===============================\n";
+    std::cout << "번호를 선택해주요. : ";
+    int actionMenu;
+    std::cin >> actionMenu;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cout << "숫자를 입력해주세요.\n";
+        Battle::BossBattleMenu(alatreon, effect);
+        return;
+    }
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    switch (actionMenu) {
+    case 1:
+    {
+        Battle::Attack(alatreon);
+        playerEffect.Bleed();
+        break;
+    }
+    case 2:
+    {
+        std::cout << "스킬 사용\n";
+        orb.EssenceOrb::UseSkill(alatreon, effect);
+        break;
+    }
+    case 3:
+    {
+        std::cout << "수집한 정수를 사용합니다.\n";
+        std::cout << orb.GetOrbInfo();
+        int essenceNumber;
+        std::cin >> essenceNumber;
+        player.SetEssence(orb.UseEssence(essenceNumber));
+        std::cout << "정수를 사용해 수치가 변경됩니다.\n";
+        player.ViewStatus();
+        break;
+    }
+    case 4:
+    {
+        std::cout << "아이템을 사용합니다.\n";
+        InventorySystem::GetInstance().ShowInventoryInBattle();
+        break;
+    }
+    default:
+    {
+        std::cout << "없는 선택지 입니다.\n";
+        std::cout << "행동을 다시 선택해주세요.\n";
+        Battle::BossBattleMenu(alatreon, effect);
+        break;
+    }
+    }
+}
+
 BattleResult Battle::RunBattle(Monster& monster, Effect<Monster>& effect) {
     Player& player = Player::GetInstance();
     Effect<Player>& playerEffect = Effect<Player>::GetPlayerInstance(player);
@@ -298,9 +368,6 @@ BattleResult Battle::RunBattle(Monster& monster, Effect<Monster>& effect) {
     return PlayerHealthCheck() ? BattleResult::WIN : BattleResult::LOSE;
 }
 
-
-
-// Battle 이후 선택지
 bool Battle::AfterMenu() {
     EssenceOrb& orb = EssenceOrb::GetInstance();
     std::cout << "===============================\n";
@@ -352,11 +419,60 @@ bool Battle::AfterMenu() {
     }
 }
 
-void Battle::BattleLoop() {
+BattleResult Battle::BossBattle() {
+    int isWin = 2;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dist(0, 1);
+
+    Player& player = Player::GetInstance();
+    Effect<Player>& playerEffect =
+        Effect<Player>::GetPlayerInstance(player);
+
+    Alatreon boss;
+    Effect<Alatreon> bossEffect(boss);
+
+    while (isWin != 0 && isWin != 1) {
+        boss.StartTurn();
+
+        Battle::BossBattleMenu(boss, bossEffect);
+
+        if (boss.getmp() > 0) {
+            if (dist(gen) == 0) {
+                boss.AlatreonAttack();
+                bossEffect.Bleed();
+            } else {
+                boss.AlatreonSkill();
+            }
+        } else {
+            boss.AlatreonAttack();
+            bossEffect.Bleed();
+        }
+
+        boss.BeforeEffect();
+        bossEffect.Tick();
+        playerEffect.Tick();
+        boss.EndTurn();
+
+        isWin = boss.IsWin();
+    }
+    if (isWin == 1) {
+        std::cout << boss.getName() << " 을 쓰러뜨렸습니다!!\n";
+        return BattleResult::WIN;
+    } else if (isWin == 0) {
+        return BattleResult::LOSE;
+    }
+}
+
+bool Battle::BattleLoop() {
     Player& player = Player::GetInstance();
     EssenceOrb& orb = EssenceOrb::GetInstance();
     auto regionMonsters = CreateMonsterMap();
     bool keep = true;
+    bool bossClear = false;
+    std::cout << "================================\n";
+    std::cout << "         모험을 시작합니다.\n";
 
     while (keep) {
         std::string choice = SelectedRegion();
@@ -391,13 +507,53 @@ void Battle::BattleLoop() {
 
         if (result == BattleResult::WIN) {
             HuntRewardExp(monster->getExp());
-            int rewardGold = 10 + rand() % 41;
+            std::random_device rd;
+            std::mt19937 gen(rd());
+            std::uniform_int_distribution<int> goldDist(10, 50);
+            int rewardGold = goldDist(gen);
             HuntRewardGold(rewardGold);
             // AddItem(monster->getItem());
             orb.AcquireEssence(monster->getName());
+            if (orb.AllCollection()) {
+                BattleResult bossResult = Battle::BossBattle();
+
+                if (bossResult == BattleResult::LOSE) {
+                    std::cout << "보스전에서 패배하였습니다.\n";
+                    std::cout << "당신은 가까운 마을의 어딘가에서"
+                              << "다시금 눈을 뜰 것 입니다..\n";
+                    player[Pstat::Hp] = 50;
+                    player[Pstat::Mp] = 20;
+                    keep = false;
+                    continue;
+                }
+
+                if (bossResult == BattleResult::WIN) {
+                    std::cout << "알바트리온을 쓰러뜨린 당신은 마을의"
+                              << "[수호자]로 기억되었습니다.\n";
+                    std::cout << "\n";
+                    keep = false;
+                    bossClear = true;
+                }
+            }
             keep = AfterMenu();
         }
     }
-    std::cout << "마을로 돌아갑니다.\n";
-    // VillageMenu();
+    if (bossClear == true) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool Battle::TotalBattleSystem() {
+    bool cleared = Battle::BattleLoop();
+    if (cleared) {
+        std::cout << "===============================\n";
+        std::cout << "           GAME CLEAR!!\n";
+        std::cout << "===============================\n";
+    }
+    if (!cleared) {
+        std::cout << "마을로 돌아갑니다.\n";
+    }
+    return cleared;
 }
