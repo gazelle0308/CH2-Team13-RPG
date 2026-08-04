@@ -81,5 +81,5 @@ void GameManager::HandleMenuChoice(int choice, bool& isRunning) {
 }
 void GameManager::EnterBattle() {
     Battle battle;
-	battle.BattleLoop();
+    TotalBattleSystem();
 }
