@@ -1,4 +1,4 @@
-﻿#include "DataBase/ShopDataBase.h"
+#include "DataBase/ShopDataBase.h"
 
 void ShopDataBase::LoadShopData()
 {

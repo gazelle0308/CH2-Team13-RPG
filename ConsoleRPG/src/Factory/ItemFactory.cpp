@@ -1,4 +1,4 @@
-﻿#include "Factory/ItemFactory.h"
+#include "Factory/ItemFactory.h"
 
 std::unique_ptr<ConsumableItem> ItemFactory::CreateConsumableItem(std::string id) const
 {

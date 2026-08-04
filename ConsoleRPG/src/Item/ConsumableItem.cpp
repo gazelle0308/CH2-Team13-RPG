@@ -1,4 +1,4 @@
-﻿#include "Item/ConsumableItem.h"
+#include "Item/ConsumableItem.h"
 
 void ConsumableItem::Use()
 {

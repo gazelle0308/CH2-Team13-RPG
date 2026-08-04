@@ -1,4 +1,4 @@
-﻿
+
 #pragma once
 
 // Copyright 2026 CH2-Team13-RPG
@@ -51,6 +51,10 @@ class Battle {
   void BossBattleMenu(Alatreon& alatreon, Effect<Alatreon>& effect);
   BattleResult BossBattle();
   bool TotalBattleSystem();
+
+  void ViewMonsterStatus(Monster& monster);
+
+  void ClearScreen() const;
 };
 
 inline Battle::MonsterFactory MakeFactory(MonsterType type) {

@@ -1,4 +1,4 @@
-﻿#include "monster/monster.h"
+#include "monster/monster.h"
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
@@ -6,11 +6,11 @@
 
 // 생성자
 Monster::Monster(MonsterType monsterType)
-    : hp(0), 
-    mp(0), 
-    atk(0), 
-    def(0), 
-    exp(0), 
+    : hp(0),
+    mp(0),
+    atk(0),
+    def(0),
+    exp(0),
     bonusExp(0),
     name(""),
     dropItem(""),
@@ -56,12 +56,12 @@ int Monster::getdef() const
     return def;
 }
 
-int Monster::getexp() const 
+int Monster::getexp() const
 {
     return exp;
 }
 
-int Monster::getbonusExp() const 
+int Monster::getbonusExp() const
 {
     return bonusExp;
 }
@@ -87,12 +87,12 @@ void Monster::setdef(int value)
     def = value;
 }
 
-void Monster::setexp(int value) 
+void Monster::setexp(int value)
 {
     exp = value;
 }
 
-void Monster::setbonusExp(int value) 
+void Monster::setbonusExp(int value)
 {
     bonusExp = value;
 }
@@ -170,7 +170,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         // 라벤더 들판
     case MonsterType::Slime:
         name = "슬라임";
-        regionMultiplier = 0.8f;
+        regionMultiplier = 0.4f;
         expMultiplier = 0.8f;
         hpMultiplier = 0.8f;
         mpMultiplier = 1.2f;
@@ -181,7 +181,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Zombie:
         name = "좀비";
-        regionMultiplier = 0.8f;
+        regionMultiplier = 0.4f;
         expMultiplier = 0.8f;
         hpMultiplier = 1.2f;
         mpMultiplier = 0.8f;
@@ -192,7 +192,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Goblin:
         name = "고블린";
-        regionMultiplier = 0.8f;
+        regionMultiplier = 0.4f;
         expMultiplier = 0.8f;
         hpMultiplier = 0.9f;
         mpMultiplier = 1.0f;
@@ -203,7 +203,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::WildWolf:
         name = "야생 늑대";
-        regionMultiplier = 0.8f;
+        regionMultiplier = 0.4f;
         expMultiplier = 0.8f;
         hpMultiplier = 1.0f;
         mpMultiplier = 0.8f;
@@ -214,7 +214,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Chimera:
         name = "키메라";
-        regionMultiplier = 0.8f;
+        regionMultiplier = 0.4f;
         expMultiplier = 0.8f;
         hpMultiplier = 1.1f;
         mpMultiplier = 1.1f;
@@ -227,7 +227,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         // 검은 숲
     case MonsterType::Ghost:
         name = "고스트";
-        regionMultiplier = 1.0f;
+        regionMultiplier = 0.55f;
         expMultiplier = 1.0f;
         hpMultiplier = 0.8f;
         mpMultiplier = 1.3f;
@@ -238,7 +238,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Succubus:
         name = "서큐버스";
-        regionMultiplier = 1.0f;
+        regionMultiplier = 0.55f;
         expMultiplier = 1.0f;
         hpMultiplier = 0.9f;
         mpMultiplier = 1.4f;
@@ -249,7 +249,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Incubus:
         name = "인큐버스";
-        regionMultiplier = 1.0f;
+        regionMultiplier = 0.55f;
         expMultiplier = 1.0f;
         hpMultiplier = 1.0f;
         mpMultiplier = 1.2f;
@@ -260,7 +260,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Ghoul:
         name = "구울";
-        regionMultiplier = 1.0f;
+        regionMultiplier = 0.55f;
         expMultiplier = 1.0f;
         hpMultiplier = 1.3f;
         mpMultiplier = 0.8f;
@@ -271,7 +271,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Werewolf:
         name = "웨어울프";
-        regionMultiplier = 1.0f;
+        regionMultiplier = 0.55f;
         expMultiplier = 1.0f;
         hpMultiplier = 1.2f;
         mpMultiplier = 0.9f;
@@ -284,7 +284,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         // 스산한 협곡
     case MonsterType::Gargoyle:
         name = "가고일";
-        regionMultiplier = 1.15f;
+        regionMultiplier = 0.7f;
         expMultiplier = 1.15f;
         hpMultiplier = 1.0f;
         mpMultiplier = 0.8f;
@@ -295,7 +295,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Margoyle:
         name = "마고일";
-        regionMultiplier = 1.15f;
+        regionMultiplier = 0.7f;
         expMultiplier = 1.15f;
         hpMultiplier = 1.2f;
         mpMultiplier = 0.9f;
@@ -306,7 +306,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Mummy:
         name = "미라";
-        regionMultiplier = 1.15f;
+        regionMultiplier = 0.7f;
         expMultiplier = 1.15f;
         hpMultiplier = 1.5f;
         mpMultiplier = 0.8f;
@@ -317,7 +317,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Daemon:
         name = "데몬";
-        regionMultiplier = 1.15f;
+        regionMultiplier = 0.7f;
         expMultiplier = 1.15f;
         hpMultiplier = 0.9f;
         mpMultiplier = 1.4f;
@@ -328,7 +328,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Golem:
         name = "골렘";
-        regionMultiplier = 1.15f;
+        regionMultiplier = 0.7f;
         expMultiplier = 1.15f;
         hpMultiplier = 1.8f;
         mpMultiplier = 0.6f;
@@ -341,7 +341,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         // 로야 빙원
     case MonsterType::Griffon:
         name = "그리폰";
-        regionMultiplier = 1.3f;
+        regionMultiplier = 0.85f;
         expMultiplier = 1.3f;
         hpMultiplier = 1.2f;
         mpMultiplier = 1.2f;
@@ -352,7 +352,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Vampire:
         name = "뱀파이어";
-        regionMultiplier = 1.3f;
+        regionMultiplier = 0.85f;
         expMultiplier = 1.3f;
         hpMultiplier = 1.0f;
         mpMultiplier = 1.5f;
@@ -363,7 +363,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Siren:
         name = "세이렌";
-        regionMultiplier = 1.3f;
+        regionMultiplier = 0.85f;
         expMultiplier = 1.3f;
         hpMultiplier = 1.0f;
         mpMultiplier = 1.8f;
@@ -374,7 +374,7 @@ void Monster::setMonsterData(MonsterType monsterType)
 
     case MonsterType::Minotaur:
         name = "미노타우르스";
-        regionMultiplier = 1.3f;
+        regionMultiplier = 0.85f;
         expMultiplier = 1.3f;
         hpMultiplier = 2.0f;
         mpMultiplier = 0.8f;
@@ -388,7 +388,7 @@ void Monster::setMonsterData(MonsterType monsterType)
     case MonsterType::IceElemental:
         name = "얼음 정령";
         bonusExp = 100;
-        regionMultiplier = 1.3f;
+        regionMultiplier = 0.85f;
         expMultiplier = 1.3f;
         hpMultiplier = 3.0f;
         mpMultiplier = 3.5f;
@@ -401,46 +401,46 @@ void Monster::setMonsterData(MonsterType monsterType)
         // 라플라 화산
     case MonsterType::HellHound:
         name = "헬 하운드";
-        regionMultiplier = 1.5f;
+        regionMultiplier = 1.0f;
         expMultiplier = 1.5f;
         hpMultiplier = 1.3f;
         mpMultiplier = 1.3f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.2f;
-        dropItem = "ITEM_MATERIAL_DAEMON_TONGUE";
+        dropItem = "ITEM_MATERIAL_HELL_HOUND_COLLAR";
         break;
 
     case MonsterType::Wyvern:
         name = "와이번";
-        regionMultiplier = 1.5f;
+        regionMultiplier = 1.0f;
         expMultiplier = 1.5f;
         hpMultiplier = 2.0f;
         mpMultiplier = 1.0f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.8f;
-        dropItem = "ITEM_MATERIAL_MINOTAUR_HELMET";
+        dropItem = "ITEM_MATERIAL_WYVERN_POISON";
         break;
 
     case MonsterType::Salamander:
         name = "살라맨더";
-        regionMultiplier = 1.5f;
+        regionMultiplier = 1.0f;
         expMultiplier = 1.5f;
         hpMultiplier = 1.5f;
         mpMultiplier = 2.0f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.3f;
-        dropItem = "ITEM_MATERIAL_VAMPIRE_BLOOD";
+        dropItem = "ITEM_MATERIAL_SALAMANDER_SKIN";
         break;
 
     case MonsterType::Manticore:
         name = "맨티코어";
-        regionMultiplier = 1.5f;
+        regionMultiplier = 1.0f;
         expMultiplier = 1.5f;
         hpMultiplier = 1.8f;
         mpMultiplier = 1.8f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.8f;
-        dropItem = "ITEM_MATERIAL_CHIMERA_TOOTH";
+        dropItem = "ITEM_MATERIAL_MANTICORE_TAIL";
         break;
 
 
@@ -448,7 +448,7 @@ void Monster::setMonsterData(MonsterType monsterType)
     case MonsterType::Phoenix:
         name = "피닉스";
         bonusExp = 200;
-        regionMultiplier = 1.5f;
+        regionMultiplier = 1.0f;
         expMultiplier = 1.5f;
         hpMultiplier = 4.0f;
         mpMultiplier = 4.5f;
@@ -516,7 +516,7 @@ void Monster::generateStats(
 
     int defFromPlayer =
         randomRange(
-            playerDefence / 2,
+            playerDefence * 8 / 10,
             playerDefence
         );
 
@@ -602,132 +602,133 @@ void Monster::generateStats(
 void Monster::Skill(Effect<Monster>& effect) {
     Player& player = Player::GetInstance();
     Effect<Player>& playerEffect = Effect<Player>::GetPlayerInstance(player);
+
     if (this->name == "슬라임") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "방어구 손상(대상:player): 5Turn/3 DefenceDown\n";
-        playerEffect.ReceiveEffect(EffectType::DefenceDown, 3, 5);
+        std::cout << "방어구 손상(대상:player): 5Turn/8 DefenceDown\n";
+        playerEffect.ReceiveEffect(EffectType::DefenceDown, 8, 5);
     }
     else if (this->name == "좀비") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "재생(대상:monster): 10Turn/10 Regen\n";
-        effect.ReceiveEffect(EffectType::Regen, 1, 10);
+        std::cout << "재생(대상:monster): 5Turn/20 Regen\n";
+        effect.ReceiveEffect(EffectType::Regen, 4, 5);
     }
     else if (this->name == "고블린") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "방망이 타격(대상:player): 4Turn/8 Damage\n";
-        playerEffect.ReceiveEffect(EffectType::Bleeding, 2, 4);
+        std::cout << "방망이 타격(대상:player): 4Turn/16 Damage\n";
+        playerEffect.ReceiveEffect(EffectType::Bleeding, 4, 4);
     }
     else if (this->name == "야생 늑대") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "투기 강화(대상:monster): 2Turn/3 PowerUp\n";
-        effect.ReceiveEffect(EffectType::PowerUp, 3, 2);
+        std::cout << "투기 강화(대상:monster): 4Turn/10 PowerUp\n";
+        effect.ReceiveEffect(EffectType::PowerUp, 10, 4);
     }
     else if (this->name == "키메라") {
-        std::cout << "키메라가 스킬을 사용했습니다.\n";
-        std::cout << "독(대상:player): 10Turn/10 Damage\n";
-        playerEffect.ReceiveEffect(EffectType::Poison, 1, 10);
+        std::cout << "[" << this->name << "] 스킬 사용!\n";
+        std::cout << "독(대상:player): 5Turn/30 Damage\n";
+        playerEffect.ReceiveEffect(EffectType::Poison, 6, 5);
     }
     else if (this->name == "고스트") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "정신 침식(대상:player): 2Turn/1 ManaBurn\n";
-        playerEffect.ReceiveEffect(EffectType::ManaBurn, 2, 1);
+        std::cout << "정신 침식(대상:player): 4Turn/8 ManaBurn\n";
+        playerEffect.ReceiveEffect(EffectType::ManaBurn, 8, 4);
     }
     else if (this->name == "서큐버스") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "매혹(대상:player): 2Turn/2 PowerDown\n";
-        playerEffect.ReceiveEffect(EffectType::PowerDown, 2, 2);
+        std::cout << "매혹(대상:player): 4Turn/15 PowerDown\n";
+        playerEffect.ReceiveEffect(EffectType::PowerDown, 15, 4);
     }
     else if (this->name == "인큐버스") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "매혹(대상:player): 2Turn/2 DefenceDown\n";
-        playerEffect.ReceiveEffect(EffectType::DefenceDown, 2, 2);
+        std::cout << "매혹(대상:player): 5Turn/15 DefenceDown\n";
+        playerEffect.ReceiveEffect(EffectType::DefenceDown, 15, 5);
     }
     else if (this->name == "구울") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "마나 침식(대상:player): 3Turn/1 ManaBurn\n";
-        playerEffect.ReceiveEffect(EffectType::ManaBurn, 1, 3);
+        std::cout << "마나 침식(대상:player): 5Turn/15 ManaBurn\n";
+        playerEffect.ReceiveEffect(EffectType::ManaBurn, 15, 5);
     }
     else if (this->name == "웨어울프") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "고급 투기 강화(대상:monster): 4Turn/3 PowerUp\n";
-        effect.ReceiveEffect(EffectType::PowerUp, 3, 4);
+        std::cout << "고급 투기 강화(대상:monster): 4Turn/15 PowerUp\n";
+        effect.ReceiveEffect(EffectType::PowerUp, 15, 4);
     }
     else if (this->name == "가고일") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "경화(대상:monster): 3Turn/4 DefenceUp\n";
-        effect.ReceiveEffect(EffectType::DefenceUp, 4, 3);
+        std::cout << "경화(대상:monster): 4Turn/18 DefenceUp\n";
+        effect.ReceiveEffect(EffectType::DefenceUp, 18, 4);
     }
     else if (this->name == "마고일") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "칼날 경화(대상:monster): 2Turn/3 PowerUp\n";
-        effect.ReceiveEffect(EffectType::PowerUp, 3, 2);
+        std::cout << "칼날 경화(대상:monster): 3Turn/25 PowerUp\n";
+        effect.ReceiveEffect(EffectType::PowerUp, 25, 3);
     }
     else if (this->name == "미라") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "방어구 부식(대상:player): 5Turn/5 DefenceDown\n";
-        playerEffect.ReceiveEffect(EffectType::DefenceDown, 5, 5);
+        std::cout << "방어구 부식(대상:player): 5Turn/20 DefenceDown\n";
+        playerEffect.ReceiveEffect(EffectType::DefenceDown, 20, 5);
     }
     else if (this->name == "데몬") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "저주(대상:player): 3Turn/1 ManaBurn + 2 PowerDown\n";
-        playerEffect.ReceiveEffect(EffectType::ManaBurn, 1, 3);
-        playerEffect.ReceiveEffect(EffectType::PowerDown, 2, 3);
+        std::cout << "저주(대상:player): 4Turn/20 ManaBurn + 25 PowerDown\n";
+        playerEffect.ReceiveEffect(EffectType::ManaBurn, 20, 4);
+        playerEffect.ReceiveEffect(EffectType::PowerDown, 25, 4);
     }
     else if (this->name == "골렘") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "고급 경화(대상:monster): 3Turn/6 DefenceUp\n";
-        effect.ReceiveEffect(EffectType::DefenceUp, 6, 3);
+        std::cout << "고급 경화(대상:monster): 4Turn/25 DefenceUp\n";
+        effect.ReceiveEffect(EffectType::DefenceUp, 25, 4);
     }
     else if (this->name == "그리폰") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "순풍(대상:monster): 3Turn/4 PowerUp\n";
-        effect.ReceiveEffect(EffectType::PowerUp, 4, 3);
+        std::cout << "순풍(대상:monster): 4Turn/40 PowerUp\n";
+        effect.ReceiveEffect(EffectType::PowerUp, 40, 4);
     }
     else if (this->name == "뱀파이어") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "출혈(대상:player): 5Turn/60 Damage\n";
-        playerEffect.ReceiveEffect(EffectType::Bleeding, 12, 5);
+        std::cout << "출혈(대상:player): 4Turn/120 Damage\n";
+        playerEffect.ReceiveEffect(EffectType::Bleeding, 30, 4);
     }
     else if (this->name == "세이렌") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "고급 매혹(대상:player): 3Turn/3 PowerDown\n";
-        playerEffect.ReceiveEffect(EffectType::PowerDown, 3, 3);
+        std::cout << "고급 매혹(대상:player): 5Turn/30 PowerDown\n";
+        playerEffect.ReceiveEffect(EffectType::PowerDown, 30, 5);
     }
     else if (this->name == "미노타우르스") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "방어구 경파(대상:player): 5Turn/7 DefenceDown\n";
-        playerEffect.ReceiveEffect(EffectType::DefenceDown, 7, 5);
+        std::cout << "방어구 경파(대상:player): 7Turn/20 DefenceDown\n";
+        playerEffect.ReceiveEffect(EffectType::DefenceDown, 20, 7);
     }
     else if (this->name == "얼음 정령") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "서리 강화(대상:monster): 3Turn/8 PowerUp\n";
-        effect.ReceiveEffect(EffectType::PowerUp, 8, 3);
+        std::cout << "서리 강화(대상:monster): 2Turn/60 PowerUp\n";
+        effect.ReceiveEffect(EffectType::PowerUp, 60, 2);
     }
     else if (this->name == "헬 하운드") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "심각한 저주(대상:player): 3Turn/3 ManaBurn + 5 PowerDown\n";
-        playerEffect.ReceiveEffect(EffectType::ManaBurn, 3, 3);
-        playerEffect.ReceiveEffect(EffectType::PowerDown, 5, 3);
+        std::cout << "심각한 저주(대상:player): 6Turn/25 ManaBurn + 7Turn/25 PowerDown\n";
+        playerEffect.ReceiveEffect(EffectType::ManaBurn, 25, 6);
+        playerEffect.ReceiveEffect(EffectType::PowerDown, 25, 7);
     }
     else if (this->name == "살라맨더") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "방어구 완파(대상:player): 8Turn/10 DefenceDown\n";
-        playerEffect.ReceiveEffect(EffectType::DefenceDown, 10, 8);
+        std::cout << "방어구 완파(대상:player): 8Turn/25 DefenceDown\n";
+        playerEffect.ReceiveEffect(EffectType::DefenceDown, 25, 8);
     }
     else if (this->name == "와이번") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "심각한 출혈(대상:player): 5Turn/80 Damage\n";
-        playerEffect.ReceiveEffect(EffectType::Bleeding, 16, 5);
+        std::cout << "심각한 출혈(대상:player): 5Turn/200 Damage\n";
+        playerEffect.ReceiveEffect(EffectType::Bleeding, 40, 5);
     }
     else if (this->name == "맨티코어") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "맹독(대상:player): 5Turn/40 Damage\n";
-        playerEffect.ReceiveEffect(EffectType::Poison, 8, 5);
+        std::cout << "맹독(대상:player): 6Turn/72 Damage\n";
+        playerEffect.ReceiveEffect(EffectType::Poison, 12, 6);
     }
     else if (this->name == "피닉스") {
         std::cout << "[" << this->name << "] 스킬 사용!\n";
-        std::cout << "극재생(대상:monster): 10Turn/100 Regen\n";
-        effect.ReceiveEffect(EffectType::Regen, 10, 10);
+        std::cout << "극재생(대상:monster): 5Turn/100 Regen\n";
+        effect.ReceiveEffect(EffectType::Regen, 20, 5);
     }
     else {
         throw std::out_of_range("Unknown Monster");
