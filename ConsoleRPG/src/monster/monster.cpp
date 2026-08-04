@@ -6,11 +6,11 @@
 
 // 생성자
 Monster::Monster(MonsterType monsterType)
-    : hp(0), 
-    mp(0), 
-    atk(0), 
-    def(0), 
-    exp(0), 
+    : hp(0),
+    mp(0),
+    atk(0),
+    def(0),
+    exp(0),
     bonusExp(0),
     name(""),
     regionMultiplier(1.0f),
@@ -55,12 +55,12 @@ int Monster::getdef() const
     return def;
 }
 
-int Monster::getexp() const 
+int Monster::getexp() const
 {
     return exp;
 }
 
-int Monster::getbonusExp() const 
+int Monster::getbonusExp() const
 {
     return bonusExp;
 }
@@ -86,12 +86,12 @@ void Monster::setdef(int value)
     def = value;
 }
 
-void Monster::setexp(int value) 
+void Monster::setexp(int value)
 {
     exp = value;
 }
 
-void Monster::setbonusExp(int value) 
+void Monster::setbonusExp(int value)
 {
     bonusExp = value;
 }
