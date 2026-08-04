@@ -320,7 +320,9 @@ void Player::ApplyEffect(Pstat target, int power) {
 
 void Player::SetEssence(const Essence& essence) {
     if (essence.GetName() == "잘못된 정보") {
+        std::cout << "=====================================================\n";
         std::cout << "정수 사용에 실패 했습니다! \n";
+        std::cout << "=====================================================\n";
         return;
     }
     if (essence.GetEnable()) {
@@ -339,6 +341,7 @@ void Player::SetEssence(const Essence& essence) {
 }
 
 void Player::ViewStatus() {
+    std::cout << "=====================================================\n";
     std::cout << "<플레이어>\n";
     std::cout << "이름: "  << this->name
               << " 정수: " << this->essence << "\n";
@@ -353,6 +356,7 @@ void Player::ViewStatus() {
     std::cout << "공격력: "  << this->attack
               << " 방어력: " << this->guard
               << " 스킬: "   << this->skill << "\n";
+    std::cout << "=====================================================\n";
 }
 
 // Constructor

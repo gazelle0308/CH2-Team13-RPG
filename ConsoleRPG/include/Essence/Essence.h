@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Effect/Effect.h"
+#include "Boss/Boss.h"
 
 class Monster;
 
@@ -27,6 +28,7 @@ class Essence {
     // Function
 
     void Skill(Monster& monster, Effect<Monster>& effect);
+    void Skill(Alatreon& monster, Effect<Alatreon>& effect);
 
     void OpenEssence();
     void LockEssence();
