@@ -48,12 +48,12 @@ void GameLog::goldLog(
     int gold, int currentGold) {
     addLog(std::format(
         "[골드] +{} 골드 획득 (보유 골드: {})",
-        gold, 
+        gold,
         currentGold));
 }
 
 void GameLog::addKillMonster(
-    const std::string & monsterName) {
+    const std::string& monsterName) {
     killList[monsterName]++;
     addLog(std::format(
         "[처치] {}을(를) 처치했습니다!",
@@ -72,12 +72,12 @@ void GameLog::showKillList() {
 }
 
 void GameLog::showLogs() {
-    if(logs.empty()) {
+    if (logs.empty()) {
         print("저장된 로그가 없습니다.");
         return;
-	}
+    }
     print("===최근 로그(최대 30개)===");
     for (const auto& log : logs) {
         print(log);
     }
-}   
+}

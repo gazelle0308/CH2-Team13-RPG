@@ -1,17 +1,28 @@
-﻿#pragma once
+﻿// Copyright 2026/08/03 minjung
+
+#pragma once
 #include <string>
 #include <map>
 #include <vector>
 
 class GameLog {
- private:
+private:
+    GameLog() = default;
+    GameLog(const GameLog&) = delete;
+    GameLog& operator=(const GameLog&) = delete;
+
     int maxSize = 30;
     std::vector<std::string> logs;
     std::map<std::string, int> killList;
 
     void addLog(const std::string& logMessage);
 
- public:
+public:
+    static GameLog& GetInstance() {
+        static GameLog instance;
+        return instance;
+    }
+
     void print(const std::string& text);
     void attackLog(const std::string& attacker, const std::string& target);
     void damageLog(const std::string& target, int damage);
@@ -19,5 +30,5 @@ class GameLog {
     void goldLog(int gold, int currentGold);
     void addKillMonster(const std::string& monsterName);
     void showKillList();
-	void showLogs();
+    void showLogs();
 };
