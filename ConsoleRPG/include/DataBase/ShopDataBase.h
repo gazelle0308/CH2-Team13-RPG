@@ -12,8 +12,10 @@
 class ShopDataBase
 {
 private:
-	std::vector<FShopItemData> shopItemDatas;
-	std::unordered_map<std::string, FItemData> shopItemDataMap;
+	std::vector<FShopItemData> shopItemDatas; // 초기 데이터
+	std::vector<FShopSlot> shopSlots; // 런타임 데이터. 전체 목록
+	std::vector<FShopSlot*> sellableShopSlots; // 런타임 데이터. 판매 가능 목록
+	std::unordered_map<std::string, int> shopSlotIndexMap; // item id와 shop slot index 매칭
 
 public:
 	ShopDataBase() {
@@ -41,6 +43,10 @@ public:
 	void PrintAllShopDatas() const;
 
 public:
+	void SetShopItemUnlocked(std::string id, bool isUnlocked);
+
 	const std::vector<FShopItemData>& GetShopItemDatas() const;
+	std::vector<FShopSlot>* GetShopSlots();
+	std::vector<FShopSlot*>* GetSellableShopSlots();
 };
 

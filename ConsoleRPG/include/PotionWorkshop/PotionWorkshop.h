@@ -6,6 +6,7 @@
 #include <string>
 #include <algorithm>
 #include "DataBase/ItemDataBase.h"
+#include "DataBase/ShopDataBase.h"
 #include "DataBase/PotionRecipeDataBase.h"
 #include "InventorySystem/InventorySystem.h"
 

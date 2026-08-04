@@ -67,6 +67,9 @@
     <ClCompile Include="src\Essence\EssenceOrb.cpp">
       <Filter>src\Essence</Filter>
     </ClCompile>
+    <ClCompile Include="src\DataBase\InventoryDataBase.cpp">
+      <Filter>src\DataBase</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\boss\boss.h">
@@ -147,6 +150,9 @@
     <ClInclude Include="include\Essence\EssenceOrb.h">
       <Filter>include\Essence</Filter>
     </ClInclude>
+    <ClInclude Include="include\DataBase\InventoryDataBase.h">
+      <Filter>include\DataBase</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\items.json">
@@ -165,6 +171,9 @@
       <Filter>data</Filter>
     </None>
     <None Include="data\potionRecipes.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\inventoryItems.json">
       <Filter>data</Filter>
     </None>
   </ItemGroup>

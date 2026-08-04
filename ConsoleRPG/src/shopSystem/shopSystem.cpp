@@ -8,13 +8,14 @@ void ShopSystem::ShowShop()
 	
 	while (!isEnd)
 	{
+		SetShopData();
 		HandleShopOptions(isEnd);
 	}
 }
 
 void ShopSystem::SetShopData()
 {
-	shopItems = ShopDataBase::GetInstance().GetShopItemDatas();
+	shopItems = ShopDataBase::GetInstance().GetSellableShopSlots();
 }
 
 void ShopSystem::ClearScreen() const
@@ -88,7 +89,7 @@ void ShopSystem::HandleSell()
 void ShopSystem::PrintShopItems() const
 {
 	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
-	int size = (int)shopItems.size();
+	int size = (int)(*shopItems).size();
 	std::string itemName{};
 	int itemPrice{};
 	int itemCount{};
@@ -101,21 +102,23 @@ void ShopSystem::PrintShopItems() const
 
 	for (int index = 0; index < size; index++)
 	{
-		FShopItemData item = shopItems[index];
-		FItemData itemData;
+		FShopSlot* slot = (*shopItems)[index];
+
+		itemName = slot->GetName();
+		itemPrice = slot->GetPrice();
 		
-		if (!itemDataBase.GetItemData(item.id, itemData))
+		if (slot->GetHasStockLimit())
 		{
-			continue;
+			itemCount = slot->GetCurrentCount();
+			itemInfo = std::format("{} ({}G) x{}", itemName, itemPrice, itemCount);
+		}
+		else
+		{
+			itemInfo = std::format("{} ({}G)", itemName, itemPrice);
 		}
 
-		itemName = itemData.GetName();
-		itemPrice = itemData.GetPrice();
-		itemCount = item.GetCount();
-
-		itemInfo = std::format("{} ({}G) x{}", itemName, itemPrice, itemCount);
 		info = std::format("{}. {}", index + 1, itemInfo);
-
+		
 		std::cout << info << std::endl;
 	}
 }
@@ -138,6 +141,7 @@ void ShopSystem::HandleSellOptions(bool& isEnd)
 	std::cout << std::endl;
 	std::cout << "======= 선택 =======" << std::endl;
 	std::cout << "1. 조회" << std::endl;
+	std::cout << "2. 구매하기" << std::endl;
 	std::cout << "0. 돌아가기" << std::endl;
 
 	while (!isOk)
@@ -151,7 +155,10 @@ void ShopSystem::HandleSellOptions(bool& isEnd)
 		switch (number)
 		{
 		case 1:
-			HandleItemSelection();
+			HandleShowItem();
+			break;
+		case 2:
+			HandleSellItemSelection();
 			break;
 		case 0:
 			isEnd = true;
@@ -179,9 +186,9 @@ void ShopSystem::HandleBuy() const
 	}
 }
 
-void ShopSystem::HandleItemSelection()
+void ShopSystem::HandleShowItem()
 {
-	int size = (int)shopItems.size();
+	int size = (int)(*shopItems).size();
 	int number{};
 	bool isOk{};
 
@@ -200,7 +207,6 @@ void ShopSystem::HandleItemSelection()
 		else if (1 <= number && number <= size)
 		{
 			PrintItemInfo(number - 1);
-			HandleItemOptions(number - 1);
 		}
 		else
 		{
@@ -212,19 +218,21 @@ void ShopSystem::HandleItemSelection()
 
 void ShopSystem::PrintItemInfo(int index) const
 {
-	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
-	std::string id = shopItems[index].GetId();
-	FItemData itemData;
-	
-	if (!itemDataBase.GetItemData(id,itemData))
-	{
-		return;
-	}
+	FShopSlot* slot = (*shopItems)[index];
 
-	std::string name = std::format("이름: {}", itemData.GetName());
-	std::string description = std::format("{}", itemData.GetDescription());
-	std::string price = std::format("가격: {}G", itemData.GetPrice());
-	std::string count = std::format("보유: {}개", shopItems[index].GetCount());
+	std::string name = std::format("이름: {}", slot->GetName());
+	std::string description = std::format("{}", slot->GetDescription());
+	std::string price = std::format("가격: {}G", slot->GetPrice());
+	std::string count{};
+
+	if (slot->GetHasStockLimit())
+	{
+		count = std::format("재고: {}개", slot->GetCurrentCount());
+	}
+	else
+	{
+		count = "재고: 무한개";
+	}
 
 	std::cout << std::endl;
 	std::cout << "---------------------------------------------------------------" << std::endl;
@@ -237,44 +245,41 @@ void ShopSystem::PrintItemInfo(int index) const
 	std::cout << "---------------------------------------------------------------" << std::endl;
 }
 
-void ShopSystem::HandleItemOptions(int index)
+void ShopSystem::HandleSellItemSelection()
 {
+	int size = (int)(*shopItems).size();
 	int number{};
 	bool isOk{};
-
-	std::cout << std::endl;
-	std::cout << "======= 선택 =======" << std::endl;
-	std::cout << "1. 구매하기" << std::endl;
-	std::cout << "0. 돌아가기" << std::endl;
 
 	while (!isOk)
 	{
 		std::cout << std::endl;
-		std::cout << "번호 입력: ";
+		std::cout << "구매할 아이템 번호 입력(0: 돌아가기): ";
 		std::cin >> number;
 
 		isOk = true;
 
-		switch (number)
+		if (number == 0)
 		{
-		case 1:
-			HandleSellItem(index);
-			break;
-		case 0:
-			std::cout << "구매 초기로 돌아갑니다." << std::endl;
-			break;
-		default:
+			std::cout << "이전으로 돌아갑니다." << std::endl;
+		}
+		else if (1 <= number && number <= size)
+		{
+			HandleSellItemCount(number - 1);
+		}
+		else
+		{
 			isOk = false;
 			std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
-			break;
 		}
 	}
 }
 
-void ShopSystem::HandleSellItem(int index)
+void ShopSystem::HandleSellItemCount(int index)
 {
 	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 	Player& player = Player::GetInstance();
+	FShopSlot* slot = (*shopItems)[index];
 	int number{};
 	bool isOk{};
 
@@ -288,28 +293,38 @@ void ShopSystem::HandleSellItem(int index)
 
 		if (number == 0)
 		{
-			std::cout << "다시 선택합니다." << std::endl;
-			HandleItemOptions(index);
+			std::cout << "구매 초기로 돌아갑니다." << std::endl;
+			return;
 		}
-		else if (1 <= number && number <= shopItems[index].GetCount())
+		else if (number < 0)
 		{
-			FItemData itemData;
-
-			if (!itemDataBase.GetItemData(shopItems[index].GetId(), itemData))
+			isOk = false;
+			std::cout << "잘못된 숫자입니다. 다시 입력해주세요." << std::endl;
+		}
+		else
+		{
+			if (slot->GetHasStockLimit() && slot->GetCurrentCount() < number)
 			{
 				isOk = false;
-				std::cout << "아이템 정보가 유효하지 않습니다. 다시 선택해 주세요." << std::endl;
-				
+				std::cout << "재고가 부족합니다. 다시 입력해주세요." << std::endl;
+
 				continue;
 			}
 
-			int price = itemData.GetPrice() * number;
+			int price = slot->GetPrice() * number;
 
 			if (price <= player[Pstat::Gold]) // Player 재화 확인
 			{
-				std::string message = std::format("{}을(를) {}개 구매했습니다.", itemData.GetName(), number);
-				std::cout << message << std::endl;
-				SellToPlayer(index, number, price);
+				if (SellToPlayer(index, number, price))
+				{
+					std::string message = std::format("{}을(를) {}개 구매했습니다.", slot->GetName(), number);
+					std::cout << message << std::endl;
+				}
+				else
+				{
+					isOk = false;
+					std::cout << "인벤토리에 공간이 부족합니다. 비우고 다시 시도해주세요." << std::endl;
+				}
 			}
 			else
 			{
@@ -317,33 +332,38 @@ void ShopSystem::HandleSellItem(int index)
 				std::cout << "골드가 부족합니다." << std::endl;
 			}
 		}
-		else
-		{
-			isOk = false;
-			std::cout << "잘못된 숫자입니다. 다시 입력해주세요." << std::endl;
-		}
 	}
 }
 
-void ShopSystem::SellToPlayer(int index, int count, int price)
+bool ShopSystem::SellToPlayer(int index, int count, int price)
 {
 	Player& player = Player::GetInstance();
 	InventorySystem& inventorySystem = InventorySystem::GetInstance();
-
+	
+	FShopSlot* slot = (*shopItems)[index];
 	int shopCount{};
 	
+	if (!inventorySystem.AddItem(slot->GetId(), count))
+	{
+		return false;
+	}
+
 	player[Pstat::Gold] -= price;
 
-	inventorySystem.AddItem(shopItems[index].GetId(), count);
-
-	shopCount = shopItems[index].GetCount();
-	shopItems[index].SetCount(shopCount - count);
-	shopCount = shopItems[index].GetCount();
-
-	if (shopCount == 0)
+	if (slot->GetHasStockLimit())
 	{
-		shopItems.erase(shopItems.begin() + index);
+		shopCount = slot->GetCurrentCount();
+		slot->SetCurrentCount(shopCount - count);
+
+		shopCount = slot->GetCurrentCount();
+
+		if (shopCount == 0)
+		{
+			(*shopItems).erase((*shopItems).begin() + index);
+		}
 	}
+
+	return true;
 }
 
 void ShopSystem::BuyFromPlayer(int totalBuyPrice) const

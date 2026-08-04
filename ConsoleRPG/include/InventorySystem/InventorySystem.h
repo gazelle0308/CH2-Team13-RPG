@@ -13,7 +13,7 @@
 #include "DataBase/InventoryDataBase.h"
 #include "Factory/ItemFactory.h"
 
-inline bool compareName(const FItemSlot& a, const FItemSlot& b)
+inline bool compareName(const FInventorySlot& a, const FInventorySlot& b)
 {
 	std::string aName = a.GetName();
 	std::string bName = b.GetName();
@@ -26,7 +26,7 @@ inline bool compareName(const FItemSlot& a, const FItemSlot& b)
 	return aName < bName;
 }
 
-inline bool compareFunc(const FItemSlot& a, const FItemSlot& b)
+inline bool compareFunc(const FInventorySlot& a, const FInventorySlot& b)
 {
 	// 기능 별로 순서 정해서 오름차순 정렬
 
@@ -34,8 +34,8 @@ inline bool compareFunc(const FItemSlot& a, const FItemSlot& b)
 	FEnumDisplay enumDisplay;
 	EItemCategory aCategory = a.GetCategory();
 	EItemCategory bCategory = b.GetCategory();
-	int aSequence = enumDisplay.GetItemCategorySequence(aCategory);
-	int bSequence = enumDisplay.GetItemCategorySequence(bCategory);
+	int aSequence = static_cast<int>(aCategory);
+	int bSequence = static_cast<int>(bCategory);
 
 	if (aCategory == bCategory)
 	{
@@ -53,8 +53,8 @@ inline bool compareFunc(const FItemSlot& a, const FItemSlot& b)
 			{
 				if (!aTypes.empty() && !bTypes.empty())
 				{
-					aSequence = enumDisplay.GetConsumableTypeSequence(aTypes[0]);
-					bSequence = enumDisplay.GetConsumableTypeSequence(bTypes[0]);
+					aSequence = static_cast<int>(aTypes[0]);
+					bSequence = static_cast<int>(bTypes[0]);
 				}
 			}
 
@@ -67,8 +67,8 @@ inline bool compareFunc(const FItemSlot& a, const FItemSlot& b)
 
 			if (itemDataBase.GetUpgradeType(aId, aUpgradeType) && itemDataBase.GetUpgradeType(bId, bUpgradeType))
 			{
-				aSequence = enumDisplay.GetUpgradeTypeSequence(aUpgradeType);
-				bSequence = enumDisplay.GetUpgradeTypeSequence(bUpgradeType);
+				aSequence = static_cast<int>(aUpgradeType);
+				bSequence = static_cast<int>(bUpgradeType);
 			}
 
 			break;
@@ -80,8 +80,8 @@ inline bool compareFunc(const FItemSlot& a, const FItemSlot& b)
 
 			if (itemDataBase.GetMaterialType(aId, aMaterialType) && itemDataBase.GetMaterialType(bId, bMaterialType))
 			{
-				aSequence = enumDisplay.GetMaterialTypeSequence(aMaterialType);
-				bSequence = enumDisplay.GetMaterialTypeSequence(bMaterialType);
+				aSequence = static_cast<int>(aMaterialType);
+				bSequence = static_cast<int>(bMaterialType);
 			}
 
 			break;
@@ -97,7 +97,7 @@ inline bool compareFunc(const FItemSlot& a, const FItemSlot& b)
 	return aSequence < bSequence;
 }
 
-inline bool comparePrice(const FItemSlot& a, const FItemSlot& b)
+inline bool comparePrice(const FInventorySlot& a, const FInventorySlot& b)
 {
 	int aPrice = a.GetPrice();
 	int bPrice = b.GetPrice();
@@ -113,12 +113,11 @@ inline bool comparePrice(const FItemSlot& a, const FItemSlot& b)
 class InventorySystem
 {
 private:
-	std::vector<FItemSlot> items;
-	int inventorySize;
-	int inventoryCount;
+	std::vector<FInventorySlot> items;
+	int inventoryMaxSize;
 
 private:
-	InventorySystem() : inventorySize(20), inventoryCount(0) {
+	InventorySystem() : inventoryMaxSize(20) {
 		items.clear();
 		SetInventoryData();
 	}

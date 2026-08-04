@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include <iostream>
-#include "Item/Item.h"
 #include "Types/ItemTypes.h"
 
 enum class EInventoryViewMode
@@ -34,7 +33,7 @@ public:
 	}
 };
 
-struct FItemSlot
+struct FInventorySlot
 {
 public:
 	FItemData itemData;

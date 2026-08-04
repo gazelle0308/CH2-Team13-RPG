@@ -199,13 +199,6 @@ struct FEnumDisplay
 {
 private:
 	// Item
-	std::unordered_map<EItemCategory, int> itemCategorySequenceMap =
-	{
-		{EItemCategory::None, 0},
-		{EItemCategory::Consumable, 1},
-		{EItemCategory::Upgrade, 2},
-		{EItemCategory::Material, 3},
-	};
 	std::unordered_map<EItemCategory, std::string> itemCategoryToStringMap =
 	{
 		{EItemCategory::None, "None"},
@@ -229,14 +222,6 @@ private:
 	};
 
 	// Consumable
-	std::unordered_map<EConsumableType, int> consumableSequenceMap =
-	{ 
-		{EConsumableType::None, 0},
-		{EConsumableType::Hp, 1},
-		{EConsumableType::Mp, 2},
-		{EConsumableType::Power, 3},
-		{EConsumableType::Defence, 4}
-	};
 	std::unordered_map<EConsumableType, std::string> consumableToStringMap =
 	{ 
 		{EConsumableType::None, "None"},
@@ -263,11 +248,6 @@ private:
 	};
 
 	// Upgrade
-	std::unordered_map<EUpgradeType, int> upgradeSequenceMap =
-	{
-		{EUpgradeType::None, 0},
-		{EUpgradeType::Inventory, 1}
-	};
 	std::unordered_map<EUpgradeType, std::string> upgradeToStringMap =
 	{
 		{EUpgradeType::None, "None"},
@@ -285,12 +265,6 @@ private:
 	};
 
 	// Material
-	std::unordered_map<EMaterialType, int> materialSequenceMap =
-	{
-		{EMaterialType::None, 0},
-		{EMaterialType::Primary, 1},
-		{EMaterialType::Secondary, 2}
-	};
 	std::unordered_map<EMaterialType, std::string> materialToStringMap =
 	{
 		{EMaterialType::None, "None"},
@@ -312,10 +286,6 @@ private:
 
 public:
 	// Item
-	inline int GetItemCategorySequence(EItemCategory itemCategory) const
-	{
-		return itemCategorySequenceMap.at(itemCategory);
-	}
 	inline std::string GetItemCategoryToString(EItemCategory itemCategory) const
 	{
 		return itemCategoryToStringMap.at(itemCategory);
@@ -337,10 +307,6 @@ public:
 	}
 
 	// Consumable
-	inline int GetConsumableTypeSequence(EConsumableType consumableType) const
-	{
-		return consumableSequenceMap.at(consumableType);
-	}
 	inline std::string GetConsumableTypeToString(EConsumableType consumableType) const
 	{
 		return consumableToStringMap.at(consumableType);
@@ -362,10 +328,6 @@ public:
 	}
 
 	// Upgrade
-	inline int GetUpgradeTypeSequence(EUpgradeType upgradeType) const
-	{
-		return upgradeSequenceMap.at(upgradeType);
-	}
 	inline std::string GetUpgradeTypeToString(EUpgradeType upgradeType) const
 	{
 		return upgradeToStringMap.at(upgradeType);
@@ -387,10 +349,6 @@ public:
 	}
 
 	// Material
-	inline int GetMaterialTypeSequence(EMaterialType materialType) const
-	{
-		return materialSequenceMap.at(materialType);
-	}
 	inline std::string GetMaterialTypeToString(EMaterialType materialType) const
 	{
 		return materialToStringMap.at(materialType);

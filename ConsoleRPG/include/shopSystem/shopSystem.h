@@ -5,7 +5,6 @@
 #include <vector>
 #include <string>
 #include "Types/ShopTypes.h"
-#include "DataBase/ItemDataBase.h"
 #include "DataBase/ShopDataBase.h"
 #include "Player/Player.h"
 
@@ -14,8 +13,8 @@ class InventorySystem;
 class ShopSystem
 {
 private:
-	std::vector<FShopItemData> shopItems;
-	double buybackRate;
+	std::vector<FShopSlot*>* shopItems;
+	double buybackRate = 0.6;
 
 private:
 	ShopSystem() : buybackRate(0.6) {
@@ -49,12 +48,12 @@ private:
 	void PrintPlayerGold() const;
 	void HandleSellOptions(bool& isEnd);
 	void HandleBuy() const;
-	void HandleItemSelection();
+	void HandleShowItem();
 	void PrintItemInfo(int index) const;
-	void HandleItemOptions(int index);
-	void HandleSellItem(int index);
+	void HandleSellItemSelection();
+	void HandleSellItemCount(int index);
 
-	void SellToPlayer(int index, int count, int price);
+	bool SellToPlayer(int index, int count, int price);
 	void BuyFromPlayer(int totalBuyPrice) const;
 };
 

@@ -37,7 +37,7 @@ void InventorySystem::ShowInventoryInPotionWorkshop()
 // 0: 성공, 1: 공간 부족, 2: 재료 부족, 3: 잘못된 index
 int InventorySystem::CanCraftPotion(std::vector<std::pair<int, int>>& materials, std::string potionId, int potionCount)
 {
-	std::vector<FItemSlot> tmpItems(items);
+	std::vector<FInventorySlot> tmpItems(items);
 
 	std::sort(materials.begin(), materials.end(), [](const std::pair<int, int>& a, const std::pair<int, int>& b) {
 		return a.first > b.first;
@@ -47,12 +47,17 @@ int InventorySystem::CanCraftPotion(std::vector<std::pair<int, int>>& materials,
 	{
 		int result = RemoveItem(material.first, material.second);
 
+		std::cout << items.size() << std::endl;
 		if (result == 1)
 		{
+			items = tmpItems;
+
 			return 2;
 		}
 		else if (result == 2)
 		{
+			items = tmpItems;
+			
 			return 3;
 		}
 	}
@@ -63,12 +68,14 @@ int InventorySystem::CanCraftPotion(std::vector<std::pair<int, int>>& materials,
 	}
 
 	items = tmpItems;
-
+	
 	return 1;
 }
 
 bool InventorySystem::GetItemData(int index, FItemData& itemData) const
 {
+	int inventoryCount = (int)items.size();
+
 	if (index < 0 || inventoryCount <= index)
 	{
 		return false;
@@ -100,13 +107,12 @@ void InventorySystem::SetInventoryData()
 			continue;
 		}
 
-		FItemSlot itemSlot;
+		FInventorySlot itemSlot;
 
 		itemSlot.SetItemData(itemData);
 		itemSlot.SetCount(data.GetCount());
 
 		items.push_back(itemSlot);
-		inventoryCount += 1;
 	}
 }
 
@@ -125,9 +131,11 @@ void InventorySystem::PrintInventoryItems(EInventoryViewMode mode, double buybac
 	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 	FEnumDisplay enumDisplay;
 
+	int inventoryCount = (int)items.size();
+
 	std::cout << "================================================================" << std::endl;
 	std::string str
-		= std::format("                        인벤토리 ({}/{})                        ", inventoryCount, inventorySize);
+		= std::format("                        인벤토리 ({}/{})                        ", inventoryCount, inventoryMaxSize);
 	std::cout << str << std::endl;
 	std::cout << "================================================================" << std::endl;
 
@@ -253,6 +261,7 @@ void InventorySystem::HandleNormalInventoryOptions(bool& isEnd)
 
 void InventorySystem::HandleBattleInventoryOptions(bool& isEnd)
 {
+	int inventoryCount = (int)items.size();
 	int number{};
 	bool isOk{};
 
@@ -302,6 +311,7 @@ void InventorySystem::PrintPlayerGold() const
 
 void InventorySystem::HandleShopInventoryOptions(double buybackRate, int& totalBuyPrice, bool& isEnd)
 {
+	int inventoryCount = (int)items.size();
 	int number{};
 	bool isOk{};
 
@@ -333,6 +343,7 @@ void InventorySystem::HandleShopInventoryOptions(double buybackRate, int& totalB
 
 void InventorySystem::HandleNormalItemSelection()
 {
+	int inventoryCount = (int)items.size();
 	int number{};
 	bool isOk{};
 
@@ -492,7 +503,7 @@ void InventorySystem::HandleShopItemOptions(int index, double buybackRate, int& 
 		}
 		else
 		{
-			FItemSlot itemSlot = items[index];
+			FInventorySlot itemSlot = items[index];
 			int result = RemoveItem(index, number);
 
 			if (result == 0)
@@ -541,7 +552,7 @@ void InventorySystem::HandleDiscardItem(int index)
 		}
 		else
 		{
-			FItemSlot itemSlot = items[index];
+			FInventorySlot itemSlot = items[index];
 			int result = RemoveItem(index, number);
 
 			if (result == 0)
@@ -567,15 +578,16 @@ void InventorySystem::HandleDiscardItem(int index)
 bool InventorySystem::AddItem(std::string id, int itemCount)
 {
 	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
-	FItemData itemData{};
+	FItemData itemData;
 
 	if (!itemDataBase.GetItemData(id, itemData))
 	{
 		return false;
 	}
-	
+
+	int inventoryCount = (int)items.size();
 	int result = FindItem(id);
-	int itemMaxStackCount = itemData.maxStackCount;
+	int itemMaxStackCount = itemData.GetMaxStackCount();
 	int fullSlotCount{};
 	int partiallyFullSlotCount{};
 
@@ -592,28 +604,31 @@ bool InventorySystem::AddItem(std::string id, int itemCount)
 		else
 		{
 			itemCount -= itemMaxStackCount - count;
-			items[result].SetCount(itemMaxStackCount);
+			fullSlotCount += 1;
 		}
 	}
 
 	fullSlotCount = itemCount / itemMaxStackCount;
 	partiallyFullSlotCount = itemCount % itemMaxStackCount == 0 ? 0 : 1;
 
-	if (inventoryCount + fullSlotCount + partiallyFullSlotCount <= inventorySize)
+	if (inventoryCount + fullSlotCount + partiallyFullSlotCount <= inventoryMaxSize)
 	{
-		FItemSlot inventorySlot;
+		if (result != -1)
+		{
+			items[result].SetCount(itemMaxStackCount);
+		}
+
+		FInventorySlot inventorySlot;
 		inventorySlot.SetItemData(itemData);
 		inventorySlot.SetCount(itemMaxStackCount);
 
 		for (int i = 0; i < fullSlotCount; i++)
 		{
-			inventoryCount += 1;
 			items.push_back(inventorySlot);
 		}
 
 		if (partiallyFullSlotCount == 1)
 		{
-			inventoryCount += 1;
 			inventorySlot.SetCount(itemCount % itemMaxStackCount);
 			items.push_back(inventorySlot);
 		}
@@ -627,6 +642,8 @@ bool InventorySystem::AddItem(std::string id, int itemCount)
 // 0: 성공, 1: 개수 초과, 2: 잘못된 index
 int InventorySystem::RemoveItem(int index, int count)
 {
+	int inventoryCount = (int)items.size();
+
 	if (index < 0 || inventoryCount <= index)
 	{
 		return 2;
@@ -651,7 +668,6 @@ int InventorySystem::RemoveItem(int index, int count)
 
 			if (items[slotIndex].GetCount() == 0)
 			{
-				inventoryCount -= 1;
 				items.erase(items.begin() + slotIndex);
 			}
 
@@ -667,6 +683,7 @@ int InventorySystem::RemoveItem(int index, int count)
 // -1: fail, 0~: index(동일한 아이템 존재 시 아이템 가장 적게 들어있는 슬롯)
 int InventorySystem::FindItem(std::string id) const
 {
+	int inventoryCount = (int)items.size();
 	int index = -1;
 	int minNum = -1;
 
@@ -687,6 +704,7 @@ int InventorySystem::FindItem(std::string id) const
 
 int InventorySystem::GetTotalItemCount(int index) const
 {
+	int inventoryCount = (int)items.size();
 	std::string itemId = items[index].GetId();
 	int total{};
 
@@ -703,6 +721,8 @@ int InventorySystem::GetTotalItemCount(int index) const
 
 bool InventorySystem::UseItem(int index)
 {
+	int inventoryCount = (int)items.size();
+
 	if (index < 0 || inventoryCount <= index)
 	{
 		return false;
@@ -747,7 +767,9 @@ void InventorySystem::SortByPrice()
 
 void InventorySystem::MergeSameItems()
 {
-	std::vector<FItemSlot> newItems{};
+	int inventoryCount = (int)items.size();
+
+	std::vector<FInventorySlot> newItems{};
 	std::unordered_set<std::string> visit{};
 	
 	int newInventoryCount{};
@@ -767,19 +789,17 @@ void InventorySystem::MergeSameItems()
 			fullSlot = totalCount / itemMaxStackCount;
 			remainder = totalCount % itemMaxStackCount;
 
-			FItemSlot inventorySlot;
+			FInventorySlot inventorySlot;
 			inventorySlot.SetItemData(items[i].GetItemData());
 			inventorySlot.SetCount(itemMaxStackCount);
 
 			for (int j = 0; j < fullSlot; j++)
 			{
-				newInventoryCount += 1;
 				newItems.push_back(inventorySlot);
 			}
 
 			if (remainder != 0)
 			{
-				newInventoryCount += 1;
 				inventorySlot.SetCount(remainder);
 				newItems.push_back(inventorySlot);
 			}
@@ -787,10 +807,9 @@ void InventorySystem::MergeSameItems()
 	}
 
 	items = newItems;
-	inventoryCount = newInventoryCount;
 }
 
 void InventorySystem::ExpandInventory(int size)
 {
-	inventorySize += size;
+	inventoryMaxSize += size;
 }

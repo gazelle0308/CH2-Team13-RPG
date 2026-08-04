@@ -21,14 +21,16 @@ int main()
 	SetConsoleCP(CP_UTF8);
 
 	Player& player = Player::GetInstance();
+
 	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 
 	const std::vector<std::string> itemIds = ItemDataBase::GetInstance().GetAllItemIds();
 
-	InventorySystem::GetInstance().ExpandInventory(78);
+	inventorySystem.ExpandInventory(78);
+
 	for (const std::string id : itemIds)
 	{
-		InventorySystem::GetInstance().AddItem(id, 11);
+		inventorySystem.AddItem(id, 11);
 	}
 
 	int number{};
