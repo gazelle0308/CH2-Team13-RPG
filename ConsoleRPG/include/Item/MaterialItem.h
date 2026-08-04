@@ -1,25 +1,29 @@
-﻿#pragma once
+﻿  // Copyright 2026 ShinStella
+
+#pragma once
+
+#include <string>
+
 #include "Item/Item.h"
 
 class MaterialItem :
-    public Item
-{
-private:
+    public Item {
+ private:
     FMaterialItemData materialItemData;
 
-public:
-    MaterialItem(std::string id)
+ public:
+    explicit MaterialItem(std::string id)
         : Item(id) {
         SetMaterialData(id);
     }
 
-    virtual void Use() override;
+    void Use() override;
 
-private:
-    virtual void PrintUseMessage() const override;
+ private:
+    void PrintUseMessage() const override;
     void SetMaterialData(std::string id);
 
-public:
+ public:
     const FMaterialItemData& GetMaterialData() const;
     EMaterialType GetMaterialType() const;
 };

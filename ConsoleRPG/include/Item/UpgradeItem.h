@@ -1,27 +1,31 @@
-﻿#pragma once
+﻿  // Copyright 2026 ShinStella
+
+#pragma once
+
+#include <string>
+
 #include "Item/Item.h"
 
 class InventorySystem;
 
 class UpgradeItem :
-    public Item
-{
-private:
+    public Item {
+ private:
     FUpgradeItemData upgradeItemData;
 
-public:
-    UpgradeItem(std::string id)
+ public:
+    explicit UpgradeItem(std::string id)
         : Item(id) {
         SetUpgradeData(id);
     }
 
-    virtual void Use() override;
+    void Use() override;
 
-private:
-    virtual void PrintUseMessage() const override;
+ private:
+    void PrintUseMessage() const override;
     void SetUpgradeData(std::string id);
 
-public:
+ public:
     const FUpgradeItemData& GetUpgradeData() const;
     EUpgradeType GetUpgradeType() const;
     int GetValue() const;

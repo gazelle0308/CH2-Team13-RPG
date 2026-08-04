@@ -1,107 +1,103 @@
-﻿#include "DataBase/ShopDataBase.h"
+﻿  // Copyright 2026 ShinStella
 
-void ShopDataBase::LoadShopData()
-{
-	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+#include <iostream>
+#include <string>
+#include <vector>
 
-	std::ifstream file("data/shopItems.json");
+#include "DataBase/ShopDataBase.h"
 
-	if (!file.is_open())
-	{
-		std::cout << "파일 열기 실패" << std::endl;
-		return;
-	}
+void ShopDataBase::LoadShopData() {
+    ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
 
-	nlohmann::json data;
-	file >> data;
+    std::ifstream file("data/shopItems.json");
 
-	std::string id = "ID";
-	bool defaultUnlocked = false;
-	bool hasStockLimit = false;
-	int initialCount = 0;
-	int index{};
+    if (!file.is_open()) {
+        std::cout << "파일 열기 실패" << std::endl;
+        return;
+    }
 
-	for (const auto& item : data)
-	{
-		FShopItemData shopItemData;
-		FShopSlot shopSlot;
-		FItemData itemData;
+    nlohmann::json data;
+    file >> data;
 
-		shopItemData.SetId(item["id"]);
-		shopItemData.SetDefaultUnlocked(item["defaultUnlocked"]);
-		shopItemData.SetHasStockLimit(item["hasStockLimit"]);
-		shopItemData.SetInitialCount(item["initialCount"]);
+    std::string id = "ID";
+    bool defaultUnlocked = false;
+    bool hasStockLimit = false;
+    int initialCount = 0;
+    int index{};
 
-		shopItemDatas.push_back(shopItemData);
+    for (const auto& item : data) {
+        FShopItemData shopItemData;
+        FShopSlot shopSlot;
+        FItemData itemData;
 
-		if (!itemDataBase.GetItemData(shopItemData.GetId(), itemData))
-		{
-			continue;
-		}
+        shopItemData.SetId(item["id"]);
+        shopItemData.SetDefaultUnlocked(item["defaultUnlocked"]);
+        shopItemData.SetHasStockLimit(item["hasStockLimit"]);
+        shopItemData.SetInitialCount(item["initialCount"]);
 
-		shopSlot.SetItemData(itemData);
-		shopSlot.SetIsUnlocked(shopItemData.GetDefaultUnlocked());
-		shopSlot.SetHasStockLimit(shopItemData.GetHasStockLimit());
-		shopSlot.SetCurrentCount(shopItemData.GetInitialCount());
+        shopItemDatas.push_back(shopItemData);
 
-		shopSlots.push_back(shopSlot);
+        if (!itemDataBase.GetItemData(shopItemData.GetId(), itemData)) {
+            continue;
+        }
 
-		shopSlotIndexMap.emplace(shopSlot.GetId(), index);
-		index += 1;
-	}
+        shopSlot.SetItemData(itemData);
+        shopSlot.SetIsUnlocked(shopItemData.GetDefaultUnlocked());
+        shopSlot.SetHasStockLimit(shopItemData.GetHasStockLimit());
+        shopSlot.SetCurrentCount(shopItemData.GetInitialCount());
+
+        shopSlots.push_back(shopSlot);
+
+        shopSlotIndexMap.emplace(shopSlot.GetId(), index);
+        index += 1;
+    }
 }
 
-void ShopDataBase::PrintAllShopDatas() const
-{
-	for (const FShopItemData& item : shopItemDatas)
-	{
-		std::cout << std::format("id: {}", item.GetId()) << std::endl;
-		std::cout << std::format("defaultUnlocked: {}", item.GetDefaultUnlocked()) << std::endl;
-		std::cout << std::format("hasStockLimit: {}", item.GetHasStockLimit()) << std::endl;
-		std::cout << std::format("initialCount: {}", item.GetInitialCount()) << std::endl;
-	}
+void ShopDataBase::PrintAllShopDatas() const {
+    for (const FShopItemData& item : shopItemDatas) {
+        std::cout << std::format("id: {}",
+                                  item.GetId()) << std::endl;
+        std::cout << std::format("defaultUnlocked: {}",
+                                  item.GetDefaultUnlocked()) << std::endl;
+        std::cout << std::format("hasStockLimit: {}",
+                                  item.GetHasStockLimit()) << std::endl;
+        std::cout << std::format("initialCount: {}",
+                                  item.GetInitialCount()) << std::endl;
+    }
 }
 
-void ShopDataBase::SetShopItemUnlocked(std::string id, bool isUnlocked)
-{
-	if (!shopSlotIndexMap.contains(id))
-	{
-		return;
-	}
+void ShopDataBase::SetShopItemUnlocked(std::string id, bool isUnlocked) {
+    if (!shopSlotIndexMap.contains(id)) {
+        return;
+    }
 
-	int index = shopSlotIndexMap.at(id);
+    int index = shopSlotIndexMap.at(id);
 
-	if ((int)shopSlots.size() <= index)
-	{
-		return;
-	}
+    if (static_cast<int>(shopSlots.size()) <= index) {
+        return;
+    }
 
-	shopSlots[index].SetIsUnlocked(isUnlocked);
+    shopSlots[index].SetIsUnlocked(isUnlocked);
 }
 
-const std::vector<FShopItemData>& ShopDataBase::GetShopItemDatas() const
-{
-	return shopItemDatas;
+const std::vector<FShopItemData>& ShopDataBase::GetShopItemDatas() const {
+    return shopItemDatas;
 }
 
-std::vector<FShopSlot>* ShopDataBase::GetShopSlots()
-{
-	return &shopSlots;
+std::vector<FShopSlot>* ShopDataBase::GetShopSlots() {
+    return &shopSlots;
 }
 
-std::vector<FShopSlot*>* ShopDataBase::GetSellableShopSlots()
-{
-	sellableShopSlots.clear();
+std::vector<FShopSlot*>* ShopDataBase::GetSellableShopSlots() {
+    sellableShopSlots.clear();
 
-	for (FShopSlot& slot : shopSlots)
-	{
-		if (slot.GetIsUnlocked() 
-			&& (!slot.GetHasStockLimit() 
-				|| slot.GetHasStockLimit() && 0 < slot.GetCurrentCount()))
-		{
-			sellableShopSlots.push_back(&slot);
-		}
-	}
+    for (FShopSlot& slot : shopSlots) {
+        if (slot.GetIsUnlocked()
+            && (!slot.GetHasStockLimit()
+                || slot.GetHasStockLimit() && 0 < slot.GetCurrentCount())) {
+            sellableShopSlots.push_back(&slot);
+        }
+    }
 
-	return &sellableShopSlots;
+    return &sellableShopSlots;
 }
