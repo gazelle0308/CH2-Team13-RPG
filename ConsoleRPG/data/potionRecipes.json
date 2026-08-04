@@ -97,17 +97,17 @@
     },
     {
         "id": "ITEM_CONSUMABLE_POTION_HP_MP",
-        "primaryId" : "ITEM_MATERIAL_VAMPIRE_BLOOD",
+        "primaryId" : "ITEM_MATERIAL_SALAMANDER_SKIN",
         "primaryCount" : 1,
-        "secondaryId" : "ITEM_MATERIAL_DAEMON_TONGUE",
+        "secondaryId" : "ITEM_MATERIAL_HELL_HOUND_COLLAR",
         "secondaryCount" : 2,
         "defaultUnlocked" : false
     },
     {
         "id": "ITEM_CONSUMABLE_POTION_POWER_DEFENCE",
-        "primaryId" : "ITEM_MATERIAL_CHIMERA_TOOTH",
+        "primaryId" : "ITEM_MATERIAL_MANTICORE_TAIL",
         "primaryCount" : 2,
-        "secondaryId" : "ITEM_MATERIAL_MINOTAUR_HELMET",
+        "secondaryId" : "ITEM_MATERIAL_WYVERN_POISON",
         "secondaryCount" : 1,
         "defaultUnlocked" : false
     },

@@ -80,19 +80,19 @@
         "materialType": "Primary"
     },
     {
-        "id": "ITEM_MATERIAL_DAEMON_TONGUE",
+        "id": "ITEM_MATERIAL_HELL_HOUND_COLLAR",
         "materialType": "Secondary"
     },
     {
-        "id": "ITEM_MATERIAL_MINOTAUR_HELMET",
+        "id": "ITEM_MATERIAL_WYVERN_POISON",
         "materialType": "Secondary"
     },
     {
-        "id": "ITEM_MATERIAL_VAMPIRE_BLOOD",
+        "id": "ITEM_MATERIAL_SALAMANDER_SKIN",
         "materialType": "Primary"
     },
     {
-        "id": "ITEM_MATERIAL_CHIMERA_TOOTH",
+        "id": "ITEM_MATERIAL_MANTICORE_TAIL",
         "materialType": "Primary"
     },
     {
