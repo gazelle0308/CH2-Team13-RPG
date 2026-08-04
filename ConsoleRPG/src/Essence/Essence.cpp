@@ -135,7 +135,8 @@ void Essence::Skill(Monster& monster, Effect<Monster>& effect) {
         player[Pstat::Mp] -= 70;
     } else if (this->name == "헬 하운드") {
         std::cout << "헬 하운드의 정수를 사용했습니다.\n";
-        std::cout << "심각한 저주(대상:monster): 3Turn/3 ManaBurn + 5 PowerDown\n";
+        std::cout << "3Turn/5 PowerDown\n";
+        std::cout << "3Turn/3 ManaBurn\n";
         effect.ReceiveEffect(EffectType::ManaBurn, 3, 3);
         effect.ReceiveEffect(EffectType::PowerDown, 5, 3);
         player[Pstat::Mp] -= 90;

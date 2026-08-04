@@ -45,7 +45,7 @@ class Alatreon {
     // Logic
     int IsWin();
 
-private:
+ private:
     // Logic
     void IsHornBreak();
     void EschatonJudgment();
