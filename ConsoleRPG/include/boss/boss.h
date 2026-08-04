@@ -37,14 +37,18 @@ class Alatreon {
     // Tick
     void StartTurn();
     void BeforeEffect();
+    void AfterEffect();
     void EndTurn();
 
     // Action
     void AlatreonSkill();
     void AlatreonAttack();
 
+
     // Logic
     int IsWin();
+    void FormPrint();
+    void BeforeFormPrint();
 
  private:
     // Logic

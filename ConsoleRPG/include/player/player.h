@@ -145,9 +145,11 @@ class Player {
         static Player instance = []() {
             std::string name;
 
+            std::cout << "=====================================================\n";
             std::cout << "닉네임을 입력해 주세요.\n";
             std::cout << "닉네임: ";
             std::cin >> name;
+            std::cout << "=====================================================\n";
 
             return Player(name);
             }();
@@ -159,9 +161,11 @@ class Player {
         static Player instance = []() {
             std::string name;
 
+            std::cout << "=====================================================\n";
             std::cout << "닉네임을 입력해 주세요.\n";
             std::cout << "닉네임: ";
             std::cin >> name;
+            std::cout << "=====================================================\n";
 
             return Player(name);
             }();

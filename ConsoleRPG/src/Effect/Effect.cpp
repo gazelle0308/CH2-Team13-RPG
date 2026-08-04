@@ -13,6 +13,8 @@ template<>
 void Effect<Player>::ApplyPotion(EffectType target,
                                  unsigned int amount,
                                  unsigned int turn) {
+    std::cout << "=====================================================\n";
+    
     if (target == EffectType::PotionPowerUp) {
         this->entity.ApplyEffect(Pstat::BuffPower, amount);
         this->onBuff[8] = true;
@@ -40,6 +42,8 @@ void Effect<Player>::ApplyPotion(EffectType target,
     } else {
         throw std::logic_error("That is not potion effect");
     }
+
+    std::cout << "=====================================================\n";
 }
 
 template<>
@@ -58,6 +62,8 @@ void Effect<Alatreon>::ApplyPotion(EffectType target,
 
 template<>
 void Effect<Player>::EndPotion(unsigned int effect) {
+    std::cout << "=====================================================\n";
+
     if (effect == 8) {
         this->entity.ApplyEffect(Pstat::BuffPower, 0);
         this->onBuff[effect] = false;
@@ -69,6 +75,8 @@ void Effect<Player>::EndPotion(unsigned int effect) {
     } else {
         throw std::logic_error("That is not potion effect");
     }
+
+    std::cout << "=====================================================\n";
 }
 
 template<>
@@ -83,6 +91,8 @@ void Effect<Alatreon>::EndPotion(unsigned int effect) {
 
 template<>
 void Effect<Player>::EndEffect(unsigned int effect) {
+    std::cout << "=====================================================\n";
+
     if (effect == 3) {
         entity.setatk(entity.getatk() + this->amount[effect]);
         this->amount[effect] = 0;
@@ -110,10 +120,14 @@ void Effect<Player>::EndEffect(unsigned int effect) {
     } else {
         throw std::out_of_range("No more effect");
     }
+
+    std::cout << "=====================================================\n";
 }
 
 template<>
 void Effect<Monster>::EndEffect(unsigned int effect) {
+    std::cout << "=====================================================\n";
+
     if (effect == 3) {
         entity.setatk(entity.getatk() + this->amount[effect]);
         this->amount[effect] = 0;
@@ -139,10 +153,13 @@ void Effect<Monster>::EndEffect(unsigned int effect) {
     } else {
         throw std::out_of_range("No more effect");
     }
+    std::cout << "=====================================================\n";
 }
 
 template<>
 void Effect<Alatreon>::EndEffect(unsigned int effect) {
+    std::cout << "=====================================================\n";
+
     if (effect == 3) {
         entity.setatk(entity.getatk() + this->amount[effect]);
         this->amount[effect] = 0;
@@ -173,6 +190,7 @@ void Effect<Alatreon>::EndEffect(unsigned int effect) {
     else {
         throw std::out_of_range("No more effect");
     }
+    std::cout << "=====================================================\n";
 }
 
 template<>

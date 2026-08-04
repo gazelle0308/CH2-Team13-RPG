@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Essence.h"
+#include "Boss/Boss.h"
 
 class EssenceOrb {
  public:
@@ -19,7 +20,7 @@ class EssenceOrb {
 
     // Function
 
-    Essence& UseEssence(std::string name);
+    Essence& UseEssence(int index);
 
     std::string GetOrbInfo();
 
@@ -28,6 +29,8 @@ class EssenceOrb {
     void AcquireEssence(std::string name);
 
     void UseSkill(Monster& monster, Effect<Monster>& effect);
+
+    void UseSkill(Alatreon& boss, Effect<Alatreon>& effect);
 
     bool AllCollection();
 
