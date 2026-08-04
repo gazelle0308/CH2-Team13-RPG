@@ -1,4 +1,4 @@
-﻿#include "../include/monster/monster.h"
+﻿#include "monster/monster.h"
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
@@ -6,13 +6,14 @@
 
 // 생성자
 Monster::Monster(MonsterType monsterType)
-    : hp(0),
-    mp(0),
-    atk(0),
-    def(0),
-    exp(0),
+    : hp(0), 
+    mp(0), 
+    atk(0), 
+    def(0), 
+    exp(0), 
     bonusExp(0),
     name(""),
+    dropItem(""),
     regionMultiplier(1.0f),
     expMultiplier(1.0f),
     hpMultiplier(1.0f),
@@ -55,12 +56,12 @@ int Monster::getdef() const
     return def;
 }
 
-int Monster::getexp() const
+int Monster::getexp() const 
 {
     return exp;
 }
 
-int Monster::getbonusExp() const
+int Monster::getbonusExp() const 
 {
     return bonusExp;
 }
@@ -86,12 +87,12 @@ void Monster::setdef(int value)
     def = value;
 }
 
-void Monster::setexp(int value)
+void Monster::setexp(int value) 
 {
     exp = value;
 }
 
-void Monster::setbonusExp(int value)
+void Monster::setbonusExp(int value) 
 {
     bonusExp = value;
 }
@@ -99,6 +100,11 @@ void Monster::setbonusExp(int value)
 std::string Monster::getName() const
 {
     return name;
+}
+
+std::string Monster::getDropItem() const
+{
+    return dropItem;
 }
 
 float Monster::getRegionMultiplier() const
@@ -170,6 +176,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.2f;
         atkMultiplier = 0.8f;
         defMultiplier = 0.8f;
+        dropItem = "ITEM_MATERIAL_SLIME_GEL";
         break;
 
     case MonsterType::Zombie:
@@ -180,6 +187,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 0.8f;
         atkMultiplier = 0.8f;
         defMultiplier = 1.2f;
+        dropItem = "ITEM_MATERIAL_ZOMBIE_BRAIN";
         break;
 
     case MonsterType::Goblin:
@@ -190,6 +198,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.0f;
         atkMultiplier = 1.2f;
         defMultiplier = 0.8f;
+        dropItem = "ITEM_MATERIAL_GOBLIN_EAR";
         break;
 
     case MonsterType::WildWolf:
@@ -200,6 +209,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 0.8f;
         atkMultiplier = 1.3f;
         defMultiplier = 0.9f;
+        dropItem = "ITEM_MATERIAL_WILD_WOLF_FANG";
         break;
 
     case MonsterType::Chimera:
@@ -210,6 +220,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.1f;
         atkMultiplier = 1.1f;
         defMultiplier = 1.1f;
+        dropItem = "ITEM_MATERIAL_CHIMERA_HEAD";
         break;
 
 
@@ -222,6 +233,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.3f;
         atkMultiplier = 1.2f;
         defMultiplier = 0.8f;
+        dropItem = "ITEM_MATERIAL_GHOST_ECTOPLASM";
         break;
 
     case MonsterType::Succubus:
@@ -232,6 +244,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.4f;
         atkMultiplier = 1.1f;
         defMultiplier = 0.8f;
+        dropItem = "ITEM_MATERIAL_SUCCUBUS_HORN";
         break;
 
     case MonsterType::Incubus:
@@ -242,6 +255,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.2f;
         atkMultiplier = 1.3f;
         defMultiplier = 0.9f;
+        dropItem = "ITEM_MATERIAL_INCUBUS_TAIL";
         break;
 
     case MonsterType::Ghoul:
@@ -252,6 +266,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 0.8f;
         atkMultiplier = 0.9f;
         defMultiplier = 1.3f;
+        dropItem = "ITEM_MATERIAL_GHOUL_CLAW";
         break;
 
     case MonsterType::Werewolf:
@@ -262,6 +277,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 0.9f;
         atkMultiplier = 1.4f;
         defMultiplier = 1.0f;
+        dropItem = "ITEM_MATERIAL_WEREWOLF_FUR";
         break;
 
 
@@ -274,6 +290,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 0.8f;
         atkMultiplier = 0.9f;
         defMultiplier = 1.5f;
+        dropItem = "ITEM_MATERIAL_GARGOYLE_EYE";
         break;
 
     case MonsterType::Margoyle:
@@ -284,6 +301,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 0.9f;
         atkMultiplier = 1.0f;
         defMultiplier = 1.7f;
+        dropItem = "ITEM_MATERIAL_MARGOYLE_WING";
         break;
 
     case MonsterType::Mummy:
@@ -294,6 +312,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 0.8f;
         atkMultiplier = 1.0f;
         defMultiplier = 1.2f;
+        dropItem = "ITEM_MATERIAL_MUMMY_BANDAGE";
         break;
 
     case MonsterType::Daemon:
@@ -304,6 +323,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.4f;
         atkMultiplier = 1.6f;
         defMultiplier = 1.0f;
+        dropItem = "ITEM_MATERIAL_DAEMON_FINGER";
         break;
 
     case MonsterType::Golem:
@@ -314,6 +334,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 0.6f;
         atkMultiplier = 1.1f;
         defMultiplier = 2.0f;
+        dropItem = "ITEM_MATERIAL_GOLEM_HEART";
         break;
 
 
@@ -326,6 +347,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.2f;
         atkMultiplier = 1.3f;
         defMultiplier = 1.5f;
+        dropItem = "ITEM_MATERIAL_GRIFFON_EGG";
         break;
 
     case MonsterType::Vampire:
@@ -336,6 +358,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.5f;
         atkMultiplier = 1.5f;
         defMultiplier = 1.0f;
+        dropItem = "ITEM_MATERIAL_VAMPIRE_CAPE";
         break;
 
     case MonsterType::Siren:
@@ -346,6 +369,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.8f;
         atkMultiplier = 1.2f;
         defMultiplier = 1.0f;
+        dropItem = "ITEM_MATERIAL_SIREN_SCALE";
         break;
 
     case MonsterType::Minotaur:
@@ -356,6 +380,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 0.8f;
         atkMultiplier = 1.3f;
         defMultiplier = 1.5f;
+        dropItem = "ITEM_MATERIAL_MINOTAUR_HOOF";
         break;
 
 
@@ -369,6 +394,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 3.5f;
         atkMultiplier = 2.5f;
         defMultiplier = 2.8f;
+        dropItem = "ITEM_MATERIAL_ICE_ELEMENTAL_CORE";
         break;
 
 
@@ -381,6 +407,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.3f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.2f;
+        dropItem = "ITEM_MATERIAL_DAEMON_TONGUE";
         break;
 
     case MonsterType::Wyvern:
@@ -391,6 +418,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.0f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.8f;
+        dropItem = "ITEM_MATERIAL_MINOTAUR_HELMET";
         break;
 
     case MonsterType::Salamander:
@@ -401,6 +429,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 2.0f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.3f;
+        dropItem = "ITEM_MATERIAL_VAMPIRE_BLOOD";
         break;
 
     case MonsterType::Manticore:
@@ -411,6 +440,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.8f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.8f;
+        dropItem = "ITEM_MATERIAL_CHIMERA_TOOTH";
         break;
 
 
@@ -424,6 +454,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 4.5f;
         atkMultiplier = 3.2f;
         defMultiplier = 3.0f;
+        dropItem = "ITEM_MATERIAL_PHOENIX_FEATHER";
         break;
 
     default:

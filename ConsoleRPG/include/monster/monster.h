@@ -2,7 +2,7 @@
 #define MONSTER_H
 
 #include <string>
-#include "./Effect/effect.h"
+#include "Effect/effect.h"
 
 
 enum class MonsterType
@@ -59,6 +59,9 @@ private:
 
     std::string name;
 
+    // 드랍 아이템
+    std::string dropItem;
+
     // 지역별 난이도, 경험치 조절
     float regionMultiplier;
     float expMultiplier;
@@ -102,6 +105,7 @@ public:
 
 
     std::string getName() const;
+    std::string getDropItem() const;
 
     float getRegionMultiplier() const;
     float getExpMultiplier() const;
