@@ -1,3 +1,5 @@
+﻿  // Copyright 2026 ShinStella
+
 #pragma once
 #include <iostream>
 #include <fstream>
@@ -5,33 +7,32 @@
 #include <nlohmann/json.hpp>
 #include "Types/PotionWorkshopTypes.h"
 
-class PotionRecipeDataBase
-{
-private:
-	std::vector<FPotionRecipe> potionRecipes;
+class PotionRecipeDataBase {
+ private:
+    std::vector<FPotionRecipe> potionRecipes;
 
-private:
-	PotionRecipeDataBase() {
-		LoadPotionRecipeData();
-	}
+ private:
+    PotionRecipeDataBase() {
+        LoadPotionRecipeData();
+    }
 
-	// 복사 방지
-	PotionRecipeDataBase(const PotionRecipeDataBase&) = delete;
-	PotionRecipeDataBase& operator=(const PotionRecipeDataBase&) = delete;
+    // 복사 방지
+    PotionRecipeDataBase(const PotionRecipeDataBase&) = delete;
+    PotionRecipeDataBase& operator=(const PotionRecipeDataBase&) = delete;
 
-	// 이동 방지
-	PotionRecipeDataBase(const PotionRecipeDataBase&&) = delete;
-	PotionRecipeDataBase& operator=(PotionRecipeDataBase&&) = delete;
+    // 이동 방지
+    PotionRecipeDataBase(const PotionRecipeDataBase&&) = delete;
+    PotionRecipeDataBase& operator=(PotionRecipeDataBase&&) = delete;
 
-	void LoadPotionRecipeData();
+    void LoadPotionRecipeData();
 
-public:
-	// 싱글톤
-	static PotionRecipeDataBase& GetInstance() {
-		static PotionRecipeDataBase instance;
-		return instance;
-	}
+ public:
+    // 싱글톤
+    static PotionRecipeDataBase& GetInstance() {
+        static PotionRecipeDataBase instance;
+        return instance;
+    }
 
-	const std::vector<FPotionRecipe>& GetPotionRecipes();
+    const std::vector<FPotionRecipe>& GetPotionRecipes();
 };
 

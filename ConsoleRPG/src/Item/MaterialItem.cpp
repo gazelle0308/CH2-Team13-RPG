@@ -1,26 +1,25 @@
+﻿  // Copyright 2026 ShinStella
+
+#include <string>
+
 #include "Item/MaterialItem.h"
 
-void MaterialItem::Use()
-{
-	PrintUseMessage();
+void MaterialItem::Use() {
+    // PrintUseMessage();
 }
 
-void MaterialItem::PrintUseMessage() const
-{
-	Item::PrintUseMessage();
+void MaterialItem::PrintUseMessage() const {
+    Item::PrintUseMessage();
 }
 
-void MaterialItem::SetMaterialData(std::string id)
-{
-	ItemDataBase::GetInstance().GetMaterialData(id, materialItemData);
+void MaterialItem::SetMaterialData(std::string id) {
+    ItemDataBase::GetInstance().GetMaterialData(id, materialItemData);
 }
 
-const FMaterialItemData& MaterialItem::GetMaterialData() const
-{
-	return materialItemData;
+const FMaterialItemData& MaterialItem::GetMaterialData() const {
+    return materialItemData;
 }
 
-EMaterialType MaterialItem::GetMaterialType() const
-{
-	return materialItemData.GetMaterialType();
+EMaterialType MaterialItem::GetMaterialType() const {
+    return materialItemData.GetMaterialType();
 }

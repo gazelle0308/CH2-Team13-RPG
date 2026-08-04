@@ -1,179 +1,196 @@
+﻿  // Copyright 2026 ShinStella
+
 #pragma once
 
-#include <iostream>
 #include <conio.h>
+#include <iostream>
 #include <vector>
 #include <unordered_set>
 #include <string>
 #include <algorithm>
 #include <format>
+#include <utility>
 
 #include "Types/InventoryTypes.h"
 #include "DataBase/ItemDataBase.h"
 #include "DataBase/InventoryDataBase.h"
 #include "Factory/ItemFactory.h"
 
-inline bool compareName(const FInventorySlot& a, const FInventorySlot& b)
-{
-	std::string aName = a.GetName();
-	std::string bName = b.GetName();
+inline bool compareName(const FInventorySlot& a, const FInventorySlot& b) {
+    std::string aName = a.GetName();
+    std::string bName = b.GetName();
 
-	if (aName == bName)
-	{
-		return a.count > b.count;
-	}
+    if (aName == bName) {
+        return a.count > b.count;
+    }
 
-	return aName < bName;
+    return aName < bName;
 }
 
-inline bool compareFunc(const FInventorySlot& a, const FInventorySlot& b)
-{
-	// 기능 별로 순서 정해서 오름차순 정렬
+inline bool compareFunc(const FInventorySlot& a, const FInventorySlot& b) {
+    // 기능 별로 순서 정해서 오름차순 정렬
 
-	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
-	FEnumDisplay enumDisplay;
-	EItemCategory aCategory = a.GetCategory();
-	EItemCategory bCategory = b.GetCategory();
-	int aSequence = static_cast<int>(aCategory);
-	int bSequence = static_cast<int>(bCategory);
+    ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+    FEnumDisplay enumDisplay;
+    EItemCategory aCategory = a.GetCategory();
+    EItemCategory bCategory = b.GetCategory();
+    int aSequence = static_cast<int>(aCategory);
+    int bSequence = static_cast<int>(bCategory);
 
-	if (aCategory == bCategory)
-	{
-		std::string aId = a.GetId();
-		std::string bId = b.GetId();
-		
-		switch (aCategory)
-		{
-		case EItemCategory::Consumable:
-		{
-			std::vector<EConsumableType> aTypes{};
-			std::vector<EConsumableType> bTypes{};
-			
-			if (itemDataBase.GetConsumableTypes(aId, aTypes) && itemDataBase.GetConsumableTypes(bId, bTypes))
-			{
-				if (!aTypes.empty() && !bTypes.empty())
-				{
-					aSequence = static_cast<int>(aTypes[0]);
-					bSequence = static_cast<int>(bTypes[0]);
-				}
-			}
+    if (aCategory == bCategory) {
+        std::string aId = a.GetId();
+        std::string bId = b.GetId();
 
-			break;
-		}
-		case EItemCategory::Upgrade:
-		{
-			EUpgradeType aUpgradeType{};
-			EUpgradeType bUpgradeType{};
+        switch (aCategory) {
+        case EItemCategory::Consumable:
+        {
+            std::vector<EConsumableType> aTypes{};
+            std::vector<EConsumableType> bTypes{};
 
-			if (itemDataBase.GetUpgradeType(aId, aUpgradeType) && itemDataBase.GetUpgradeType(bId, bUpgradeType))
-			{
-				aSequence = static_cast<int>(aUpgradeType);
-				bSequence = static_cast<int>(bUpgradeType);
-			}
+            if (itemDataBase.GetConsumableTypes(aId, aTypes) &&
+                itemDataBase.GetConsumableTypes(bId, bTypes)) {
+                if (!aTypes.empty() && !bTypes.empty()) {
+                    aSequence = static_cast<int>(aTypes[0]);
+                    bSequence = static_cast<int>(bTypes[0]);
+                }
+            }
 
-			break;
-		}
-		case EItemCategory::Material:
-		{
-			EMaterialType aMaterialType{};
-			EMaterialType bMaterialType{};
+            break;
+        }
+        case EItemCategory::Upgrade:
+        {
+            EUpgradeType aUpgradeType{};
+            EUpgradeType bUpgradeType{};
 
-			if (itemDataBase.GetMaterialType(aId, aMaterialType) && itemDataBase.GetMaterialType(bId, bMaterialType))
-			{
-				aSequence = static_cast<int>(aMaterialType);
-				bSequence = static_cast<int>(bMaterialType);
-			}
+            if (itemDataBase.GetUpgradeType(aId, aUpgradeType) &&
+                itemDataBase.GetUpgradeType(bId, bUpgradeType)) {
+                aSequence = static_cast<int>(aUpgradeType);
+                bSequence = static_cast<int>(bUpgradeType);
+            }
 
-			break;
-		}
-		}
+            break;
+        }
+        case EItemCategory::Material:
+        {
+            EMaterialType aMaterialType{};
+            EMaterialType bMaterialType{};
 
-		if (aSequence == bSequence)
-		{
-			return compareName(a, b);
-		}
-	}
+            if (itemDataBase.GetMaterialType(aId, aMaterialType) &&
+                itemDataBase.GetMaterialType(bId, bMaterialType)) {
+                aSequence = static_cast<int>(aMaterialType);
+                bSequence = static_cast<int>(bMaterialType);
+            }
 
-	return aSequence < bSequence;
+            break;
+        }
+        }
+
+        if (aSequence == bSequence) {
+            return compareName(a, b);
+        }
+    }
+
+    return aSequence < bSequence;
 }
 
-inline bool comparePrice(const FInventorySlot& a, const FInventorySlot& b)
-{
-	int aPrice = a.GetPrice();
-	int bPrice = b.GetPrice();
+inline bool comparePrice(const FInventorySlot& a, const FInventorySlot& b) {
+    int aPrice = a.GetPrice();
+    int bPrice = b.GetPrice();
 
-	if (aPrice == bPrice)
-	{
-		return compareFunc(a, b);
-	}
+    if (aPrice == bPrice) {
+        return compareFunc(a, b);
+    }
 
-	return aPrice < bPrice;
+    return aPrice < bPrice;
 }
 
-class InventorySystem
-{
-private:
-	std::vector<FInventorySlot> items;
-	int inventoryMaxSize;
+class InventorySystem {
+ private:
+    std::vector<FInventorySlot> items;
+    int inventoryMaxSize;
 
-private:
-	InventorySystem() : inventoryMaxSize(20) {
-		items.clear();
-		SetInventoryData();
-	}
+ private:
+    InventorySystem() : inventoryMaxSize(20) {
+        items.clear();
+        SetInventoryData();
+    }
 
-	// 복사 방지
-	InventorySystem(const InventorySystem&) = delete;
-	InventorySystem& operator=(const InventorySystem&) = delete;
+    // 복사 방지
+    InventorySystem(const InventorySystem&) = delete;
+    InventorySystem& operator=(const InventorySystem&) = delete;
 
-	// 이동 방지
-	InventorySystem(InventorySystem&&) = delete;
-	InventorySystem& operator=(InventorySystem&&) = delete;
+    // 이동 방지
+    InventorySystem(InventorySystem&&) = delete;
+    InventorySystem& operator=(InventorySystem&&) = delete;
 
-public:
-	// 싱글톤
-	static InventorySystem& GetInstance() {
-		static InventorySystem instance;
-		return instance;
-	}
+ public:
+    // 싱글톤
+    static InventorySystem& GetInstance() {
+        static InventorySystem instance;
+        return instance;
+    }
 
-	void ShowInventoryInNormal();
-	void ShowInventoryInBattle();
-	void ShowInventoryInShop(double buybackRate, int& totalBuyPrice, bool& isEnd);
-	void ShowInventoryInPotionWorkshop();
+    void ShowInventoryInNormal();
+    void ShowInventoryInBattle();
+    void ShowInventoryInShop(double buybackRate,
+                             int& totalBuyPrice,
+                             bool& isEnd);
+    void ShowInventoryInPotionWorkshop();
 
-	int CanCraftPotion(std::vector<std::pair<int, int>>& materials, std::string potionId, int potionCount); // 0: 성공, 1: 공간 부족, 2: 재료 부족, 3: 잘못된 index
-	bool GetItemData(int index, FItemData& itemData) const;
-	std::string GetId(int index) const;
+    // 0: 성공, 1: 공간 부족, 2: 재료 부족, 3: 잘못된 index
+    int CanCraftPotion(
+        std::vector<std::pair<int, int>>& materials,
+        std::string potionId, int potionCount);
 
-//private:
-public: // 테스트 위해 public 설정
-	void SetInventoryData();
+    bool GetItemData(int index, FItemData& itemData) const;
+    std::string GetId(int index) const;
 
-	void ClearScreen() const;
-	void PrintInventoryItems(EInventoryViewMode mode, double buybackRate = 1) const;
-	void HandleNormalInventoryOptions(bool& isEnd);
-	void HandleBattleInventoryOptions(bool& isEnd);
-	void PrintPlayerGold() const;
-	void HandleShopInventoryOptions(double buybackRate, int& totalBuyPrice, bool& isEnd);
-	void HandleNormalItemSelection();
-	void PrintItemInfo(int index) const;
-	void HandleNormalItemOptions(int index);
-	void HandleNormalUsableItemOptions(int index);
-	void HandleNormalNonUsableItemOptions(int index);
-	void HandleShopItemOptions(int index, double buybackRate, int& totalBuyPrice);
-	void HandleDiscardItem(int index);
+// private:
+ public:  // 테스트 위해 public 설정
+    void SetInventoryData();
 
-	bool AddItem(std::string id, int itemCount = 1);
-	int RemoveItem(int index, int itemCount = 1); // 0: 성공, 1: 개수 초과, 2: 잘못된 inde
-	int FindItem(std::string id) const; // -1: fail, 0~: index(동일한 아이템 존재 시 아이템 가장 적게 들어있는 슬롯)
-	int GetTotalItemCount(int index) const;
-	bool UseItem(int index);
+    void ClearScreen() const;
 
-	void SortByName();
-	void SortByFunc();
-	void SortByPrice();
-	void MergeSameItems();
+    void PrintInventoryItems(
+        EInventoryViewMode mode,
+        double buybackRate = 1) const;
 
-	void ExpandInventory(int size);
+    void HandleNormalInventoryOptions(bool& isEnd);
+    void HandleBattleInventoryOptions(bool& isEnd);
+    void PrintPlayerGold() const;
+
+    void HandleShopInventoryOptions(
+        double buybackRate,
+        int& totalBuyPrice,
+        bool& isEnd);
+
+    void HandleNormalItemSelection();
+    void PrintItemInfo(int index) const;
+    void HandleNormalItemOptions(int index);
+    void HandleNormalUsableItemOptions(int index);
+    void HandleNormalNonUsableItemOptions(int index);
+
+    void HandleShopItemOptions(
+        int index,
+        double buybackRate,
+        int& totalBuyPrice);
+
+    void HandleDiscardItem(int index);
+
+    bool AddItem(std::string id, int itemCount = 1);
+
+    // 0: 성공, 1: 개수 초과, 2: 잘못된 inde
+    int RemoveItem(int index, int itemCount = 1);
+
+    // -1: fail, 0~: index(동일한 아이템 존재 시 아이템 가장 적게 들어있는 슬롯)
+    int FindItem(std::string id) const;
+    int GetTotalItemCount(int index) const;
+    bool UseItem(int index);
+
+    void SortByName();
+    void SortByFunc();
+    void SortByPrice();
+    void MergeSameItems();
+
+    void ExpandInventory(int size);
 };
