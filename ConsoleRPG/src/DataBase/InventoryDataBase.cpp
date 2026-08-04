@@ -7,7 +7,7 @@
 #include "DataBase/InventoryDataBase.h"
 
 void InventoryDataBase::LoadInventoryData() {
-    std::ifstream file("data/inventoryItems.json");
+    std::ifstream file("data/testInventoryItems.json");
 
     if (!file.is_open()) {
         std::cout << "파일 열기 실패" << std::endl;
