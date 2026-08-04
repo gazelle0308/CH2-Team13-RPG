@@ -343,10 +343,13 @@ void Player::ViewStatus() {
     std::cout << "이름: "  << this->name
               << " 정수: " << this->essence << "\n";
     std::cout << "레벨: "    << this->level
-              << " 경험치: " << this->exp << "/" << this->maxExp
+              << " 경험치: " << this->exp
+              << "/" << this->maxExp
               <<" 골드: "    << this->gold << "\n";
-    std::cout << "HP: "  << this->currentHp << "/" << this->currentMaxHp
-              << " MP: " << this->currentMp << "/" << this->currentMaxMp << "\n";
+    std::cout << "HP: "  << this->currentHp
+              << "/" << this->currentMaxHp
+              << " MP: " << this->currentMp
+              << "/" << this->currentMaxMp << "\n";
     std::cout << "공격력: "  << this->attack
               << " 방어력: " << this->guard
               << " 스킬: "   << this->skill << "\n";

@@ -7,6 +7,7 @@
 
 #include "Player/Player.h"
 #include "Monster/Monster.h"
+#include "Boss/Boss.h"
 
 template<>
 void Effect<Player>::ApplyPotion(EffectType target,
@@ -49,6 +50,13 @@ void Effect<Monster>::ApplyPotion(EffectType target,
 }
 
 template<>
+void Effect<Alatreon>::ApplyPotion(EffectType target,
+                                   unsigned int amount,
+                                   unsigned int turn) {
+    throw std::logic_error("Monster is not have potion effect!");
+}
+
+template<>
 void Effect<Player>::EndPotion(unsigned int effect) {
     if (effect == 8) {
         this->entity.ApplyEffect(Pstat::BuffPower, 0);
@@ -66,6 +74,11 @@ void Effect<Player>::EndPotion(unsigned int effect) {
 template<>
 void Effect<Monster>::EndPotion(unsigned int effect) {
     throw std::logic_error("Monster is not have potion effect!");
+}
+
+template<>
+void Effect<Alatreon>::EndPotion(unsigned int effect) {
+    throw std::logic_error("Alatreon is not have potion effect!");
 }
 
 template<>
@@ -129,6 +142,40 @@ void Effect<Monster>::EndEffect(unsigned int effect) {
 }
 
 template<>
+void Effect<Alatreon>::EndEffect(unsigned int effect) {
+    if (effect == 3) {
+        entity.setatk(entity.getatk() + this->amount[effect]);
+        this->amount[effect] = 0;
+        this->onBuff[effect] = false;
+        std::cout << "적의 공격력 저하의 효과가 떨어졌습니다!\n";
+    }
+    else if (effect == 4) {
+        entity.setdef(entity.getdef() + this->amount[effect]);
+        this->amount[effect] = 0;
+        this->onBuff[effect] = false;
+        std::cout << "적의 방어력 저하의 효과가 떨어졌습니다!\n";
+    }
+    else if (effect == 6) {
+        entity.setatk(entity.getatk() - this->amount[effect]);
+        this->amount[effect] = 0;
+        this->onBuff[effect] = false;
+        std::cout << "적의 공격력 증가의 효과가 떨어졌습니다!\n";
+    }
+    else if (effect == 7) {
+        entity.setdef(entity.getdef() - this->amount[effect]);
+        this->amount[effect] = 0;
+        this->onBuff[effect] = false;
+        std::cout << "적의 방어력 증가의 효과가 떨어졌습니다!\n";
+    }
+    else if ((effect < 3 && effect >= 0) || effect == 5) {
+        return;
+    }
+    else {
+        throw std::out_of_range("No more effect");
+    }
+}
+
+template<>
 void Effect<Player>::Tick() {
     for (int i = 0; i < 10; i = i + 1) {
         UpdateEffect(i);
@@ -137,6 +184,13 @@ void Effect<Player>::Tick() {
 
 template<>
 void Effect<Monster>::Tick() {
+    for (int i = 0; i < 8; i = i + 1) {
+        UpdateEffect(i);
+    }
+}
+
+template<>
+void Effect<Alatreon>::Tick() {
     for (int i = 0; i < 8; i = i + 1) {
         UpdateEffect(i);
     }
@@ -187,6 +241,29 @@ void Effect<Monster>::ClearEffect() {
         } else if (i == 7) {
             entity.setdef(entity.getdef() +
                           this->amount[i]);
+        }
+
+        this->amount[i] = 0;
+        this->LeftTurn[i] = 0;
+        this->onBuff[i] = false;
+    }
+}
+
+template<>
+void Effect<Alatreon>::ClearEffect() {
+    for (int i = 0; i < 8; i = i + 1) {
+        if (i == 3) {
+            entity.setatk(entity.getatk() +
+                this->amount[i]);
+        } else if (i == 4) {
+            entity.setdef(entity.getdef() +
+                this->amount[i]);
+        } else if (i == 6) {
+            entity.setatk(entity.getatk() +
+                this->amount[i]);
+        } else if (i == 7) {
+            entity.setdef(entity.getdef() +
+                this->amount[i]);
         }
 
         this->amount[i] = 0;
