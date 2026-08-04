@@ -54,8 +54,6 @@ int InventorySystem::CanCraftPotion(std::vector<std::pair<int, int>>& materials,
     for (const std::pair<int, int> material : materials) {
         int result = RemoveItem(material.first, material.second);
 
-        std::cout << items.size() << std::endl;
-
         if (result == 1) {
             items = tmpItems;
 
@@ -106,12 +104,9 @@ void InventorySystem::SetInventoryData() {
             continue;
         }
 
-        FInventorySlot itemSlot;
-
-        itemSlot.SetItemData(itemData);
-        itemSlot.SetCount(data.GetCount());
-
-        items.push_back(itemSlot);
+        while (!AddItem(data.GetId(), data.GetCount())) {
+            ExpandInventory(10);
+        }
     }
 }
 

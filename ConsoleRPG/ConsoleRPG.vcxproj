@@ -191,6 +191,7 @@
     <None Include="data\materials.json" />
     <None Include="data\potionRecipes.json" />
     <None Include="data\shopItems.json" />
+    <None Include="data\testInventoryItems.json" />
     <None Include="data\upgrades.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
