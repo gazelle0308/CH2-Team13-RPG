@@ -54,7 +54,7 @@ void GameManager::HandleMenuChoice(int choice, bool& isRunning) {
 
     switch (choice) {
     case 1:
-        EnterBattle();
+        EnterBattle(isRunning);
         break;
     case 2:
         InventorySystem::GetInstance().ShowInventoryInNormal();
@@ -79,7 +79,7 @@ void GameManager::HandleMenuChoice(int choice, bool& isRunning) {
         break;
     }
 }
-void GameManager::EnterBattle() {
+void GameManager::EnterBattle(bool& end) {
     Battle battle;
-    TotalBattleSystem();
+    end = TotalBattleSystem();
 }
