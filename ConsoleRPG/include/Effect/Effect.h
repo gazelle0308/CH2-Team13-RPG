@@ -124,7 +124,7 @@ class Effect {
              std::cout << "(매턴 "
                        << this->amount[5]
                        << "씩  회복합니다.).\n";
-         } else if(target == EffectType::PowerUp) {
+         } else if (target == EffectType::PowerUp) {
              this->onBuff[6] = true;
              this->LeftTurn[6] = turn;
              this->amount[6] = amount;
