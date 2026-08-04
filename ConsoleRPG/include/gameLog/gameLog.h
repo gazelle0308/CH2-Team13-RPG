@@ -1,4 +1,4 @@
-﻿// Copyright 2026/08/03 minjung
+// Copyright 2026/08/03 minjung
 
 #pragma once
 #include <string>

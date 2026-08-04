@@ -1,4 +1,4 @@
-﻿// Copyright 2026/08/04 JinHo
+// Copyright 2026/08/04 JinHo
 #pragma once
 
 #include <string>

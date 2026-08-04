@@ -1,4 +1,4 @@
-﻿// Copyright 2026/08/04 JinHo
+// Copyright 2026/08/04 JinHo
 
 #include "Boss/Boss.h"
 
@@ -8,6 +8,7 @@
 
 #include "Effect/Effect.h"
 #include "Player/Player.h"
+#include "Utility/Utility.h"
 
 
 // Constructor
@@ -99,7 +100,9 @@ void Alatreon::EndTurn() {
         this->elementalSuppression +=
             this->statBuf[static_cast<int>(Stat::DEFENCE)] - this->defence;
     }
-    std::cout << "=====================================================\n";
+
+    Player::GetInstance().ViewStatus();
+    StartLine();
     std::cout << "<" << this->name << ">\n";
     std::cout << "HP: " << this->hp
               << " MP: " << this->mp << "\n";
@@ -107,9 +110,10 @@ void Alatreon::EndTurn() {
               << " 방어력: " << this->defence << "\n";
     this->FormPrint();
     this->BeforeFormPrint();
-    std::cout << "=====================================================\n";
+    StartLine();
     std::cout << "현재 까지의 속성 억제 누적 수치: " << this->elementalSuppression << "! \n";
-    std::cout << "=====================================================\n";
+    std::cout << "현재 까지의 뿔 파괴 수치: " << this->hornDamage << "! \n";
+    StartLine();
     this->IsHornBreak();
     this->ElementFormChange();
     this->EschatonJudgment();
@@ -129,8 +133,10 @@ void Alatreon::BeforeEffect() {
         this->elementalSuppression +=
             (this->statBuf[static_cast<int>(Stat::HP)] - this->hp) / 4;
 
-        this->hornDamage +=
-            (this->statBuf[static_cast<int>(Stat::HP)] - this->hp) / 4;
+        if (this->elementForm == ElementForm::Dragon ) {
+            this->hornDamage +=
+                (this->statBuf[static_cast<int>(Stat::HP)] - this->hp) / 4;
+        }
     }
 
     if (this->statBuf[static_cast<int>(Stat::MP)] > this->mp) {
@@ -184,7 +190,7 @@ void Alatreon::AfterEffect() {
 // Logic Function
 void Alatreon::IsHornBreak() {
     if (this->elementForm == ElementForm::Dragon &&
-        this->hornDamage > 100) {
+        this->hornDamage > 60) {
         this->hornBreak = true;
     }
 }
@@ -198,24 +204,24 @@ void Alatreon::EschatonJudgment() {
     }
 
     countEschaton = 0;
-    std::cout << "=====================================================\n";
+    StartLine();
     std::cout << "알바트리온의 에스카톤 저지먼트! \n";
-    std::cout << "=====================================================\n";
+    StartLine();
 
-    if (this->elementalSuppression < 300) {
+    if (this->elementalSuppression < 250) {
         std::cout << "속성 억제에 실패했습니다! \n";
         std::cout << "즉사기! \n";
-        std::cout << "=====================================================\n";
+        StartLine();
         player[Pstat::Hp] = 0;
-    } else if (this->elementalSuppression < 400) {
+    } else if (this->elementalSuppression < 300) {
         std::cout << "속성 억제에 부분 성공 했습니다! \n";
         std::cout << "체력의 절반 만큼 데미지 받습니다! \n";
-        std::cout << "=====================================================\n";
+        StartLine();
         player[Pstat::Hp] /= 2;
     } else {
         std::cout << "속성 억제에 완전 성공 했습니다! \n";
         std::cout << "100 데미지 받습니다! \n";
-        std::cout << "=====================================================\n";
+        StartLine();
         player[Pstat::Hp] -= 100;
     }
 
@@ -230,21 +236,21 @@ void Alatreon::ElementFormChange() {
         return;
     }
 
-    std::cout << "=====================================================\n";
+    StartLine();
     std::cout << "황흑룡의 모습이 변화했습니다! \n";
-    std::cout << "=====================================================\n";
+    StartLine();
     countEschaton += 1;
 
     if (this->elementForm != ElementForm::Dragon) {
         std::cout << "지금은 용속성 모습입니다! \n";
         std::cout << "기존 속성 변화를 막으려면 데미지를 누적해야 합니다! \n";
-        std::cout << "=====================================================\n";
+        StartLine();
         this->elementForm = ElementForm::Dragon;
     } else if (this->hornBreak) {
         std::cout << "데미지를 누적 하는데 성공 했습니다! \n";
         std::cout << "기존 속성 변화를 막았습니다! \n";
         this->BeforeFormPrint();
-        std::cout << "=====================================================\n";
+        StartLine();
         this->elementForm = this->beforeForm;
         this->hornBreak = false;
         this->hornDamage = 0;
@@ -261,7 +267,7 @@ void Alatreon::ElementFormChange() {
         this->mp = 700;
         std::cout << "신규 ";
         this->BeforeFormPrint();
-        std::cout << "=====================================================\n";
+        StartLine();
     }
 
     this->FormStatSetup();
@@ -306,7 +312,7 @@ void Alatreon::FormStatSetup() {
         this->formStatBuf[static_cast<int>(Stat::DEFENCE)] = 15;
         this->formStatBuf[static_cast<int>(Stat::MP)] = -30;
         this->formStatBuf[static_cast<int>(Stat::POWER)] = -20;
-    } else if (this->elementForm == ElementForm::Fire) {
+    } else if (this->elementForm == ElementForm::Ice) {
         this->formStatBuf[static_cast<int>(Stat::DEFENCE)] = -10;
         this->formStatBuf[static_cast<int>(Stat::MP)] = 50;
         this->formStatBuf[static_cast<int>(Stat::POWER)] = -20;
@@ -334,7 +340,7 @@ void Alatreon::AlatreonSkill() {
 
     int result = dist(gen);
 
-    std::cout << "=====================================================\n";
+    StartLine();
     if ((this->elementForm == ElementForm::Dragon && result < 50) ||
         (this->elementForm == ElementForm::Fire &&
          result >= 50 && result < 85) ||
@@ -350,7 +356,7 @@ void Alatreon::AlatreonSkill() {
 
         this->mp = std::max(this->mp - 70, 0);
         this->statBuf[static_cast<int>(Stat::MP)] -= 70;
-        std::cout << "=====================================================\n";
+        StartLine();
         return;
     }
 
@@ -376,7 +382,7 @@ void Alatreon::AlatreonSkill() {
 
         this->mp = std::max(this->mp - 50, 0);
         this->statBuf[static_cast<int>(Stat::MP)] -= 50;
-        std::cout << "=====================================================\n";
+        StartLine();
         return;
     }
 
@@ -397,7 +403,7 @@ void Alatreon::AlatreonSkill() {
 
     this->mp = std::max(this->mp - 30, 0);
     this->statBuf[static_cast<int>(Stat::MP)] -= 30;
-    std::cout << "=====================================================\n";
+    StartLine();
 }
 
 
@@ -407,10 +413,10 @@ void Alatreon::AlatreonAttack() {
     int damage =
         std::max(this->power - player[Pstat::Defence], 1);
 
-    std::cout << "=====================================================\n";
+    StartLine();
     std::cout << "[" << this->name << "]의 돌진!\n";
     std::cout << "1 Attack/" << damage << " Damage\n";
-    std::cout << "=====================================================\n";
+    StartLine();
 
     player[Pstat::Hp] -= damage;
 }

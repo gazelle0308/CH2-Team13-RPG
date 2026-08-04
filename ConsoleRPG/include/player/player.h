@@ -1,4 +1,4 @@
-﻿// Copyright 2026/07/30 JinHo
+// Copyright 2026/07/30 JinHo
 
 
 #pragma once
@@ -135,12 +135,11 @@ class Player {
 
     void ApplyEffect(Pstat target, int power);
 
-    void SetEssence(const Essence& essence);
+    bool SetEssence(const Essence& essence);
 
     void ViewStatus();
 
     // singleton
-
     static Player& GetInstance() {
         static Player instance = []() {
             std::string name;
@@ -158,19 +157,7 @@ class Player {
     }
 
     static const Player& GetReadInstance() {
-        static Player instance = []() {
-            std::string name;
-
-            std::cout << "=====================================================\n";
-            std::cout << "닉네임을 입력해 주세요.\n";
-            std::cout << "닉네임: ";
-            std::cin >> name;
-            std::cout << "=====================================================\n";
-
-            return Player(name);
-            }();
-
-        return instance;
+        return GetInstance();
     }
 
  protected:

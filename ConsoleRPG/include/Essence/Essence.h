@@ -1,4 +1,4 @@
-﻿// Copyright 2026/08/01 JinHo
+// Copyright 2026/08/01 JinHo
 
 
 #pragma once
