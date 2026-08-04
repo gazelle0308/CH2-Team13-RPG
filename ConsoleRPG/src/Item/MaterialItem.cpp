@@ -5,7 +5,7 @@
 #include "Item/MaterialItem.h"
 
 void MaterialItem::Use() {
-    PrintUseMessage();
+    // PrintUseMessage();
 }
 
 void MaterialItem::PrintUseMessage() const {

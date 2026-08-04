@@ -42,6 +42,7 @@ int main()
 
     int number{};
 
+/*
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dist(0, 1);
@@ -130,7 +131,7 @@ int main()
         boss.EndTurn();
     }
 
-
+*/
     while (true) {
         std::cout << "================ 메뉴 ================" << std::endl;
         std::cout << "1. 인벤토리 조회" << std::endl;

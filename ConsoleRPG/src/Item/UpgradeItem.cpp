@@ -6,7 +6,7 @@
 #include "InventorySystem/InventorySystem.h"
 
 void UpgradeItem::Use() {
-    PrintUseMessage();
+    // PrintUseMessage();
 
     switch (upgradeItemData.GetUpgradeType()) {
     case EUpgradeType::Inventory:

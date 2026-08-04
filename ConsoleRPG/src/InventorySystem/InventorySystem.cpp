@@ -232,6 +232,14 @@ void InventorySystem::HandleNormalInventoryOptions(bool& isEnd) {
         std::cout << "번호 입력: ";
         std::cin >> number;
 
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
+
         isOk = true;
 
         switch (number) {
@@ -291,6 +299,14 @@ void InventorySystem::HandleBattleInventoryOptions(bool& isEnd) {
         std::cout << "사용할 아이템 번호 입력(0: 돌아가기): ";
         std::cin >> number;
 
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
+
         isOk = true;
 
         if (number == 0) {
@@ -335,6 +351,14 @@ void InventorySystem::HandleShopInventoryOptions(double buybackRate,
         std::cout << "판매할 아이템 번호 입력(0: 돌아가기): ";
         std::cin >> number;
 
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+        
+            continue;
+        }
+
         isOk = true;
 
         if (number == 0) {
@@ -360,6 +384,14 @@ void InventorySystem::HandleNormalItemSelection() {
         std::cout << std::endl;
         std::cout << "아이템 번호 입력(0: 돌아가기): ";
         std::cin >> number;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
 
         isOk = true;
 
@@ -416,6 +448,14 @@ void InventorySystem::HandleNormalUsableItemOptions(int index) {
         std::cout << "번호 입력: ";
         std::cin >> number;
 
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
+
         isOk = true;
 
         switch (number) {
@@ -460,6 +500,14 @@ void InventorySystem::HandleNormalNonUsableItemOptions(int index) {
         std::cout << "번호 입력: ";
         std::cin >> number;
 
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
+
         isOk = true;
 
         switch (number) {
@@ -494,6 +542,14 @@ void InventorySystem::HandleShopItemOptions(int index,
         std::cout << std::endl;
         std::cout << "판매할 아이템 개수 입력(0: 돌아가기): ";
         std::cin >> number;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
 
         isOk = true;
 
@@ -539,6 +595,14 @@ void InventorySystem::HandleDiscardItem(int index) {
         std::cout << std::endl;
         std::cout << "버릴 아이템 개수 입력(0: 돌아가기): ";
         std::cin >> number;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
 
         isOk = true;
 

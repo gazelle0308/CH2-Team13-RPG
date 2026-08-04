@@ -7,7 +7,7 @@
 #include "Item/ConsumableItem.h"
 
 void ConsumableItem::Use() {
-    PrintUseMessage();
+    // PrintUseMessage();
 
     Player& player = Player::GetInstance();
 

@@ -107,6 +107,14 @@ void PotionWorkshop::HandlePotionWorkshopOptions(bool& isEnd) {
         std::cout << "번호 입력: ";
         std::cin >> number;
 
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
+
         isOk = true;
 
         switch (number) {
@@ -185,6 +193,14 @@ void PotionWorkshop::HandleRecipeOptions(bool& isEnd) {
         std::cout << std::endl;
         std::cout << "번호 입력: ";
         std::cin >> number;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
 
         isOk = true;
 
@@ -275,6 +291,14 @@ void PotionWorkshop::HandleRecipeSelection() {
         std::cout << std::endl;
         std::cout << "레시피 번호 입력(0: 돌아가기): ";
         std::cin >> number;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
 
         isOk = true;
 
@@ -378,7 +402,8 @@ void PotionWorkshop::HandleSearchByIngredient() {
         std::cout << "단어마다 띄어쓰기를 해주세요." << std::endl;
         std::cout << "검색(돌아가기: 돌아가기): ";
 
-        std::cin >> str;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::getline(std::cin, str);
 
         isOk = true;
 
@@ -513,6 +538,14 @@ void PotionWorkshop::HandleCraftOptions(bool& isEnd) {
         std::cout << std::endl;
         std::cout << "번호 입력: ";
         std::cin >> number;
+        
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
 
         isOk = true;
 
@@ -553,6 +586,14 @@ void PotionWorkshop::HandleCraftByRecipe() {
         std::cout << "레시피 번호 입력(0: 돌아가기): ";
         std::cin >> recipeIndex;
 
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
+
         isOk = true;
 
         if (recipeIndex == 0) {
@@ -584,6 +625,14 @@ void PotionWorkshop::HandleCraftRecipeSelection(int recipeIndex) {
         std::cout << std::endl;
         std::cout << "제작할 포션 개수 입력(0: 돌아가기): ";
         std::cin >> potionCount;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
 
         isOk = true;
 
@@ -686,6 +735,14 @@ void PotionWorkshop::HandlePrimarySelection() {
         std::cout << "(0: 돌아가기) : ";
         std::cin >> primaryIndex;
 
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
+
         isOk = true;
 
         if (primaryIndex == 0) {
@@ -734,6 +791,14 @@ void PotionWorkshop::HandlePrimaryCount(int primaryIndex) {
         std::cout << "원재료 개수 입력(범위: 1 ~ 3, 0: 돌아가기): ";
         std::cin >> primaryCount;
 
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
+
         isOk = true;
 
         if (primaryCount == 0) {
@@ -767,6 +832,14 @@ void PotionWorkshop::HandleSecondarySelection(int primaryIndex,
         std::cout << "포션 제작에 사용할 부재료 번호 입력";
         std::cout << "(0: 돌아가기) : ";
         std::cin >> secondaryIndex;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
 
         isOk = true;
 
@@ -819,6 +892,14 @@ void PotionWorkshop::HandleSecondaryCount(int primaryIndex,
         std::cout << std::endl;
         std::cout << "부재료 개수 입력(범위: 1 ~ 3, 0: 돌아가기): ";
         std::cin >> secondaryCount;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
 
         isOk = true;
 

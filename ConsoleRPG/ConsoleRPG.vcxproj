@@ -129,7 +129,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="src\ConsoleRPG.cpp" />
     <ClCompile Include="src\DataBase\InventoryDataBase.cpp" />
     <ClCompile Include="src\DataBase\PotionRecipeDataBase.cpp" />
@@ -156,7 +155,6 @@
     <ClCompile Include="src\shopSystem\ShopSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameManager.h" />
     <ClInclude Include="include\Battle\Battle.h" />
     <ClInclude Include="include\Boss\Boss.h" />
     <ClInclude Include="include\DataBase\ItemDataBase.h" />
