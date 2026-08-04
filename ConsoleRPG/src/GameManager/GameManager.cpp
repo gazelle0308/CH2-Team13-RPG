@@ -1,6 +1,6 @@
 ﻿// Copyright 2026/08/03 minjung
 
-#include "GameManager.h"
+#include "GameManager/GameManager.h"
 
 #include <iostream>
 
@@ -25,7 +25,6 @@ void GameManager::Run() {
 }
 
 void GameManager::Init() {
-    ItemDataBase::GetInstance();
     Player::GetInstance();
 
     GameLog::GetInstance().print("모험을 시작합니다!");
@@ -64,13 +63,13 @@ void GameManager::HandleMenuChoice(int choice, bool& isRunning) {
         Player::GetInstance().ViewStatus();
         break;
     case 4:
-        ShopSystem;
+        ShopSystem::GetInstance().ShowShop();
         break;
     case 5:
 		PotionWorkshop::GetInstance().ShowPotionWorkshop();
         break;
     case 6:
-        Player::GetInstance().ViewStatus();
+        GameLog::GetInstance().showLogs();
         break;
     case 0:
         isRunning = false;

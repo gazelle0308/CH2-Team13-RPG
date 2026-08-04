@@ -69,6 +69,7 @@
       <Filter>src\GameManager</Filter>
     </ClCompile>
     <ClCompile Include="src\ConsoleRPG.cpp" />
+    <ClCompile Include="src\GameManager\GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\boss\boss.h">
@@ -153,6 +154,7 @@
     <ClInclude Include="GameManager.h">
       <Filter>include\GameManager</Filter>
     </ClInclude>
+    <ClInclude Include="include\GameManager\GameManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\items.json">

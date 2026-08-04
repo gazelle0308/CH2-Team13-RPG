@@ -133,6 +133,7 @@
     <ClCompile Include="src\ConsoleRPG.cpp" />
     <ClCompile Include="src\DataBase\InventoryDataBase.cpp" />
     <ClCompile Include="src\DataBase\PotionRecipeDataBase.cpp" />
+    <ClCompile Include="src\GameManager\GameManager.cpp" />
     <ClCompile Include="src\PotionWorkshop\PotionWorkshop.cpp" />
     <ClCompile Include="src\Battle\Battle.cpp" />
     <ClCompile Include="src\Boss\Boss.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="include\Essence\EssenceOrb.h" />
     <ClInclude Include="include\Factory\ItemFactory.h" />
     <ClInclude Include="include\GameLog\GameLog.h" />
+    <ClInclude Include="include\GameManager\GameManager.h" />
     <ClInclude Include="include\InventorySystem\InventorySystem.h" />
     <ClInclude Include="include\Item\ConsumableItem.h" />
     <ClInclude Include="include\item\Item.h" />
