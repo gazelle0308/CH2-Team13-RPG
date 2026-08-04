@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <string>
 
+// 포션 레시피 초기 데이터
 struct FPotionRecipe
 {
 public:
@@ -32,6 +33,7 @@ public:
 	}
 };
 
+// 포션 레시피 런타임 데이터
 struct FPotionRecipeState
 {
 public:

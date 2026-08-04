@@ -64,7 +64,9 @@
     <ClCompile Include="src\Essence\EssenceOrb.cpp">
       <Filter>src\Essence</Filter>
     </ClCompile>
-    <ClCompile Include="src\DataBase\InventoryDataBase.cpp" />
+    <ClCompile Include="src\DataBase\InventoryDataBase.cpp">
+      <Filter>src\DataBase</Filter>
+    </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>src\GameManager</Filter>
     </ClCompile>
@@ -150,7 +152,9 @@
     <ClInclude Include="include\Essence\EssenceOrb.h">
       <Filter>include\Essence</Filter>
     </ClInclude>
-    <ClInclude Include="include\DataBase\InventoryDataBase.h" />
+    <ClInclude Include="include\DataBase\InventoryDataBase.h">
+      <Filter>include\DataBase</Filter>
+    </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>include\GameManager</Filter>
     </ClInclude>
@@ -175,7 +179,9 @@
     <None Include="data\potionRecipes.json">
       <Filter>data</Filter>
     </None>
-    <None Include="data\inventoryItems.json" />
+    <None Include="data\inventoryItems.json">
+      <Filter>data</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="리소스 파일">

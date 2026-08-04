@@ -320,7 +320,6 @@ void PotionWorkshop::HandleSearchByName()
 
 		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		std::getline(std::cin, str);
-		//std::cin >> str;
 
 		isOk = true;
 
@@ -436,7 +435,6 @@ void PotionWorkshop::SetSelectedPrsByName(const std::string& str)
 			continue;
 		}
 
-		//if (name.find(str) != std::string::npos)
 		if (ContainsAllString(name, str))
 		{
 			selectedPrs.push_back(&prs);
@@ -460,8 +458,7 @@ void PotionWorkshop::SetSelectedPrsByIngredient(const std::string& str)
 		{
 			return;
 		}
-
-		//if (primaryName.find(str) != std::string::npos || secondaryName.find(str) != std::string::npos)
+		
 		if (ContainsAllString(primaryName, str) || ContainsAllString(secondaryName, str))
 		{
 			selectedPrs.push_back(&prs);
@@ -547,7 +544,7 @@ void PotionWorkshop::HandleCraftByRecipe()
 		}
 		else if (1 <= recipeIndex && recipeIndex <= size)
 		{
-			if (selectedPrs[recipeIndex]->GetIsUnlocked())
+			if (selectedPrs[recipeIndex - 1]->GetIsUnlocked())
 			{
 				HandleCraftRecipeSelection(recipeIndex - 1);
 			}
@@ -609,11 +606,11 @@ void PotionWorkshop::HandleCraftRecipeSelection(int recipeIndex)
 
 			int primaryIndex = inventorySystem.FindItem(potionRecipeState.GetPrimaryId());
 			int secondaryIndex = inventorySystem.FindItem(potionRecipeState.GetSecondaryId());
-
+			
 			if (primaryIndex == -1 || secondaryIndex == -1)
 			{
 				isOk = false;
-				std::cout << "제작에 실패했습니다. 유효하지 않은 재료입니다." << std::endl;
+				std::cout << "제작에 실패했습니다. 재료를 가지고 있지 않습니다." << std::endl;
 				
 				continue;
 			}
@@ -861,6 +858,7 @@ void PotionWorkshop::HandleSecondaryCount(int primaryIndex, int primaryCount, in
 void PotionWorkshop::HandleCraftPotionResult(int primaryIndex, int primaryCount, int secondaryIndex, int secondaryCount)
 {
 	ItemDataBase& itemDataBase = ItemDataBase::GetInstance();
+	ShopDataBase& shopDataBase = ShopDataBase::GetInstance();
 	InventorySystem& inventorySystem = InventorySystem::GetInstance();
 
 	std::vector<std::pair<int, int>> materials{};
@@ -927,6 +925,7 @@ void PotionWorkshop::HandleCraftPotionResult(int primaryIndex, int primaryCount,
 			if (!candidatePrs.empty() && !candidatePrs[0]->isUnlocked)
 			{
 				candidatePrs[0]->isUnlocked = true;
+				shopDataBase.SetShopItemUnlocked(potionId, true);
 
 				std::cout << std::endl;
 				std::cout << "★ New! ★" << std::endl;
