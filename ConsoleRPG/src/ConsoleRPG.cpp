@@ -13,6 +13,7 @@
 #include "Monster/Monster.h"
 #include "Essence/EssenceOrb.h"
 #include "LevelUp/levelUp.h"
+#include "Boss/Boss.h"
 
 int main()
 {

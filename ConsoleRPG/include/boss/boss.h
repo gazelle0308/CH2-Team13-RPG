@@ -40,7 +40,8 @@ class Alatreon {
     void EndTurn();
 
     // Action
-    void AlatreonAction();
+    void AlatreonSkill();
+    void AlatreonAttack();
 
     // Logic
     int IsWin();
@@ -51,10 +52,6 @@ class Alatreon {
     void EschatonJudgment();
     void ElementFormChange();
     void FormStatSetup();
-
-    // Action
-    void AlatreonAttack();
-    void AlatreonSkill();
 
     // Base Stat
     int hp = 0;

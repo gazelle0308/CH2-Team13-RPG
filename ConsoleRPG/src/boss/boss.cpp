@@ -205,9 +205,9 @@ void Alatreon::ElementFormChange() {
 int Alatreon::IsWin() {
     Player& player = Player::GetInstance();
 
-    if(player[Pstat::Hp] > 0 && this->hp <= 0) {
+    if(player[Pstat::Hp] <= 0) {
         return 0;
-    } else if (player[Pstat::Hp] <= 0 && this->hp > 0) {
+    } else if (player[Pstat::Hp] > 0 && this->hp <= 0) {
         return 1;
     } else {
         return 2;
@@ -324,19 +324,49 @@ void Alatreon::AlatreonAttack() {
     player[Pstat::Hp] -= damage;
 }
 
+/*
+* 	
+#include <random>
+	
+    
+    int isWin = 2;
 
-void Alatreon::AlatreonAction() {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<int> dist(0, 1);
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> dist(0, 1);
 
-    if (this->mp > 0) {
-        if (dist(gen) == 0) {
-            this->AlatreonAttack();
-        } else {
-            this->AlatreonSkill();
-        }
-        return;
-    }
-    this->AlatreonAttack();
-}
+	Player& player = Player::GetInstance();
+	Effect<Player>& playerEffect =
+	Effect<Player>::GetPlayerInstance(player);
+
+	Alatreon boss;
+	Effect<Alatreon> bossEffect(boss);
+
+	while (isWin != 0 && isWin != 1) {
+
+		boss.StartTurn();
+
+		// 플레이어 행동 로직
+
+		if (boss.getmp() > 0) {
+			if (dist(gen) == 0) {
+				boss.AlatreonAttack();
+				bossEffect.Bleed();
+			}
+			else {
+				boss.AlatreonSkill();
+			}
+		}
+		else {
+			boss.AlatreonAttack();
+			bossEffect.Bleed();
+		}
+
+		boss.BeforeEffect();
+		bossEffect.Tick();
+		playerEffect.Tick();
+		boss.EndTurn();
+
+		isWin = boss.IsWin();
+	}
+*/

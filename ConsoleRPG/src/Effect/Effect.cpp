@@ -51,8 +51,8 @@ void Effect<Monster>::ApplyPotion(EffectType target,
 
 template<>
 void Effect<Alatreon>::ApplyPotion(EffectType target,
-    unsigned int amount,
-    unsigned int turn) {
+                                   unsigned int amount,
+                                   unsigned int turn) {
     throw std::logic_error("Monster is not have potion effect!");
 }
 
