@@ -407,7 +407,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.3f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.2f;
-        dropItem = "ITEM_MATERIAL_DAEMON_TONGUE";
+        dropItem = "ITEM_MATERIAL_HELL_HOUND_COLLAR";
         break;
 
     case MonsterType::Wyvern:
@@ -418,7 +418,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.0f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.8f;
-        dropItem = "ITEM_MATERIAL_MINOTAUR_HELMET";
+        dropItem = "ITEM_MATERIAL_WYVERN_POISON";
         break;
 
     case MonsterType::Salamander:
@@ -429,7 +429,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 2.0f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.3f;
-        dropItem = "ITEM_MATERIAL_VAMPIRE_BLOOD";
+        dropItem = "ITEM_MATERIAL_SALAMANDER_SKIN";
         break;
 
     case MonsterType::Manticore:
@@ -440,7 +440,7 @@ void Monster::setMonsterData(MonsterType monsterType)
         mpMultiplier = 1.8f;
         atkMultiplier = 1.8f;
         defMultiplier = 1.8f;
-        dropItem = "ITEM_MATERIAL_CHIMERA_TOOTH";
+        dropItem = "ITEM_MATERIAL_MANTICORE_TAIL";
         break;
 
 
