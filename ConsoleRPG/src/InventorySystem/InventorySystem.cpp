@@ -47,7 +47,8 @@ void InventorySystem::AcquireItem(std::string id, int count, bool showLog) {
         if (HandleDiscard()) {
             while (!AddItem(id, count)) {
                 std::cout << std::endl;
-                std::cout << "빈 공간이 생길 때까지 아이템을 정리합니다." << std::endl;
+                std::cout <<
+                    "빈 공간이 생길 때까지 아이템을 정리합니다." << std::endl;
                 PrintInventoryItems(EInventoryViewMode::Normal);
                 HandleDiscardSelection();
             }
@@ -103,6 +104,38 @@ int InventorySystem::CanCraftPotion(std::vector<std::pair<int, int>>& materials,
     return 1;
 }
 
+// -1: fail, 0~: index(동일한 아이템 존재 시 아이템 가장 적게 들어있는 슬롯)
+int InventorySystem::FindItem(std::string id) const {
+    int inventoryCount = static_cast<int>(items.size());
+    int index = -1;
+    int minNum = -1;
+
+    for (int i = 0; i < inventoryCount; i++) {
+        if (items[i].GetId() == id) {
+            if (minNum == -1 || items[i].GetCount() < minNum) {
+                index = i;
+                minNum = items[i].GetCount();
+            }
+        }
+    }
+
+    return index;
+}
+
+int InventorySystem::GetTotalItemCount(int index) const {
+    int inventoryCount = static_cast<int>(items.size());
+    std::string itemId = items[index].GetId();
+    int total{};
+
+    for (int i = 0; i < inventoryCount; i++) {
+        if (items[i].GetId() == itemId) {
+            total += items[i].GetCount();
+        }
+    }
+
+    return total;
+}
+
 bool InventorySystem::GetItemData(int index, FItemData& itemData) const {
     int inventoryCount = static_cast<int>(items.size());
 
@@ -132,7 +165,7 @@ void InventorySystem::SetInventoryData() {
         if (!itemDataBase.GetItemData(data.GetId(), itemData)) {
             continue;
         }
-        
+
         while (!AddItem(data.GetId(), data.GetCount())) {
             ExpandInventory(10);
         }
@@ -379,7 +412,7 @@ void InventorySystem::HandleShopInventoryOptions(double buybackRate,
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
-        
+
             continue;
         }
 
@@ -621,17 +654,15 @@ bool InventorySystem::HandleDiscard() {
         std::cout << std::endl;
         std::cout << "인벤토리를 정리하시겠습니까?" << std::endl;
         std::cout << "선택(y: 정리, n: 아이템 포기): ";
-        
+
         std::getline(std::cin, str);
         isOk = true;
 
         if (str == "y" || str == "Y") {
             return true;
-        }
-        else if (str == "n" || str == "N") {
+        } else if (str == "n" || str == "N") {
             return false;
-        }
-        else {
+        } else {
             isOk = false;
             std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
         }
@@ -664,8 +695,7 @@ void InventorySystem::HandleDiscardSelection() {
             std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
         } else if (1 <= number && number <= static_cast<int>(items.size())) {
             HandleDiscardCount(number - 1);
-        }
-        else {
+        } else {
             isOk = false;
             std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
         }
@@ -694,8 +724,7 @@ void InventorySystem::HandleDiscardCount(int index) {
         if (number <= 0) {
             isOk = false;
             std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
-        }
-        else if (1 <= number) {
+        } else if (1 <= number) {
             FInventorySlot itemSlot = items[index];
             int result = RemoveItem(index, number);
 
@@ -705,20 +734,16 @@ void InventorySystem::HandleDiscardCount(int index) {
                         itemSlot.GetName(),
                         number);
                 std::cout << message << std::endl;
-                //ClearScreen();
-            }
-            else if (result == 1) {
+            } else if (result == 1) {
                 isOk = false;
                 std::cout << "가지고 있는 개수보다 많습니다. ";
                 std::cout << "다시 입력해주세요." << std::endl;
-            }
-            else if (result == 2) {
+            } else if (result == 2) {
                 isOk = false;
                 std::cout << "유효하지 않은 아이템입니다. ";
                 std::cout << "다시 입력해주세요." << std::endl;
             }
-        }
-        else {
+        } else {
             isOk = false;
             std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
         }
@@ -863,38 +888,6 @@ int InventorySystem::RemoveItem(int index, int count) {
     }
 
     return 1;
-}
-
-// -1: fail, 0~: index(동일한 아이템 존재 시 아이템 가장 적게 들어있는 슬롯)
-int InventorySystem::FindItem(std::string id) const {
-    int inventoryCount = static_cast<int>(items.size());
-    int index = -1;
-    int minNum = -1;
-
-    for (int i = 0; i < inventoryCount; i++) {
-        if (items[i].GetId() == id) {
-            if (minNum == -1 || items[i].GetCount() < minNum) {
-                index = i;
-                minNum = items[i].GetCount();
-            }
-        }
-    }
-
-    return index;
-}
-
-int InventorySystem::GetTotalItemCount(int index) const {
-    int inventoryCount = static_cast<int>(items.size());
-    std::string itemId = items[index].GetId();
-    int total{};
-
-    for (int i = 0; i < inventoryCount; i++) {
-        if (items[i].GetId() == itemId) {
-            total += items[i].GetCount();
-        }
-    }
-
-    return total;
 }
 
 bool InventorySystem::UseItem(int index) {

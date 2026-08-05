@@ -538,7 +538,7 @@ void PotionWorkshop::HandleCraftOptions(bool& isEnd) {
         std::cout << std::endl;
         std::cout << "번호 입력: ";
         std::cin >> number;
-        
+
         if (std::cin.fail()) {
             std::cin.clear();
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');

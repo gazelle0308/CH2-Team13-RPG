@@ -4,7 +4,6 @@
 
 int main()
 {
-
 	GameManager game;
 
 	game.Run();
