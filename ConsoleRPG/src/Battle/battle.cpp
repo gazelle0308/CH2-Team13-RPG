@@ -611,7 +611,6 @@ bool Battle::BattleLoop() {
             int rewardGold = goldDist(gen);
             HuntRewardGold(rewardGold);
             InventorySystem::GetInstance().AcquireItem(monster->getDropItem(), 1, true);
-            GameLog::GetInstance().addKillMonster(monster->getName());
             orb.AcquireEssence(monster->getName());
             if (orb.AllCollection()) {
                 StartLine();
