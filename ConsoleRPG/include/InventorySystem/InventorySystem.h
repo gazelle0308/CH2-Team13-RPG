@@ -15,6 +15,8 @@
 #include "DataBase/ItemDataBase.h"
 #include "DataBase/InventoryDataBase.h"
 #include "Factory/ItemFactory.h"
+#include "GameLog/gameLog.h"
+#include "Utility/Utility.h"
 
 inline bool compareName(const FInventorySlot& a, const FInventorySlot& b) {
     std::string aName = a.GetName();
@@ -137,16 +139,24 @@ class InventorySystem {
                              bool& isEnd);
     void ShowInventoryInPotionWorkshop();
 
+    bool AddItem(std::string id, int itemCount = 1);
+    void AcquireItem(std::string id, int count, bool showLog);
+
     // 0: 성공, 1: 공간 부족, 2: 재료 부족, 3: 잘못된 index
     int CanCraftPotion(
         std::vector<std::pair<int, int>>& materials,
         std::string potionId, int potionCount);
 
+    // -1: fail, 0~: index(동일한 아이템 존재 시 아이템 가장 적게 들어있는 슬롯)
+    int FindItem(std::string id) const;
+
+    void ExpandInventory(int size);
+
+    int GetTotalItemCount(int index) const;
     bool GetItemData(int index, FItemData& itemData) const;
     std::string GetId(int index) const;
 
-// private:
- public:  // 테스트 위해 public 설정
+ private:
     void SetInventoryData();
 
     void ClearScreen() const;
@@ -175,22 +185,17 @@ class InventorySystem {
         double buybackRate,
         int& totalBuyPrice);
 
+    bool HandleDiscard();
+    void HandleDiscardSelection();
+    void HandleDiscardCount(int index);
     void HandleDiscardItem(int index);
-
-    bool AddItem(std::string id, int itemCount = 1);
 
     // 0: 성공, 1: 개수 초과, 2: 잘못된 inde
     int RemoveItem(int index, int itemCount = 1);
-
-    // -1: fail, 0~: index(동일한 아이템 존재 시 아이템 가장 적게 들어있는 슬롯)
-    int FindItem(std::string id) const;
-    int GetTotalItemCount(int index) const;
     bool UseItem(int index);
 
     void SortByName();
     void SortByFunc();
     void SortByPrice();
     void MergeSameItems();
-
-    void ExpandInventory(int size);
 };
