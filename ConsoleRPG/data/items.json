@@ -1,0 +1,354 @@
+[
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_SMALL",
+        "category": "Consumable",
+        "name": "HP 포션(소형)",
+        "description": "HP를 50 회복합니다.",
+        "price": 20,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_MEDIUM",
+        "category": "Consumable",
+        "name": "HP 포션(중형)",
+        "description": "HP를 100 회복합니다.",
+        "price": 50,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_LARGE",
+        "category": "Consumable",
+        "name": "HP 포션(대형)",
+        "description": "HP를 200 회복합니다.",
+        "price": 100,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_SMALL",
+        "category": "Consumable",
+        "name": "MP 포션(소형)",
+        "description": "MP를 50 회복합니다.",
+        "price": 20,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_MEDIUM",
+        "category": "Consumable",
+        "name": "MP 포션(중형)",
+        "description": "MP를 100 회복합니다.",
+        "price": 50,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_LARGE",
+        "category": "Consumable",
+        "name": "MP 포션(대형)",
+        "description": "MP를 200 회복합니다.",
+        "price": 100,
+        "maxStackCount": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_SMALL",
+        "category": "Consumable",
+        "name": "공격력 포션(소형)",
+        "description": "공격력을 10 증가시킵니다.",
+        "price": 50,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_MEDIUM",
+        "category": "Consumable",
+        "name": "공격력 포션(중형)",
+        "description": "공격력을 20 증가시킵니다.",
+        "price": 100,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_LARGE",
+        "category": "Consumable",
+        "name": "공격력 포션(대형)",
+        "description": "공격력을 30 증가시킵니다.",
+        "price": 200,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_SMALL",
+        "category": "Consumable",
+        "name": "방어력 포션(소형)",
+        "description": "방어력을 10 증가시킵니다.",
+        "price": 30,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_MEDIUM",
+        "category": "Consumable",
+        "name": "방어력 포션(중형)",
+        "description": "방어력을 20 증가시킵니다.",
+        "price": 50,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_LARGE",
+        "category": "Consumable",
+        "name": "방어력 포션(대형)",
+        "description": "방어력을 30 증가시킵니다.",
+        "price": 100,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_MP",
+        "category": "Consumable",
+        "name": "HP/MP 포션",
+        "description": "HP와 MP를 200씩 회복합니다.",
+        "price": 300,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_DEFENCE",
+        "category": "Consumable",
+        "name": "공격력/방어력 포션",
+        "description": "공격력과 방어력을 30씩 증가시킵니다.",
+        "price": 500,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_ELIXIR",
+        "category": "Consumable",
+        "name": "엘릭서",
+        "description": "HP와 MP를 999씩 회복하고, 공격력과 방어력을 50씩 증가시킵니다.",
+        "price": 1000,
+        "maxStackCount": 5
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_SMALL",
+        "category": "Upgrade",
+        "name": "가방(소형)",
+        "description": "인벤토리 공간을 10 증가시킵니다.",
+        "price": 100,
+        "maxStackCount": 1
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_MEDIUM",
+        "category": "Upgrade",
+        "name": "가방(중형)",
+        "description": "인벤토리 공간을 20 증가시킵니다.",
+        "price": 300,
+        "maxStackCount": 1
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_LARGE",
+        "category": "Upgrade",
+        "name": "가방(대형)",
+        "description": "인벤토리 공간을 30 증가시킵니다.",
+        "price": 500,
+        "maxStackCount": 1
+    },
+    {
+        "id": "ITEM_MATERIAL_SLIME_GEL",
+        "category": "Material",
+        "name": "물컹한 액체",
+        "description": "슬라임에게서 얻은 물컹한 액체입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 10,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_ZOMBIE_BRAIN",
+        "category": "Material",
+        "name": "좀비 뇌",
+        "description": "좀비의 뇌입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 10,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_GOBLIN_EAR",
+        "category": "Material",
+        "name": "고블린 귀",
+        "description": "자른 고블린 귀입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 10,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_WILD_WOLF_FANG",
+        "category": "Material",
+        "name": "늑대 송곳니",
+        "description": "야생 늑대의 송곳니입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 10,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_CHIMERA_HEAD",
+        "category": "Material",
+        "name": "키메라 머리",
+        "description": "키메라의 머리입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 10,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_GHOST_ECTOPLASM",
+        "category": "Material",
+        "name": "유령의 에코플라즘",
+        "description": "유령에게서 얻은 에코플라즘입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 20,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_SUCCUBUS_HORN",
+        "category": "Material",
+        "name": "서큐버스 뿔",
+        "description": "서큐버스의 뿔입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 20,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_INCUBUS_TAIL",
+        "category": "Material",
+        "name": "인큐버스 꼬리",
+        "description": "인큐버스의 꼬리입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 20,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_GHOUL_CLAW",
+        "category": "Material",
+        "name": "구울 발톱",
+        "description": "구울의 발톱입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 20,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_WEREWOLF_FUR",
+        "category": "Material",
+        "name": "늑대 털",
+        "description": "늑대에게서 얻은 털입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 20,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_GARGOYLE_EYE",
+        "category": "Material",
+        "name": "가고일의 눈",
+        "description": "가고일의 눈입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 30,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_MARGOYLE_WING",
+        "category": "Material",
+        "name": "마고일의 날개",
+        "description": "마고일의 날개입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 30,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_MUMMY_BANDAGE",
+        "category": "Material",
+        "name": "미라의 붕대",
+        "description": "미라가 두르고 있던 붕대입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 30,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_DAEMON_FINGER",
+        "category": "Material",
+        "name": "악마의 손가락",
+        "description": "악마에게서 얻은 손가락입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 30,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_GOLEM_HEART",
+        "category": "Material",
+        "name": "골렘의 심장",
+        "description": "골렘에게서 얻은 심장입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 30,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_GRIFFON_EGG",
+        "category": "Material",
+        "name": "그리폰의 알",
+        "description": "그리폰이 품고 있던 알입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 40,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_VAMPIRE_CAPE",
+        "category": "Material",
+        "name": "뱀파이어의 망토",
+        "description": "뱀파이어가 두르고 있던 망토입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 40,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_SIREN_SCALE",
+        "category": "Material",
+        "name": "사이렌의 비늘",
+        "description": "사이렌의 비늘입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 40,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_MINOTAUR_HOOF",
+        "category": "Material",
+        "name": "미노타우르스의 발",
+        "description": "미노타우르스의 발입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 40,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_ICE_ELEMENTAL_CORE",
+        "category": "Material",
+        "name": "얼음 정령의 핵",
+        "description": "얼음 정령의 핵입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 40,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_HELL_HOUND_COLLAR",
+        "category": "Material",
+        "name": "헬 하운드의 부서진 목줄",
+        "description": "헬 하운드의 부서진 목줄입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 50,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_WYVERN_POISON",
+        "category": "Material",
+        "name": "와이번의 독",
+        "description": "와이번의 독입니다. 포션 제작에 부재료로 사용됩니다.",
+        "price": 50,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_SALAMANDER_SKIN",
+        "category": "Material",
+        "name": "살라맨더의 가죽",
+        "description": "살라맨더의 가죽입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 50,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_MANTICORE_TAIL",
+        "category": "Material",
+        "name": "멘티코어의 독 꼬리",
+        "description": "멘티코어의 독 꼬리입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 50,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_PHOENIX_FEATHER",
+        "category": "Material",
+        "name": "불사조의 깃털",
+        "description": "불사조의 깃털입니다. 포션 제작에 원재료로 사용됩니다.",
+        "price": 50,
+        "maxStackCount": 99
+    },
+    {
+        "id": "ITEM_MATERIAL_FAILED_POTION",
+        "category": "Material",
+        "name": "실패한 포션",
+        "description": "실패한 포션입니다. 아무 쓸모도 없습니다.",
+        "price": 5,
+        "maxStackCount": 99
+    }
+]

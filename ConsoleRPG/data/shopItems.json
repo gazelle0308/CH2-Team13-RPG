@@ -1,0 +1,110 @@
+[
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_SMALL",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_MEDIUM",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_LARGE",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_SMALL",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_MEDIUM",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_LARGE",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_SMALL",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_MEDIUM",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_LARGE",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_SMALL",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_MEDIUM",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_LARGE",
+        "defaultUnlocked": true,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_MP",
+        "defaultUnlocked": false,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_DEFENCE",
+        "defaultUnlocked": false,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_ELIXIR",
+        "defaultUnlocked": false,
+        "hasStockLimit": false,
+        "initialCount": 0
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_SMALL",
+        "defaultUnlocked": true,
+        "hasStockLimit": true,
+        "initialCount": 1
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_MEDIUM",
+        "defaultUnlocked": true,
+        "hasStockLimit": true,
+        "initialCount": 1
+    },
+    {
+        "id": "ITEM_UPGRADE_BACKPACK_LARGE",
+        "defaultUnlocked": true,
+        "hasStockLimit": true,
+        "initialCount": 1
+    }
+]

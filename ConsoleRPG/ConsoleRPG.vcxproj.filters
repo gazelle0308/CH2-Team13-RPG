@@ -1,120 +1,305 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="소스 파일\player">
-      <UniqueIdentifier>{409a1c86-0a0a-4bcb-a80c-61690fe652c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\battle">
-      <UniqueIdentifier>{5a2ae34b-4d84-4025-b005-a7b0c3743462}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\monster">
-      <UniqueIdentifier>{81ab59e8-5f51-4448-8cff-b4bcadcafb13}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\shopSystem">
-      <UniqueIdentifier>{b86e6818-e3ba-4fe6-aaed-19251d20f81d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\gameLog">
-      <UniqueIdentifier>{f3eae9b3-45bf-42ad-ba55-add8806c3945}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\item">
-      <UniqueIdentifier>{1574c833-7d92-46d9-94f7-574532644429}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\boss">
-      <UniqueIdentifier>{05cb8a4e-f3f9-476e-bf46-fb59d4eda001}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\levelUp">
-      <UniqueIdentifier>{3700ab0d-6a65-43f5-8363-0d0ff9e07cba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\battle">
-      <UniqueIdentifier>{ddd4d4ff-1f3d-41a9-94b5-07bf0a3f0b11}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\boss">
-      <UniqueIdentifier>{dfcd1232-8a21-4f80-afc0-3ea18c7c540a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\monster">
-      <UniqueIdentifier>{7e699a10-4ac9-45af-9709-0a00b22aecd4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\gameLog">
-      <UniqueIdentifier>{3b8b569a-e90e-4423-9e27-f2b44c2a8ffa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\item">
-      <UniqueIdentifier>{4b58c556-5655-485a-9c0e-d348534b740b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\levelUp">
-      <UniqueIdentifier>{6c14efb6-64a8-4797-9cd2-8ee805fcf426}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\shopSystem">
-      <UniqueIdentifier>{1912cc5c-a058-48f7-aa33-ff5dd164de39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\player">
-      <UniqueIdentifier>{73be393c-9798-4fc8-b8f7-337401d51b2e}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\battle\battle.cpp">
-      <Filter>소스 파일\battle</Filter>
+    <ClCompile Include="src\battle\Battle.cpp">
+      <Filter>src\Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\boss\Boss.cpp">
+      <Filter>src\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gameLog\GameLog.cpp">
+      <Filter>src\GameLog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\levelUp\LevelUp.cpp">
+      <Filter>src\LevelUp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\item\Item.cpp">
+      <Filter>src\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Item\MaterialItem.cpp">
+      <Filter>src\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Item\ConsumableItem.cpp">
+      <Filter>src\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Item\UpgradeItem.cpp">
+      <Filter>src\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\shopSystem\ShopSystem.cpp">
+      <Filter>src\ShopSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\player\Player.cpp">
+      <Filter>src\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InventorySystem\InventorySystem.cpp">
+      <Filter>src\InventorySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Factory\ItemFactory.cpp">
+      <Filter>src\Factory</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataBase\ItemDataBase.cpp">
+      <Filter>src\DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\monster\Monster.cpp">
+      <Filter>src\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataBase\ShopDataBase.cpp">
+      <Filter>src\DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility\Utility.cpp">
+      <Filter>src\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PotionWorkshop\PotionWorkshop.cpp">
+      <Filter>src\PotionWorkshop</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataBase\PotionRecipeDataBase.cpp">
+      <Filter>src\DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Essence\Essence.cpp">
+      <Filter>src\Essence</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Effect\Effect.cpp">
+      <Filter>src\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Essence\EssenceOrb.cpp">
+      <Filter>src\Essence</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DataBase\InventoryDataBase.cpp">
+      <Filter>src\DataBase</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameManager\GameManager.cpp">
+      <Filter>src\GameManager</Filter>
     </ClCompile>
     <ClCompile Include="src\ConsoleRPG.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="src\monster\monster.cpp">
-      <Filter>소스 파일\monster</Filter>
-    </ClCompile>
-    <ClCompile Include="src\player\player.cpp">
-      <Filter>소스 파일\player</Filter>
-    </ClCompile>
-    <ClCompile Include="src\shopSystem\shopSystem.cpp">
-      <Filter>소스 파일\shopSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="src\gameLog\gameLog.cpp">
-      <Filter>소스 파일\gameLog</Filter>
-    </ClCompile>
-    <ClCompile Include="src\item\item.cpp">
-      <Filter>소스 파일\item</Filter>
-    </ClCompile>
-    <ClCompile Include="src\boss\boss.cpp">
-      <Filter>소스 파일\boss</Filter>
-    </ClCompile>
-    <ClCompile Include="src\levelUp\levelUp.cpp">
-      <Filter>소스 파일\levelUp</Filter>
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\player\player.h">
-      <Filter>헤더 파일\player</Filter>
-    </ClInclude>
-    <ClInclude Include="include\shopSystem\shopSystem.h">
-      <Filter>헤더 파일\shopSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="include\levelUp\levelUp.h">
-      <Filter>헤더 파일\levelUp</Filter>
-    </ClInclude>
-    <ClInclude Include="include\item\item.h">
-      <Filter>헤더 파일\item</Filter>
-    </ClInclude>
-    <ClInclude Include="include\gameLog\gameLog.h">
-      <Filter>헤더 파일\gameLog</Filter>
-    </ClInclude>
-    <ClInclude Include="include\monster\monster.h">
-      <Filter>헤더 파일\monster</Filter>
-    </ClInclude>
     <ClInclude Include="include\boss\boss.h">
-      <Filter>헤더 파일\boss</Filter>
+      <Filter>include\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="include\InventorySystem\InventorySystem.h">
+      <Filter>include\InventorySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Types\InventoryTypes.h">
+      <Filter>include\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="include\player\Player.h">
+      <Filter>include\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Utility\Utility.h">
+      <Filter>include\Utility</Filter>
     </ClInclude>
     <ClInclude Include="include\battle\battle.h">
-      <Filter>헤더 파일\battle</Filter>
+      <Filter>include\Battle</Filter>
     </ClInclude>
+    <ClInclude Include="include\item\Item.h">
+      <Filter>include\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Factory\ItemFactory.h">
+      <Filter>include\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataBase\ItemDataBase.h">
+      <Filter>include\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataBase\ShopDataBase.h">
+      <Filter>include\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="include\shopSystem\ShopSystem.h">
+      <Filter>include\ShopSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Item\ConsumableItem.h">
+      <Filter>include\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Item\MaterialItem.h">
+      <Filter>include\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Item\UpgradeItem.h">
+      <Filter>include\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="include\gameLog\GameLog.h">
+      <Filter>include\GameLog</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Types\ItemTypes.h">
+      <Filter>include\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="include\nlohmann\json.hpp">
+      <Filter>include\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="include\levelUp\LevelUp.h">
+      <Filter>include\LevelUp</Filter>
+    </ClInclude>
+    <ClInclude Include="include\monster\Monster.h">
+      <Filter>include\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Types\ShopTypes.h">
+      <Filter>include\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Types\PotionWorkshopTypes.h">
+      <Filter>include\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataBase\PotionRecipeDataBase.h">
+      <Filter>include\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PotionWorkshop\PotionWorkshop.h">
+      <Filter>include\PotionWorkshop</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Essence\Essence.h">
+      <Filter>include\Essence</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Effect\Effect.h">
+      <Filter>include\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Essence\EssenceOrb.h">
+      <Filter>include\Essence</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DataBase\InventoryDataBase.h">
+      <Filter>include\DataBase</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GameManager\GameManager.h">
+      <Filter>include\GameManager</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\items.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\consumables.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\materials.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\upgrades.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\shopItems.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\potionRecipes.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\inventoryItems.json">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\testInventoryItems.json">
+      <Filter>data</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{5d142c17-6d5e-4bcd-8b3b-2b53b11cd892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{8aed59ff-64ef-40d9-922e-5ed77827d5e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Boss">
+      <UniqueIdentifier>{52a36fa1-593e-45c7-b2d2-961359163fb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Battle">
+      <UniqueIdentifier>{3fecff73-4074-4d4e-84d5-376b48a8c0e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameLog">
+      <UniqueIdentifier>{1b4dd81a-2272-4181-9cc7-543c725b9628}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Item">
+      <UniqueIdentifier>{ba5cef50-e52a-4a30-8609-0771a5cd621c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\InventorySystem">
+      <UniqueIdentifier>{1d84a57d-14ad-462d-8053-df4f42a676e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Types">
+      <UniqueIdentifier>{10896116-586a-43bc-b596-ca1f3a874ab7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Player">
+      <UniqueIdentifier>{6d16912e-6f65-41db-bcd1-189f6f4905fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Utility">
+      <UniqueIdentifier>{fdef8b01-c3ec-4f82-aa99-6d549295ba0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Factory">
+      <UniqueIdentifier>{0c8f8a2f-615b-45a1-9d3b-ee41c2ce5147}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\DataBase">
+      <UniqueIdentifier>{9182f095-0da2-4762-aae4-d2769ecb7fcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\ShopSystem">
+      <UniqueIdentifier>{493cd082-bf77-452d-be7a-dd1466f73d25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\nlohmann">
+      <UniqueIdentifier>{64c78d20-3f67-476b-bcf2-24b551c1f99f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\LevelUp">
+      <UniqueIdentifier>{809b9fe1-e08b-4d71-8a3c-7ea11f697f0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Monster">
+      <UniqueIdentifier>{852c2b0f-76de-430a-8b43-310e12ecba34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{0ed7095c-9fae-4e72-bca2-6a4bd26bad8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{5119dc50-d36d-44ff-9d77-e8b71e0104e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Battle">
+      <UniqueIdentifier>{0566a3bc-40a4-45f0-b4a1-2cc749d8d58a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Boss">
+      <UniqueIdentifier>{39958e47-322b-4fa4-ae27-58d80bf41af2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameLog">
+      <UniqueIdentifier>{2d441d9d-2cd7-4a4f-8719-ac4001ef4ac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\LevelUp">
+      <UniqueIdentifier>{bee29fbe-fec7-48c6-9a94-1de3929bfba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Item">
+      <UniqueIdentifier>{5d655ec7-4b36-4f1c-9a09-2e046be28c70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ShopSystem">
+      <UniqueIdentifier>{1e0bd56d-e4d1-48f1-ab99-b8b76c21e4dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Player">
+      <UniqueIdentifier>{ec252ec5-97ed-4396-aee8-d7ce1a147c05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\InventorySystem">
+      <UniqueIdentifier>{8e1bab9a-3f0b-4c62-bca6-edc816403c45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Factory">
+      <UniqueIdentifier>{1e92b0fd-5949-4a14-97e7-6e0e026ce73a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\DataBase">
+      <UniqueIdentifier>{39e13161-db9e-4450-ba31-2a55645e36f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Monster">
+      <UniqueIdentifier>{5967fea0-2228-499e-b7cd-0b273dd53fef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Utility">
+      <UniqueIdentifier>{ab6673a2-9c12-41d5-b805-9ea2e41d0bca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\PotionWorkshop">
+      <UniqueIdentifier>{b7c5354c-e384-43df-aa8c-fd38b271be77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\PotionWorkshop">
+      <UniqueIdentifier>{ec21804f-86cb-4a22-a421-46f37b176809}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Essence">
+      <UniqueIdentifier>{a14cc5e7-0f03-42ab-a7d3-22158be74c29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Effect">
+      <UniqueIdentifier>{2c522a5e-a4ca-43e6-bfa2-cabcd3b79e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Essence">
+      <UniqueIdentifier>{694f5678-9e6b-4088-8b39-56719c20c76a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Effect">
+      <UniqueIdentifier>{e3c45a99-55bf-47da-9f59-77710b5784ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\GameManager">
+      <UniqueIdentifier>{5e078705-028a-4a93-83a5-9c6263374c0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameManager">
+      <UniqueIdentifier>{7fda126b-5a69-4354-aa52-a2d3d935ade3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

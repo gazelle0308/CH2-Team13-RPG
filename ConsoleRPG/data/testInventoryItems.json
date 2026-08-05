@@ -1,0 +1,34 @@
+[
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_SMALL",
+        "count": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_SMALL",
+        "count": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_SMALL",
+        "count": 10
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_SMALL",
+        "count": 10
+    },
+    {
+        "id": "ITEM_MATERIAL_SLIME_GEL",
+        "count": 50
+    },
+    {
+        "id": "ITEM_MATERIAL_ZOMBIE_BRAIN",
+        "count": 50
+    },
+    {
+        "id": "ITEM_MATERIAL_GRIFFON_EGG",
+        "count": 10
+    },
+    {
+        "id": "ITEM_MATERIAL_PHOENIX_FEATHER",
+        "count": 10
+    }
+]

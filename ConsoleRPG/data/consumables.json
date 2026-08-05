@@ -1,0 +1,157 @@
+[
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_SMALL",
+        "effects": [
+            {
+                "consumableType": "Hp",
+                "value": 50
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_MEDIUM",
+        "effects": [
+            {
+                "consumableType": "Hp",
+                "value": 100
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_LARGE",
+        "effects": [
+            {
+                "consumableType": "Hp",
+                "value": 200
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_SMALL",
+        "effects": [
+            {
+                "consumableType": "Mp",
+                "value": 50
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_MEDIUM",
+        "effects": [
+            {
+                "consumableType": "Mp",
+                "value": 100
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_MP_LARGE",
+        "effects": [
+            {
+                "consumableType": "Mp",
+                "value": 200
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_SMALL",
+        "effects": [
+            {
+                "consumableType": "Power",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_MEDIUM",
+        "effects": [
+            {
+                "consumableType": "Power",
+                "value": 20
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_LARGE",
+        "effects": [
+            {
+                "consumableType": "Power",
+                "value": 30
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_SMALL",
+        "effects": [
+            {
+                "consumableType": "Defence",
+                "value": 10
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_MEDIUM",
+        "effects": [
+            {
+                "consumableType": "Defence",
+                "value": 20
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_DEFENCE_LARGE",
+        "effects": [
+            {
+                "consumableType": "Defence",
+                "value": 30
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_HP_MP",
+        "effects": [
+            {
+                "consumableType": "Hp",
+                "value": 200
+            },
+            {
+                "consumableType": "Mp",
+                "value": 200
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_POWER_DEFENCE",
+        "effects": [
+            {
+                "consumableType": "Power",
+                "value": 30
+            },
+            {
+                "consumableType": "Defence",
+                "value": 30
+            }
+        ]
+    },
+    {
+        "id": "ITEM_CONSUMABLE_POTION_ELIXIR",
+        "effects": [
+            {
+                "consumableType": "Hp",
+                "value": 999
+            },
+            {
+                "consumableType": "Mp",
+                "value": 999
+            },
+            {
+                "consumableType": "Power",
+                "value": 50
+            },
+            {
+                "consumableType": "Defence",
+                "value": 50
+            }
+        ]
+    }
+]

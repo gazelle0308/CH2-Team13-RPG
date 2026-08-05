@@ -1,0 +1,106 @@
+[
+    {
+        "id": "ITEM_MATERIAL_SLIME_GEL",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_ZOMBIE_BRAIN",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_GOBLIN_EAR",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_WILD_WOLF_FANG",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_CHIMERA_HEAD",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_GHOST_ECTOPLASM",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_SUCCUBUS_HORN",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_INCUBUS_TAIL",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_GHOUL_CLAW",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_WEREWOLF_FUR",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_GARGOYLE_EYE",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_MARGOYLE_WING",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_MUMMY_BANDAGE",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_DAEMON_FINGER",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_GOLEM_HEART",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_GRIFFON_EGG",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_VAMPIRE_CAPE",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_SIREN_SCALE",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_MINOTAUR_HOOF",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_ICE_ELEMENTAL_CORE",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_HELL_HOUND_COLLAR",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_WYVERN_POISON",
+        "materialType": "Secondary"
+    },
+    {
+        "id": "ITEM_MATERIAL_SALAMANDER_SKIN",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_MANTICORE_TAIL",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_PHOENIX_FEATHER",
+        "materialType": "Primary"
+    },
+    {
+        "id": "ITEM_MATERIAL_FAILED_POTION",
+        "materialType": "None"
+    }
+]
