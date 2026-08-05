@@ -15,6 +15,8 @@
 #include "DataBase/ItemDataBase.h"
 #include "DataBase/InventoryDataBase.h"
 #include "Factory/ItemFactory.h"
+#include "GameLog/gameLog.h"
+#include "Utility/Utility.h"
 
 inline bool compareName(const FInventorySlot& a, const FInventorySlot& b) {
     std::string aName = a.GetName();
@@ -137,6 +139,8 @@ class InventorySystem {
                              bool& isEnd);
     void ShowInventoryInPotionWorkshop();
 
+    void AcquireItem(std::string id, int count, bool showLog);
+
     // 0: 성공, 1: 공간 부족, 2: 재료 부족, 3: 잘못된 index
     int CanCraftPotion(
         std::vector<std::pair<int, int>>& materials,
@@ -175,6 +179,9 @@ class InventorySystem {
         double buybackRate,
         int& totalBuyPrice);
 
+    bool HandleDiscard();
+    void HandleDiscardSelection();
+    void HandleDiscardCount(int index);
     void HandleDiscardItem(int index);
 
     bool AddItem(std::string id, int itemCount = 1);

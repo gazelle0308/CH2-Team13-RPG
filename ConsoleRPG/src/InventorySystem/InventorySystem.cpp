@@ -39,6 +39,35 @@ void InventorySystem::ShowInventoryInPotionWorkshop() {
     PrintInventoryItems(EInventoryViewMode::PotionWorkshop);
 }
 
+void InventorySystem::AcquireItem(std::string id, int count, bool showLog) {
+    bool result = AddItem(id, count);
+    bool isEnd{};
+
+    if (!result) {
+        if (HandleDiscard()) {
+            while (!AddItem(id, count)) {
+                std::cout << std::endl;
+                std::cout << "빈 공간이 생길 때까지 아이템을 정리합니다." << std::endl;
+                PrintInventoryItems(EInventoryViewMode::Normal);
+                HandleDiscardSelection();
+            }
+        } else {
+            std::cout << "아이템 습득을 포기합니다." << std::endl;
+            return;
+        }
+    }
+
+    if (showLog) {
+        FItemData itemData;
+        ItemDataBase::GetInstance().GetItemData(id, itemData);
+
+        std::string log =
+            std::format("{}을(를) 획득했습니다!", itemData.GetName());
+
+        GameLog::GetInstance().print(log);
+    }
+}
+
 // 0: 성공, 1: 공간 부족, 2: 재료 부족, 3: 잘못된 index
 int InventorySystem::CanCraftPotion(std::vector<std::pair<int, int>>& materials,
                                     std::string potionId,
@@ -53,9 +82,6 @@ int InventorySystem::CanCraftPotion(std::vector<std::pair<int, int>>& materials,
 
     for (const std::pair<int, int> material : materials) {
         int result = RemoveItem(material.first, material.second);
-
-        std::cout << items.size() << std::endl;
-
         if (result == 1) {
             items = tmpItems;
 
@@ -105,13 +131,10 @@ void InventorySystem::SetInventoryData() {
         if (!itemDataBase.GetItemData(data.GetId(), itemData)) {
             continue;
         }
-
-        FInventorySlot itemSlot;
-
-        itemSlot.SetItemData(itemData);
-        itemSlot.SetCount(data.GetCount());
-
-        items.push_back(itemSlot);
+        
+        while (!AddItem(data.GetId(), data.GetCount())) {
+            ExpandInventory(10);
+        }
     }
 }
 
@@ -131,13 +154,13 @@ void InventorySystem::PrintInventoryItems(EInventoryViewMode mode,
 
     int inventoryCount = static_cast<int>(items.size());
 
-    std::cout << "====================================== = " << std::endl;
+    StartLine();
     std::string str
         = std::format("         인벤토리 ({}/{})",
                         inventoryCount,
                         inventoryMaxSize);
     std::cout << str << std::endl;
-    std::cout << "====================================== = " << std::endl;
+    StartLine();
 
     for (int index = 0; index < inventoryCount; index++) {
         std::string itemName = items[index].GetName();
@@ -583,6 +606,120 @@ void InventorySystem::HandleShopItemOptions(int index,
                 std::cout << "유효하지 않은 아이템입니다. ";
                 std::cout << "다시 입력해주세요." << std::endl;
             }
+        }
+    }
+}
+
+bool InventorySystem::HandleDiscard() {
+    std::string str{};
+    bool isOk{};
+
+    std::cout << "인벤토리에 공간이 부족합니다." << std::endl;
+
+    while (!isOk) {
+        std::cout << std::endl;
+        std::cout << "인벤토리를 정리하시겠습니까?" << std::endl;
+        std::cout << "선택(y: 정리, n: 아이템 포기): ";
+        
+        std::getline(std::cin, str);
+        isOk = true;
+
+        if (str == "y" || str == "Y") {
+            return true;
+        }
+        else if (str == "n" || str == "N") {
+            return false;
+        }
+        else {
+            isOk = false;
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+        }
+    }
+
+    return false;
+}
+
+void InventorySystem::HandleDiscardSelection() {
+    int number;
+    bool isOk{};
+
+    while (!isOk) {
+        std::cout << std::endl;
+        std::cout << "버릴 아이템 번호 선택: ";
+        std::cin >> number;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
+
+        isOk = true;
+
+        if (number < 0) {
+            isOk = false;
+            std::cout << "잘못된 번호입니다. 다시 입력해주세요." << std::endl;
+        } else if (1 <= number && number <= static_cast<int>(items.size())) {
+            HandleDiscardCount(number - 1);
+        }
+        else {
+            isOk = false;
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+        }
+    }
+}
+
+void InventorySystem::HandleDiscardCount(int index) {
+    int number{};
+    bool isOk{};
+
+    while (!isOk) {
+        std::cout << std::endl;
+        std::cout << "버릴 아이템 개수 입력: ";
+        std::cin >> number;
+
+        if (std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+
+            continue;
+        }
+
+        isOk = true;
+
+        if (number <= 0) {
+            isOk = false;
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
+        }
+        else if (1 <= number) {
+            FInventorySlot itemSlot = items[index];
+            int result = RemoveItem(index, number);
+
+            if (result == 0) {
+                std::string message =
+                    std::format("{}을(를) {}개 버렸습니다.",
+                        itemSlot.GetName(),
+                        number);
+                std::cout << message << std::endl;
+                //ClearScreen();
+            }
+            else if (result == 1) {
+                isOk = false;
+                std::cout << "가지고 있는 개수보다 많습니다. ";
+                std::cout << "다시 입력해주세요." << std::endl;
+            }
+            else if (result == 2) {
+                isOk = false;
+                std::cout << "유효하지 않은 아이템입니다. ";
+                std::cout << "다시 입력해주세요." << std::endl;
+            }
+        }
+        else {
+            isOk = false;
+            std::cout << "잘못된 입력입니다. 다시 입력해주세요." << std::endl;
         }
     }
 }

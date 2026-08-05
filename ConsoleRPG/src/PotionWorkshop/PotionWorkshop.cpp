@@ -342,7 +342,7 @@ void PotionWorkshop::PrintRecipeInfo(int index) const {
                          primaryData.GetName(),
                          prs.GetPrimaryCount());
         std::string substr2 =
-            std::format("부재료로{}이(가) {}개 들어갑니다.",
+            std::format("부재료로 {}이(가) {}개 들어갑니다.",
                 secondaryData.GetName(),
                 prs.GetSecondaryCount());
 

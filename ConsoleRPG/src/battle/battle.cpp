@@ -551,12 +551,6 @@ bool Battle::BattleLoop() {
     bool keep = true;
     bool bossClear = false;
 
-    HuntRewardExp(5000); // 임시 디버그
-    for (int loop = 0; loop < 25; loop = loop + 1) { // 임시 디버그
-        orb[loop].OpenEssence();
-    }
-    HuntRewardGold(99999999999999999); // 임시 디버그
-
     std::cout << "================================\n";
     std::cout << "         모험을 시작합니다.\n";
 
@@ -599,7 +593,8 @@ bool Battle::BattleLoop() {
             std::uniform_int_distribution<int> goldDist(10, 50);
             int rewardGold = goldDist(gen);
             HuntRewardGold(rewardGold);
-            // AddItem(monster->getItem());
+            InventorySystem::GetInstance().AcquireItem(monster->getDropItem(), 1, true);
+            GameLog::GetInstance().addKillMonster(monster->getName());  // 임의 추가
             orb.AcquireEssence(monster->getName());
             if (orb.AllCollection()) {
                 StartLine();
