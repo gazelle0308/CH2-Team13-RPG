@@ -4,6 +4,7 @@
 
 #include "Item/UpgradeItem.h"
 #include "InventorySystem/InventorySystem.h"
+#include "GameLog/GameLog.h"
 
 void UpgradeItem::Use() {
     // PrintUseMessage();
@@ -24,11 +25,7 @@ void UpgradeItem::PrintUseMessage() const {
     FEnumDisplay enumDisplay;
     std::string displayName =
         enumDisplay.GetUpgradeTypeDisplayName(upgradeItemData.GetUpgradeType());
-    std::string message =
-        std::format("{}이(가) {} 증가했습니다.",
-                     displayName,
-                     upgradeItemData.GetValue());
-    // AddLog(message);
+    GameLog::GetInstance().itemLog(itemData.GetName(), "증가했습니다.");
 }
 
 void UpgradeItem::SetUpgradeData(std::string id) {

@@ -15,6 +15,7 @@
 #include <random>
 #include <algorithm>
 
+#include "GameLog/GameLog.h"
 #include "Player/player.h"
 #include "Monster/monster.h"
 #include "Boss/Boss.h"
@@ -102,7 +103,7 @@ std::string Battle::SelectedRegion() {
     {
         choice = "라벤더 들판";
         break;
-    }
+    } 
     case 2:
     {
         choice = "검은 숲";
@@ -212,36 +213,45 @@ int Battle::MonsterDealDamage(Monster& monster) {
 }
 
 void Battle::Attack(Monster& monster) {
+    GameLog& log = GameLog::GetInstance();
     int hpBefore = monster.gethp();
     int dmg = DealDamage(monster);
     monster.sethp(hpBefore - dmg);
 
-    std::cout << "\n당신의 공격으로 " << monster.getName() << "에게 "
-        << dmg << "의 데미지!\n";
+    log.attackLog("플레이어", monster.getName());
+    log.damageLog(monster.getName(), dmg);
+
     std::cout << "(" << monster.getName() << " HP: "
         << hpBefore << " -> " << monster.gethp() << ")\n";
 }
 
 void Battle::Attack(Alatreon& boss) {
+    GameLog& log = GameLog::GetInstance();
+
     const Player& readPlayer = Player::GetReadInstance();
+
     int hpBefore = boss.gethp();
     int dmg = std::max(readPlayer[Pstat::Attack] - boss.getdef(), 1);
+
     boss.sethp(hpBefore - dmg);
 
-    std::cout << "\n당신의 공격으로 " << boss.getName() << "에게 "
-        << dmg << "의 데미지!\n";
+    log.attackLog("플레이어", boss.getName());
+    log.damageLog(boss.getName(), dmg);
+
     std::cout << "(" << boss.getName() << " HP: "
         << hpBefore << " -> " << boss.gethp() << ")\n";
 }
 
 void Battle::MonsterAttack(Monster& monster) {
+    GameLog& log = GameLog::GetInstance();
     Player& player = Player::GetInstance();
     int hpBefore = player[Pstat::Hp];
     int dmg = MonsterDealDamage(monster);
     player[Pstat::Hp] -= dmg;
 
-    std::cout << "\n" << monster.getName() << "의 공격으로 당신은 "
-        << dmg << "의 데미지를 입었다!\n";
+    log.attackLog(monster.getName(), "플레이어");
+    log.damageLog("플레이어", dmg);
+
     std::cout << "(내 HP: " << hpBefore << " -> " << player[Pstat::Hp] << ")\n";
 }
 
@@ -256,9 +266,12 @@ void Battle::ViewMonsterStatus(Monster& monster) {
 }
 
 void Battle::HuntRewardGold(int gold) {
+    GameLog& log = GameLog::GetInstance();
     Player& player = Player::GetInstance();
+
     player[Pstat::Gold] += gold;
-    std::cout << gold << " 골드를 획득했습니다!\n";
+
+    log.goldLog(gold, player[Pstat::Gold]);
 }
 
 void Battle::BattleMenu(Monster& monster, Effect<Monster>& effect) {
@@ -587,7 +600,11 @@ bool Battle::BattleLoop() {
         }
 
         if (result == BattleResult::WIN) {
+            GameLog& log = GameLog::GetInstance();
+            log.addKillMonster(monster->getName());
+
             HuntRewardExp(monster->getexp());
+
             std::random_device rd;
             std::mt19937 gen(rd());
             std::uniform_int_distribution<int> goldDist(10, 50);

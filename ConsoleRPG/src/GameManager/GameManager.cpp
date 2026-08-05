@@ -40,7 +40,7 @@ void GameManager::VillageMenu() const {
     GameLog& log = GameLog::GetInstance();
     log.print("\n===================================");
     log.print(" 1. 모험 2. 인벤토리 3. 플레이어 정보");
-    log.print(" 4. 상점   5. 포션제작소  6.로그  0. 게임종료");
+    log.print(" 4. 상점   5. 포션제작소  6.로그  7. 처치목록  0. 게임종료");
     log.print("선택: ");
 }
 int GameManager::GetMenuChoice() const {
@@ -76,6 +76,9 @@ void GameManager::HandleMenuChoice(int choice, bool& isRunning) {
         break;
     case 6:
         GameLog::GetInstance().showLogs();
+        break;
+    case 7:
+        GameLog::GetInstance().showKillList();
         break;
     case 0:
         isRunning = false;

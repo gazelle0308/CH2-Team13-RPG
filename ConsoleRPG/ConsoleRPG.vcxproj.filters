@@ -182,6 +182,9 @@
     <None Include="data\inventoryItems.json">
       <Filter>data</Filter>
     </None>
+    <None Include="data\testInventoryItems.json">
+      <Filter>data</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="리소스 파일">

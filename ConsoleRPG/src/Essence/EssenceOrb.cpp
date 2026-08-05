@@ -7,6 +7,7 @@
 #include <string>
 #include <limits>
 
+#include "Utility/Utility.h"
 #include "Essence/Essence.h"
 #include "Boss/Boss.h"
 
@@ -65,15 +66,16 @@ Essence& EssenceOrb::UseEssence(int index) {
     if ((index < 0 && index > 25)) {
         while (index < 1 || index > 25
             || this->orb[index - 1].GetLock()) {
-            std::cout << "=====================================================\n";
+            StartLine();
             std::cout << "잘못 된 입력입니다! \n";
             std::cout << "재입력: ";
             if (!(std::cin >> choice)) {
                 std::cin.clear();
-                std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                std::cin.ignore(
+                std::numeric_limits<std::streamsize>::max(),'\n');
             }
             index = choice;
-            std::cout << "=====================================================\n";
+            StartLine();
         }
     }
 
@@ -98,7 +100,7 @@ Essence& EssenceOrb::UseEssence(int index) {
 
 std::string EssenceOrb::GetOrbInfo() {
     std::ostringstream oss;
-    oss << "=====================================================\n";
+    StartLine();
     for (int loop = 0; loop < 25; loop = loop + 1) {
         if (this->orb[loop].GetLock()) {
             oss << loop + 1 << ".잠겨 있는 정수(////////)\n";
@@ -110,7 +112,7 @@ std::string EssenceOrb::GetOrbInfo() {
             " 방어력: " << this->orb[loop].GetDefence() << ") \n";
         }
     }
-    oss << "=====================================================\n";
+    StartLine();
     return oss.str();
 }
 
@@ -138,7 +140,7 @@ void EssenceOrb::AcquireEssence(std::string name) {
         return;
     }
 
-    std::cout << "=====================================================\n";
+    StartLine();
     std::cout << "방금 전투한 몬스터의 정수를 발견했습니다!\n";
     std::cout << "획득 하시겠습니까?\n(획득 : 1, 포기 : 아무 키나 입력): ";
 
@@ -147,20 +149,20 @@ void EssenceOrb::AcquireEssence(std::string name) {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         std::cout << "정수 획득을 포기하셨습니다!\n";
-        std::cout << "=====================================================\n";
+        StartLine();
         return;
     }
 
     if (choice != Gain) {
         std::cout << "정수 획득을 포기하셨습니다!\n";
-        std::cout << "=====================================================\n";
+        StartLine();
         return;
     }
 
     this->orb[essence].OpenEssence();
     std::cout << this->orb[essence].GetName()
               << "의 정수를 획득하셨습니다! \n";
-    std::cout << "=====================================================\n";
+    StartLine();
 }
 
 void EssenceOrb::UseSkill(Alatreon& monster, Effect<Alatreon>& effect) {
@@ -175,10 +177,10 @@ void EssenceOrb::UseSkill(Alatreon& monster, Effect<Alatreon>& effect) {
         }
     }
 
-    std::cout << "=====================================================\n";
+    StartLine();
     std::cout << player.GetName() << "의 " << player.GetSkill() << "!!\n";
     std::cout << "(반동으로 10 데미지를 받았다)" << "!!\n";
-    std::cout << "=====================================================\n";
+    StartLine();
     int  damage = 1;
     player[Pstat::Hp] -= 10;
 
@@ -201,10 +203,10 @@ void EssenceOrb::UseSkill(Monster& monster, Effect<Monster>& effect) {
         }
     }
 
-    std::cout << "=====================================================\n";
+    StartLine();
     std::cout << player.GetName() << "의 " << player.GetSkill() << "!!\n";
     std::cout << "(반동으로 10 데미지를 받았다)" << "!!\n";
-    std::cout << "=====================================================\n";
+    StartLine();
     int  damage = 1;
     player[Pstat::Hp] -= 10;
 

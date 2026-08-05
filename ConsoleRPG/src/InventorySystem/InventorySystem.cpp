@@ -82,6 +82,7 @@ int InventorySystem::CanCraftPotion(std::vector<std::pair<int, int>>& materials,
 
     for (const std::pair<int, int> material : materials) {
         int result = RemoveItem(material.first, material.second);
+
         if (result == 1) {
             items = tmpItems;
 
